@@ -8,8 +8,17 @@ services:
       - "1883:1883"
 
   ambient-sensor:
-    build: .
+    build: ./ambient_sensor
     container_name: ambient_sensor_app
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+    depends_on:
+      - mqtt-broker
+
+  terrain-sensor:
+    build: ./terrain_sensor
+    container_name: terrain_sensor_app
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=1883

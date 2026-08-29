@@ -2,10 +2,9 @@ from core.calendar import get_max_days
 from core.season import get_season
 from core.temperature import get_temperature
 from core.weather import get_weather_condition
-from core.soil_moisture import get_soil_moisture
 
 
-def create_timer_state(d=1, m=1, y=2026, initial_moisture=50.0) -> dict:
+def create_timer_state(d=1, m=1, y=2026) -> dict:
     return {
         "day": d,
         "month": m,
@@ -13,7 +12,6 @@ def create_timer_state(d=1, m=1, y=2026, initial_moisture=50.0) -> dict:
         "season": "winter",
         "temperature": 12,
         "weather": "sun",
-        "soil_moisture": initial_moisture
     }
 
 
@@ -31,8 +29,3 @@ def update_environment(state: dict):
     state["season"] = get_season(state["month"])
     state["temperature"] = get_temperature(state["season"])
     state["weather"] = get_weather_condition(state["season"])
-    state["soil_moisture"] = get_soil_moisture(
-        state["soil_moisture"],
-        state["weather"],
-        state["temperature"]
-    )
