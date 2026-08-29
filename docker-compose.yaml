@@ -1,11 +1,12 @@
 version: '3.8'
 
 services:
+  # Central message bus for all microservices
   mqtt-broker:
     image: eclipse-mosquitto:latest
     container_name: mqtt_broker
     ports:
-      - "1883:1883"
+      - "1883:1883" # Host access for local debugging
 
   ambient-sensor:
     build: ./ambient_sensor

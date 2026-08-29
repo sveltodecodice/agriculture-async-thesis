@@ -32,7 +32,7 @@ async def run_telemetry_loop(client, state):
         log_msg = (
             f"[{state['day']:02d}/{state['month']:02d}/{state['year']}] "
             f"Season: {state['season']:<8} | Temp: {state['temperature']:>2}°C | "
-            f"Weather: {state['weather']:<8} | Soil moisture: {state['soil_moisture']}%"
+            f"Weather: {state['weather']:<8}%"
         )
         print(log_msg, flush=True)
         
@@ -47,7 +47,7 @@ async def session_runner(state, handlers):
 
 
 async def main():
-    curr_state = create_timer_state(d=1, m=1, y=2026, initial_moisture=50.0)
+    curr_state = create_timer_state(d=1, m=1, y=2026)
     handlers = {"environment/skip_day": create_skip_handler(curr_state)}
 
     while True:

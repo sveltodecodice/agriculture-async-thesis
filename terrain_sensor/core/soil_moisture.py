@@ -10,6 +10,6 @@ def get_soil_moisture(current_moisture: float, weather: str, temperature: float,
         change = -(base_drying * temp_multiplier)
 
     new_moisture = current_moisture + change
-    new_moisture = apply_irrigation(new_moisture, active_irrigation, boost=15.0)
+    new_moisture = apply_irrigation(new_moisture, active_irrigation, irrigated=15.0)
 
     return round(max(0.0, min(100.0, new_moisture)), 1)

@@ -10,19 +10,23 @@ def create_terrain_state(initial_moisture=50.0) -> dict:
     }
 
 
-def update_terrain(state: dict, weather: str, temperature: float):
-    # 1. Pass irrigation_active directly to get_soil_moisture
+def process_terrain_update(state: dict, ambient_data: dict) -> dict:
     state["soil_moisture"] = get_soil_moisture(
         state["soil_moisture"],
-        weather,
-        temperature,
+        ambient_data["weather"],
+        ambient_data["temperature"],
         state["irrigation_active"]
     )
-
-    # 2. Correct parameter order: (temperature, soil_moisture)
     state["oxygenation"] = calculate_oxygenation(
-        temperature,
+        ambient_data["temperature"],
         state["soil_moisture"]
     )
 
-    return state
+    date_str = f"{ambient_data['day']:02d}/{ambient_data['month']:02d}/{ambient_data['year']}"
+
+    return {
+        "date": date_str,
+        "soil_moisture": state["soil_moisture"],
+        "oxygenation": state["oxygenation"],
+        "irrigation_active": state["irrigation_active"]
+    }
