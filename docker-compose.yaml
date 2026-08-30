@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
-  # Central message bus for all microservices
   mqtt-broker:
     image: eclipse-mosquitto:latest
     container_name: mqtt_broker
     ports:
-      - "1883:1883" # Host access for local debugging
+      - "1883:1883" 
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
 
   ambient-sensor:
     build: ./ambient_sensor
@@ -25,3 +26,13 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
+
+  plantation-sensor:
+    build: ./plantation_sensor
+    container_name: plantation_sensor_app
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+    depends_on:
+      - mqtt-broker
+

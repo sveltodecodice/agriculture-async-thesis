@@ -1,18 +1,21 @@
-import asyncio, json, os
+import asyncio 
+import json 
+import os
 import aiomqtt
+
 from core.terrain_condition import create_terrain_state, process_terrain_update
 
-HOST = os.getenv('MQTT_BROKER_HOST', 'localhost')
-PORT = int(os.getenv('MQTT_BROKER_PORT', 1883))
+MQTT_BROKER = os.getenv("MQTT_BROKER_HOST", "localhost")
+MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 
-st = create_terrain_state(initial_moisture=50.0)
+initial_state = create_terrain_state(initial_moisture=50.0)
 
 
 async def consume_stream(client):
     """Nesting livello 1: aspetta i messaggi in ingresso"""
     async for msg in client.messages:
         ambient_data = json.loads(msg.payload.decode())
-        telemetry = process_terrain_update(st, ambient_data)
+        telemetry = process_terrain_update(initial_state, ambient_data)
 
         await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
         print(
@@ -24,7 +27,7 @@ async def consume_stream(client):
 
 async def connect_and_listen():
     """Nesting livello 1: gestisce la sessione del client"""
-    async with aiomqtt.Client(hostname=HOST, port=PORT) as client:
+    async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
         await client.subscribe("environment/telemetry")
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)

@@ -32,7 +32,7 @@ async def run_telemetry_loop(client, state):
         log_msg = (
             f"[{state['day']:02d}/{state['month']:02d}/{state['year']}] "
             f"Season: {state['season']:<8} | Temp: {state['temperature']:>2}°C | "
-            f"Weather: {state['weather']:<8}%"
+            f"Weather: {state['weather']:<8}"
         )
         print(log_msg, flush=True)
         

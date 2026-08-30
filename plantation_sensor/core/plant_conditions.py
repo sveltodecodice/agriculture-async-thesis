@@ -1,0 +1,51 @@
+
+plantation_state = {
+    "occupied": False,
+    "plant_name": None,
+    "min_moisture": 0.0,
+    "max_moisture": 0.0,
+    "time_left": 0
+}
+
+
+def seed_planted(seed: dict):
+    plantation_state["occupied"] = True
+    plantation_state["plant_name"] = seed["name"]
+    plantation_state["min_moisture"] = seed["min_soilmoisture"]
+    plantation_state["max_moisture"] = seed["max_soilmoisture"]
+    plantation_state["time_left"] = seed["time_harvest"][0]
+
+
+def clear_field():
+    plantation_state["occupied"] = False
+    plantation_state["plant_name"] = None
+    plantation_state["min_moisture"] = 0.0
+    plantation_state["max_moisture"] = 0.0
+    plantation_state["time_left"] = 0
+
+
+def advance_days(days_passed: int = 1):
+    if plantation_state["occupied"] and plantation_state["time_left"] > 0:
+        plantation_state["time_left"] = max(0, plantation_state["time_left"] - days_passed)
+
+def check_health(current_moisture: float) -> str:
+    if plantation_state["occupied"]:
+        if current_moisture < plantation_state["min_moisture"]:
+            return "TOO_DRY"
+        elif current_moisture > plantation_state["max_moisture"]:
+            return "TOO_WET"
+        else:
+            return "HEALTHY"
+    else:
+        return "FIELD IS EMPTY"
+
+def get_status(current_moisture: float = None) -> dict:
+    ready_to_harvest = plantation_state["occupied"] and plantation_state["time_left"] == 0
+
+    return {
+        "camp_availability": plantation_state["occupied"],
+        "plant_name": plantation_state["plant_name"],
+        "time_left": plantation_state["time_left"],
+        "ready_to_harvest": ready_to_harvest,
+        "health": check_health(current_moisture) if current_moisture is not None else "UNKNOWN"
+    }
