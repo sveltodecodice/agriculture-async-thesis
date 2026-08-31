@@ -36,3 +36,20 @@ services:
     depends_on:
       - mqtt-broker
 
+  camp-manager:
+    build: ./camp_manager
+    container_name: camp_manager_app
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=1883
+    depends_on:
+      - mqtt-broker
+
+#docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
+#docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
+#docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/irrigate" -m "trigger"  force irrigation
+
+#python camp_manager/cmd.py plant tomato
+#python camp_manager/cmd.py irrigate
+#python camp_manager/cmd.py clear
+#python camp_manager/cmd.py skip 5

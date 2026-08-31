@@ -3,80 +3,95 @@ import json
 import os
 import aiomqtt
 
-from core.advisor_seeds import process_and_send_advice
 from core.plant_conditions import seed_planted, clear_field, advance_days, get_status
+from core.seeds import list_seeds
 
-MQTT_BROKER = os.getenv("MQTT_BROKER_HOST", "localhost")
-MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
+BROKER_IP = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
+BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 
-farm_env = {
-    "moisture": None,
-    "season": None
+node_state = {
+    "moisture": 50.0,
+    "current_season": "winter"
 }
 
-async def handle_message(client, topic, payload):
+async def monitor_loop(mqtt_client):
+    while True:
+        await asyncio.sleep(8)
+        try:
+            current_level = node_state["moisture"]
+            current_status = get_status(current_level)
+            
+            if current_status["camp_availability"]:
+                crop_info = current_status["status_detail"]
+                print(f"[PLANTATION] Active Crop: {crop_info['plant_name']} | Remaining: {crop_info['time_left']}d | Health: {crop_info['health']}", flush=True)
+                
+                # Check min/max moisture boundaries for auto-irrigation
+                lower_bound = crop_info.get("min_soilmoisture", 50)
+                upper_bound = crop_info.get("max_soilmoisture", 80)
+                
+                if current_level < lower_bound:
+                    print(f"[PLANTATION] Moisture {current_level}% breached lower threshold {lower_bound}%. Requesting irrigation.", flush=True)
+                    await mqtt_client.publish("terrain/cmd/irrigate", payload="15.0")
+            else:
+                print("[PLANTATION] Field status: vacant", flush=True)
 
-    if topic =="sensors/terrain":
-        moisture_val = payload.get("moisture")
-        if moisture_val is not None:
-            farm_env["moisture"] = float(moisture_val)
+            await mqtt_client.publish("plantation/status", payload=json.dumps(current_status))
+        except Exception as err:
+            print(f"[PLANTATION ERROR] Loop exception: {err}", flush=True)
 
-    if topic =="sensors/ambient":
-        season_val = payload.get("season")
-        if season_val:
-            farm_env["season"] = message(season_val)
-
-        days = payload.get("days_passed")
-        if days:
-            advance_days(int(days))
-
-    if topic =="camp_manager/commands":
-        action = payload.get("action")
-        if action =="PLANT":
-            seed_planted(payload.get("seed"))
-        if action =="HARVEST":
-            clear_field()
-
-    current_m = farm_env["moisture"]
-    current_s = farm_env["season"]
-
-    if current_m and current_s:
-        await process_and_send_advice(current_m, current_s, client)
-
-    status = get_status(current_m)
-    await client.publish("plantation/status", payload=json.dumps(status))
-
-async def connect_and_listen():
-
-    async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
-        await client.subscribe("sensors/terrain")
-        await client.subscribe("sensors/ambient")
-        await client.subscribe("camp_manager/commands")
-
-        print("Sensor online and listening...", flush=True)
-
-        async for message in client.messages:
-            try:
-                data = json.loads(message.payload.decode())
-                topic = message(message.topic)
-                await handle_message(client, topic, data)
-            except Exception:
-                pass
-
-async def main():
-
+async def start_node():
     while True:
         try:
-            await connect_and_listen()
+            async with aiomqtt.Client(hostname=BROKER_IP, port=BROKER_PORT) as mqtt_client:
+                # 1. FIX THE SUBSCRIPTIONS HERE
+                await mqtt_client.subscribe("environment/telemetry")
+                await mqtt_client.subscribe("camp/terrain_telemetry")
+                await mqtt_client.subscribe("camp_manager/commands")
+                
+                print("Plantation subsystem online.", flush=True)
+                asyncio.create_task(monitor_loop(mqtt_client))
+
+                async for incoming in mqtt_client.messages:
+                    channel = str(incoming.topic)
+                    raw_payload = incoming.payload.decode()
+                    
+                    # 2. FIX THE TERRAIN TOPIC AND PAYLOAD KEY HERE
+                    if "camp/terrain_telemetry" in channel:
+                        packet = json.loads(raw_payload)
+                        # The terrain sensor sends "soil_moisture", not "moisture"
+                        if "soil_moisture" in packet:
+                            node_state["moisture"] = float(packet["soil_moisture"])
+                            
+                    # 3. FIX THE AMBIENT TOPIC HERE
+                    elif "environment/telemetry" in channel:
+                        packet = json.loads(raw_payload)
+                        if "season" in packet:
+                            node_state["current_season"] = packet.get("season", "winter")
+                        # Advance internal counter by 1 day on ambient tick
+                        advance_days(1)
+                            
+                    elif "camp_manager/commands" in channel:
+                        try:
+                            packet = json.loads(raw_payload)
+                            if packet.get("action") == "PLANT":
+                                target_seed = packet.get("seed")
+                                if target_seed:
+                                    seed_planted(target_seed)
+                                    print(f"[PLANTATION] Successfully sowed: {target_seed.get('name')}", flush=True)
+                            elif packet.get("action") == "HARVEST":
+                                clear_field()
+                                print("[PLANTATION] Field cleared.", flush=True)
+                        except Exception:
+                            pass
         except aiomqtt.MqttError:
-            print("MQTT connection dropped or broker not ready. Retrying in 5s...", flush=True)
-            await asyncio.sleep(5)
-        except Exception as e:
-            print(f"Operational error: {e}", flush=True)
+            print("Broker link lost. Reconnecting...", flush=True)
+            await asyncio.sleep(4)
+        except Exception as ex:
+            print(f"Critical fault: {ex}", flush=True)
             await asyncio.sleep(2)
 
-if __name__ =="__main__":
+if __name__ == "__main__":
     try:
-        asyncio.run(main())
+        asyncio.run(start_node())
     except KeyboardInterrupt:
         pass

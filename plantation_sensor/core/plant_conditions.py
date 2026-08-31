@@ -42,10 +42,17 @@ def check_health(current_moisture: float) -> str:
 def get_status(current_moisture: float = None) -> dict:
     ready_to_harvest = plantation_state["occupied"] and plantation_state["time_left"] == 0
 
+    if not plantation_state["occupied"]:
+        plant_status = "seed not planted"
+    else:
+        plant_status = {
+            "plant_name": plantation_state["plant_name"],
+            "time_left": plantation_state["time_left"],
+            "ready_to_harvest": ready_to_harvest,
+            "health": check_health(current_moisture) if current_moisture is not None else "UNKNOWN"
+        }
+
     return {
         "camp_availability": plantation_state["occupied"],
-        "plant_name": plantation_state["plant_name"],
-        "time_left": plantation_state["time_left"],
-        "ready_to_harvest": ready_to_harvest,
-        "health": check_health(current_moisture) if current_moisture is not None else "UNKNOWN"
+        "status_detail": plant_status
     }

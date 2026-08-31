@@ -10,25 +10,44 @@ MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 
 initial_state = create_terrain_state(initial_moisture=50.0)
 
-
 async def consume_stream(client):
     """Nesting livello 1: aspetta i messaggi in ingresso"""
     async for msg in client.messages:
-        ambient_data = json.loads(msg.payload.decode())
-        telemetry = process_terrain_update(initial_state, ambient_data)
+        topic = str(msg.topic)
+        payload_str = msg.payload.decode()
 
-        await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
-        print(
-            f"[{telemetry['date']}] Moisture: {telemetry['soil_moisture']}% | "
-            f"O2: {telemetry['oxygenation']}% | Pump: {telemetry['irrigation_active']}",
-            flush=True
-        )
+        # 1. Handle normal environment updates
+        if topic == "environment/telemetry":
+            ambient_data = json.loads(payload_str)
+            telemetry = process_terrain_update(initial_state, ambient_data)
+            
+            # Reset the pump state after the tick
+            initial_state["irrigation_active"] = False
+
+            await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
+            print(
+                f"[{telemetry['date']}] Moisture: {telemetry['soil_moisture']:.1f}% | "
+                f"O2: {telemetry['oxygenation']:.1f}% | Pump: {telemetry['irrigation_active']}",
+                flush=True
+            )
+
+        # 2. Handle forced irrigation commands from the Camp Manager
+        elif topic == "terrain/cmd/irrigate":
+            irrigation_amount = float(payload_str) if payload_str else 15.0
+            
+            # Instantly boost the soil moisture and activate the pump flag
+            initial_state["soil_moisture"] = min(100.0, initial_state["soil_moisture"] + irrigation_amount)
+            initial_state["irrigation_active"] = True
+            print(f"[TERRAIN] Irrigation activated! Added {irrigation_amount}% moisture. Current: {initial_state['soil_moisture']:.1f}%", flush=True)
 
 
 async def connect_and_listen():
     """Nesting livello 1: gestisce la sessione del client"""
     async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
+        # Subscribe to BOTH topics now
         await client.subscribe("environment/telemetry")
+        await client.subscribe("terrain/cmd/irrigate")
+        
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)
 
