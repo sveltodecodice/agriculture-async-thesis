@@ -26,13 +26,27 @@ def evaluate_seed(seed: dict, moisture: float, season: str) -> dict:
 
 
 def find_top_3_seeds(moisture: float, season: str) -> list:
-
+    """Finds top 3 seeds matching both moisture and season constraints."""
     candidates = []
 
     for seed in list_seeds:
         candidate = evaluate_seed(seed, moisture, season)
         if candidate:
             candidates.append(candidate)
+
+    # Sort candidates by fastest minimum harvest days
+    candidates.sort(key=lambda seed: seed["time_harvest"][0])
+
+    return candidates[:3]
+
+
+def find_seasonal_seeds(season: str) -> list:
+    """Finds top 3 seeds based strictly on season, ignoring current moisture."""
+    candidates = []
+
+    for seed in list_seeds:
+        if is_season_ok(seed, season):
+            candidates.append(seed)
 
     # Sort candidates by fastest minimum harvest days
     candidates.sort(key=lambda seed: seed["time_harvest"][0])

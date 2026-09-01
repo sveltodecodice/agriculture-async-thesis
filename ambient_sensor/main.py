@@ -10,14 +10,15 @@ broker_port = int(os.getenv('MQTT_BROKER_PORT', 1883))
 telemetry_topic = "environment/telemetry"
 
 
-def create_skip_handler(state):
-    def handle_skip_day(payload):
+def create_skip_handler(state, client, topic):
+    async def handle_skip_day(payload):
         try:
             days_to_skip = int(payload)
             for _ in range(days_to_skip):
                 update_environment(state)
+                await publish_data(client, topic, state)
             print(
-                f"[SKIP] Avanzati {days_to_skip} giorni. Nuova data: {state['day']:02d}/{state['month']:02d}/{state['year']}", 
+                f"[SKIP] Avanzati {days_to_skip} giorni. Nuova data: {state['day']:02d}/{state['month']:02d}/{state['year']}",
                 flush=True
             )
         except ValueError:
@@ -35,24 +36,24 @@ async def run_telemetry_loop(client, state):
             f"Weather: {state['weather']:<8}"
         )
         print(log_msg, flush=True)
-        
+
         await asyncio.sleep(10)
         update_environment(state)
 
 
-async def session_runner(state, handlers):
+async def session_runner(state):
     async with aiomqtt.Client(hostname=broker_host, port=broker_port) as client:
+        handlers = {"environment/skip_day": create_skip_handler(state, client, telemetry_topic)}
         asyncio.create_task(listen_commands(client, handlers))
         await run_telemetry_loop(client, state)
 
 
 async def main():
     curr_state = create_timer_state(d=1, m=1, y=2026)
-    handlers = {"environment/skip_day": create_skip_handler(curr_state)}
 
     while True:
         try:
-            await session_runner(curr_state, handlers)
+            await session_runner(curr_state)
         except Exception as e:
             print(f"Errore di connessione ({e}). Riprovo tra 5 secondi...", flush=True)
             await asyncio.sleep(5)

@@ -3,9 +3,9 @@ from core.irrigation import apply_irrigation
 
 def get_soil_moisture(current_moisture: float, weather: str, temperature: float, active_irrigation: bool = False) -> float:
     if weather == "rain":
-        change = 8.0
+        change = 5.4
     else:
-        base_drying = 4.0 if weather == "sun" else 0.2
+        base_drying = 6.3 if weather == "sun" else 4.2
         temp_multiplier = max(0.2, temperature / 20.0)
         change = -(base_drying * temp_multiplier)
 

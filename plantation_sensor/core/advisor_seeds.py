@@ -1,5 +1,5 @@
 import json
-from core.seed_matcher import find_top_3_seeds
+from camp_manager.core.seed_matcher import find_top_3_seeds
 
 
 def build_advice_payload(candidates: list) -> dict:

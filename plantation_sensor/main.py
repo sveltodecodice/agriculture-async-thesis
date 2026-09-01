@@ -10,7 +10,7 @@ BROKER_IP = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
 BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 
 node_state = {
-    "moisture": 50.0,
+    "moisture": None,
     "current_season": "winter"
 }
 
@@ -25,11 +25,10 @@ async def monitor_loop(mqtt_client):
                 crop_info = current_status["status_detail"]
                 print(f"[PLANTATION] Active Crop: {crop_info['plant_name']} | Remaining: {crop_info['time_left']}d | Health: {crop_info['health']}", flush=True)
                 
-                # Check min/max moisture boundaries for auto-irrigation
-                lower_bound = crop_info.get("min_soilmoisture", 50)
-                upper_bound = crop_info.get("max_soilmoisture", 80)
+                lower_bound = crop_info.get("min_soilmoisture")
+                upper_bound = crop_info.get("max_soilmoisture")
                 
-                if current_level < lower_bound:
+                if current_level is not None and current_level < lower_bound:
                     print(f"[PLANTATION] Moisture {current_level}% breached lower threshold {lower_bound}%. Requesting irrigation.", flush=True)
                     await mqtt_client.publish("terrain/cmd/irrigate", payload="15.0")
             else:

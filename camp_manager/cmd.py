@@ -9,9 +9,9 @@ action = sys.argv[1].lower()
 broker = "localhost"
 
 if action == "plant":
-    seed = sys.argv[2] if len(sys.argv) > 2 else "tomato"
-    publish.single("camp_manager/cmd/plant", seed, hostname=broker)
-    print(f"-> Sent command: Plant {seed}")
+    choose_seed = sys.argv[2] if len(sys.argv) > 2 else "tomato"
+    publish.single("camp_manager/cmd/plant", choose_seed, hostname=broker)
+    print(f"-> Sent command: Plant {choose_seed}")
 elif action == "irrigate":
     publish.single("camp_manager/cmd/irrigate", "trigger", hostname=broker)
     print("-> Sent command: Force Irrigation")

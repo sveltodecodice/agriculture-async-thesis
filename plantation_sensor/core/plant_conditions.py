@@ -49,7 +49,9 @@ def get_status(current_moisture: float = None) -> dict:
             "plant_name": plantation_state["plant_name"],
             "time_left": plantation_state["time_left"],
             "ready_to_harvest": ready_to_harvest,
-            "health": check_health(current_moisture) if current_moisture is not None else "UNKNOWN"
+            "health": check_health(current_moisture) if current_moisture is not None else "UNKNOWN",
+            "min_soilmoisture": plantation_state["min_moisture"],
+            "max_soilmoisture": plantation_state["max_moisture"],
         }
 
     return {
