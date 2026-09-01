@@ -44,7 +44,15 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
-
+    
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "8080:8080"
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+    depends_on:
+      - mqtt-broker
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/irrigate" -m "trigger"  force irrigation
