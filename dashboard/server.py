@@ -6,7 +6,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 import aiomqtt
 
+# Import live state and telemetry handler
 from core.telemetry_handler import live_state, handle_telemetry_message
+from core.seeds import list_seeds
 
 app = FastAPI()
 
@@ -28,28 +30,45 @@ async def run_mqtt_listener():
                 await client.subscribe("environment/telemetry")
                 await client.subscribe("camp/terrain_telemetry")
                 await client.subscribe("plantation/status")
+                await client.subscribe("camp_manager/harvest")
+                await client.subscribe("camp_manager/recommendations")
                 
                 async for message in client.messages:
-                    await handle_telemetry_message(str(message.topic), json.loads(message.payload.decode()))
+                    topic_str = str(message.topic)
+                    raw_payload = message.payload.decode()
+                    parsed_payload = json.loads(raw_payload)
+                    await handle_telemetry_message(topic_str, parsed_payload)
         except Exception:
             await asyncio.sleep(3)
 
 @app.on_event("startup")
 async def startup():
     asyncio.create_task(run_mqtt_listener())
-    print("Access it locally at: http://localhost:8080")
 
 @app.get("/")
 def serve_ui():
-    return FileResponse("dashboard.html")
+    return FileResponse(
+        "dashboard.html",
+        headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+    )
 
 @app.get("/api/dashboard-data")
 def get_dashboard_data():
     return live_state
 
+
 @app.get("/api/semi")
 def get_seeds():
-    return {"semi": [{"nome": s["name"], "label": s["name"].capitalize()} for s in list_seeds]}
+    catalog = list_seeds
+    return {
+        "semi": [
+            {
+                "nome": s if isinstance(s, str) else s.get("name", s.get("nome", "")),
+                "label": (s if isinstance(s, str) else s.get("name", s.get("nome", ""))).capitalize()
+            }
+            for s in catalog
+        ]
+    }
 
 @app.post("/api/comandi/avanza-giorni")
 async def skip_days(request: Request):

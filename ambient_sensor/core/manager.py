@@ -4,8 +4,17 @@ from core.temperature import get_temperature
 from core.weather import get_weather_condition
 
 
+
+#crea il pacchetto da mandare agli altri moduli
+
+
+
+
+def current_date(state: dict) -> str:
+    return f"{state['day']:02d}/{state['month']:02d}/{state['year']}"
+
 def create_timer_state(d=1, m=1, y=2026) -> dict:
-    return {
+    state = {
         "day": d,
         "month": m,
         "year": y,
@@ -13,7 +22,8 @@ def create_timer_state(d=1, m=1, y=2026) -> dict:
         "temperature": 12,
         "weather": "sun",
     }
-
+    state["date"] = current_date(state)
+    return state
 
 def update_environment(state: dict):
     state["day"] += 1
@@ -22,6 +32,7 @@ def update_environment(state: dict):
     if state["day"] > max_days:
         state["day"] = 1
         state["month"] += 1
+        
         if state["month"] > 12:
             state["month"] = 1
             state["year"] += 1
@@ -29,3 +40,4 @@ def update_environment(state: dict):
     state["season"] = get_season(state["month"])
     state["temperature"] = get_temperature(state["season"])
     state["weather"] = get_weather_condition(state["season"])
+    state["date"] = current_date(state)

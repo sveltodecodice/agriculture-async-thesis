@@ -18,11 +18,11 @@ def create_skip_handler(state, client, topic):
                 update_environment(state)
                 await publish_data(client, topic, state)
             print(
-                f"[SKIP] Avanzati {days_to_skip} giorni. Nuova data: {state['day']:02d}/{state['month']:02d}/{state['year']}",
+                f"[SKIP] Skipped {days_to_skip} days. New date: {state['day']:02d}/{state['month']:02d}/{state['year']}",
                 flush=True
             )
         except ValueError:
-            print(f"[ERRORE] Payload skip non valido: {payload}", flush=True)
+            print(f"[ERROR] Payload skip not valid: {payload}", flush=True)
     return handle_skip_day
 
 
@@ -38,27 +38,29 @@ async def run_telemetry_loop(client, state):
         print(log_msg, flush=True)
 
         await asyncio.sleep(10)
+        
         update_environment(state)
 
 
 async def session_runner(state):
     async with aiomqtt.Client(hostname=broker_host, port=broker_port) as client:
         handlers = {"environment/skip_day": create_skip_handler(state, client, telemetry_topic)}
+        
         asyncio.create_task(listen_commands(client, handlers))
         await run_telemetry_loop(client, state)
 
 
 async def main():
-    curr_state = create_timer_state(d=1, m=1, y=2026)
+    
+    start_state = create_timer_state(d=1, m=1, y=2026)
 
     while True:
         try:
-            await session_runner(curr_state)
+            await session_runner(start_state)
         except Exception as e:
-            print(f"Errore di connessione ({e}). Riprovo tra 5 secondi...", flush=True)
+            print(f"Connection error({e}). Trying in 5 second...", flush=True)
             await asyncio.sleep(5)
-
-
+            
 try:
     asyncio.run(main())
 except KeyboardInterrupt:

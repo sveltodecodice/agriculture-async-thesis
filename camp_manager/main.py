@@ -9,7 +9,7 @@ from core.irrigation_control import force_irrigation
 from core.time_control import force_skip_days
 from core.seeds import list_seeds
 from core.harvest_deposit import record_harvest
-from core.seed_matcher import find_seasonal_seeds
+from core.seed_matcher import find_top_3_seeds
 
 broker_host = os.getenv('MQTT_BROKER_HOST', 'mqtt-broker')
 broker_port = int(os.getenv('MQTT_BROKER_PORT', 1883))
@@ -23,12 +23,12 @@ farm_state = {
     "date": None,
     "seed_name": None,
     "min_moisture": 0.0,
+    "max_moisture": 0.0,
     "time_left": 0,
     "harvest_pending": False,
 }
 
 async def auto_plant_monitor_loop(client):
-    """Periodically checks if the field has been empty for 3 days and auto-plants."""
     while True:
         await asyncio.sleep(5)
         if not farm_state["occupied"]:
@@ -36,7 +36,7 @@ async def auto_plant_monitor_loop(client):
                 current_season = farm_state.get("season", "spring")
                 print(f"[CAMP MANAGER] 3-day timeout reached. Auto-planting best seed for {current_season}...", flush=True)
                 
-                top_seeds = find_seasonal_seeds(current_season)
+                top_seeds = find_top_3_seeds(farm_state["moisture"], current_season)
                 target_seed = top_seeds[0] if top_seeds else list_seeds[0]
                 
                 await plant_seed(client, user_selected_seed=target_seed)
@@ -102,10 +102,13 @@ async def listen_camp_commands(client: aiomqtt.Client):
         elif topic == "camp_manager/cmd/irrigate":
             await force_irrigation(client, farm_state["moisture"])
             
-        elif "environment/skip_day" in topic:
+        elif topic == "camp_manager/cmd/skip":
             try:
                 days = int(payload)
                 print(f"[CAMP MANAGER] Skip of {days} day(s) requested.", flush=True)
+                await force_skip_days(client, days)
+                if not farm_state["occupied"]:
+                    farm_state["empty_days"] += days
             except ValueError:
                 pass
 

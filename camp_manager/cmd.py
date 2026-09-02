@@ -20,7 +20,7 @@ elif action == "clear":
     print("-> Sent command: Clear Camp")
 elif action == "skip":
     days = sys.argv[2] if len(sys.argv) > 2 else "1"
-    publish.single("environment/skip_day", days, hostname=broker)
+    publish.single("camp_manager/cmd/skip", days, hostname=broker)
     print(f"-> Sent command: Skip {days} days")
 else:
     print("Unknown command.")

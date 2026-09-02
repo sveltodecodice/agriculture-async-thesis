@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Coltivazione</title>
+<title>Cultivation Dashboard</title>
 <style>
   :root{
     --bg: #0f1226;
@@ -12,11 +12,11 @@
     --text: #eef0fb;
     --text-dim: #9098c2;
     --track: #2a2f57;
-    --blue: #4f7dff;     /* irrigazione / pioggia / umidità */
+    --blue: #4f7dff;     /* irrigation / rain / moisture */
     --blue-soft: rgba(79,125,255,.16);
-    --green: #34d399;    /* semina */
+    --green: #34d399;    /* planting */
     --green-soft: rgba(52,211,153,.16);
-    --yellow: #f5c451;   /* raccolta */
+    --yellow: #f5c451;   /* harvest */
     --yellow-soft: rgba(245,196,81,.16);
     --grid-empty: #262b52;
     --radius: 16px;
@@ -115,9 +115,9 @@
     width:26px;height:26px;border-radius:50%;
   }
   td.dim span{color:#4b5085;}
-  td.evt-irrigazione span{background:var(--blue);color:#0f1226;font-weight:700;}
-  td.evt-semina span{background:var(--green);color:#0f1226;font-weight:700;}
-  td.evt-raccolta span{background:var(--yellow);color:#0f1226;font-weight:700;}
+  td.evt-irrigation span{background:var(--blue);color:#0f1226;font-weight:700;}
+  td.evt-planting span{background:var(--green);color:#0f1226;font-weight:700;}
+  td.evt-harvest span{background:var(--yellow);color:#0f1226;font-weight:700;}
 
   .heatmap-legend{display:flex;gap:16px;margin:10px 0 14px;flex-wrap:wrap;}
   .legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-dim);}
@@ -134,9 +134,9 @@
     border-radius:4px;
     background:var(--grid-empty);
   }
-  .hm-cell.irrigazione{background:var(--blue);}
-  .hm-cell.semina{background:var(--green);}
-  .hm-cell.raccolta{background:var(--yellow);}
+  .hm-cell.irrigation{background:var(--blue);}
+  .hm-cell.planting{background:var(--green);}
+  .hm-cell.harvest{background:var(--yellow);}
   .heatmap-cols{display:grid;gap:4px;font-size:10.5px;font-weight:600;color:var(--text-dim);text-align:center;margin-top:4px;}
 
   /* ---- Row3: chart + table ---- */
@@ -179,10 +179,10 @@
   .badge{
     display:inline-block;padding:2px 8px;border-radius:20px;font-size:10.5px;font-weight:700;
   }
-  .badge.irrigazione{background:var(--blue-soft);color:var(--blue);}
-  .badge.semina{background:var(--green-soft);color:var(--green);}
-  .badge.raccolta{background:var(--yellow-soft);color:var(--yellow);}
-  .badge.nessuno{background:#262b52;color:var(--text-dim);}
+  .badge.irrigation{background:var(--blue-soft);color:var(--blue);}
+  .badge.planting{background:var(--green-soft);color:var(--green);}
+  .badge.harvest{background:var(--yellow-soft);color:var(--yellow);}
+  .badge.none{background:#262b52;color:var(--text-dim);}
 
   /* ---- Row4: lists ---- */
   .row4{
@@ -210,7 +210,7 @@
   }
   .score{font-size:12px;font-weight:700;color:var(--green);}
 
-  /* ---- Controlli campo (comandi verso plantation_manager/terreno.py) ---- */
+  /* ---- Controls ---- */
   .controls-bar{
     display:flex;
     gap:28px;
@@ -258,7 +258,7 @@
   }
   .control-msg{font-size:11px;margin-top:6px;min-height:14px;}
   .control-msg.ok{color:var(--green);}
-  .control-msg.errore{color:#f26d6d;}
+  .control-msg.error{color:#f26d6d;}
 
   @media (max-width:1050px){
     .grid{grid-template-columns:repeat(2,1fr);}
@@ -268,18 +268,18 @@
 </head>
 <body>
 
-<h1 class="page-title"><span class="dot"></span>Dashboard Coltivazione</h1>
+<h1 class="page-title"><span class="dot"></span>Cultivation Dashboard</h1>
 
-<!-- ============ RIGA 1: GAUGE ============ -->
+<!-- ============ ROW 1: GAUGES ============ -->
 <div class="grid" id="gaugesRow"></div>
 
-<!-- ============ ZONA METEO ============ -->
+<!-- ============ WEATHER BAR ============ -->
 <div class="card weather-bar" id="weatherBar">
   <div class="weather-left">
     <span class="weather-icon" id="weatherIcon">☀️</span>
     <div>
       <div class="weather-temp" id="weatherTemp">-- °C</div>
-      <div class="weather-status" id="weatherStatus">Sereno</div>
+      <div class="weather-status" id="weatherStatus">Clear</div>
     </div>
   </div>
   <div class="weather-right">
@@ -288,30 +288,30 @@
   </div>
 </div>
 
-<!-- ============ CONTROLLI CAMPO ============ -->
+<!-- ============ CONTROLS ============ -->
 <div class="card controls-bar" id="controlsBar">
   <div class="control-group">
-    <label>Salta giorni (1–30)</label>
+    <label>Skip Days (1–30)</label>
     <div class="control-row">
-      <input type="number" id="inputGiorni" class="control-input" min="1" max="30" value="1">
-      <button id="btnAvanzaGiorni" class="control-btn">Salta</button>
+      <input type="number" id="inputDays" class="control-input" min="1" max="30" value="1">
+      <button id="btnSkipDays" class="control-btn">Skip</button>
     </div>
-    <div id="msgAvanzaGiorni" class="control-msg"></div>
+    <div id="msgSkipDays" class="control-msg"></div>
   </div>
 
   <div class="control-group">
-    <label>Pianta seme</label>
+    <label>Plant Seed</label>
     <div class="control-row">
-      <select id="selectSeme" class="control-select">
-        <option value="">Caricamento...</option>
+      <select id="selectSeed" class="control-select">
+        <option value="">Loading...</option>
       </select>
-      <button id="btnPiantaSeme" class="control-btn">Pianta</button>
+      <button id="btnPlantSeed" class="control-btn">Plant</button>
     </div>
-    <div id="msgPiantaSeme" class="control-msg"></div>
+    <div id="msgPlantSeed" class="control-msg"></div>
   </div>
 </div>
 
-<!-- ============ RIGA 2: CALENDARIO + HEATMAP ============ -->
+<!-- ============ ROW 2: CALENDAR + HEATMAP ============ -->
 <div class="row2">
   <div class="card">
     <div class="cal-header">
@@ -321,19 +321,19 @@
     </div>
     <table class="calendar" id="calendarTable"></table>
     <div class="heatmap-legend" style="margin-top:14px;">
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--blue)"></span>Irrigazione / pioggia</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>Semina</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--yellow)"></span>Raccolta</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--blue)"></span>Irrigation / Rain</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>Planting</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--yellow)"></span>Harvest</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Attività campo</div>
-    <div class="card-sub" id="hmSub">per settimana del mese</div>
+    <div class="card-title">Field Activity</div>
+    <div class="card-sub" id="hmSub">per week of the month</div>
     <div class="heatmap-legend">
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--blue)"></span>Irrigazione / pioggia</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>Semina</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--yellow)"></span>Raccolta</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--blue)"></span>Irrigation / Rain</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>Planting</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--yellow)"></span>Harvest</div>
     </div>
     <div class="heatmap-body">
       <div class="heatmap-grid" id="hmGrid"></div>
@@ -342,13 +342,13 @@
   </div>
 </div>
 
-<!-- ============ RIGA 3: GRAFICO + TABELLA ============ -->
+<!-- ============ ROW 3: CHART + TABLE ============ -->
 <div class="row3">
   <div class="card chart-card">
-    <div class="card-title">Andamento umidità &amp; temperatura</div>
+    <div class="card-title">Humidity &amp; Temperature Trend</div>
     <div class="chart-legend">
-      <span><span class="legend-line" style="background:var(--blue)"></span>Umidità (%)</span>
-      <span><span class="legend-line" style="background:var(--yellow)"></span>Temperatura (°C)</span>
+      <span><span class="legend-line" style="background:var(--blue)"></span>Moisture (%)</span>
+      <span><span class="legend-line" style="background:var(--yellow)"></span>Temperature (°C)</span>
     </div>
     <div class="chart-scroll" id="chartScroll">
       <svg id="lineChart" viewBox="0 0 620 220" style="height:220px;display:block;"></svg>
@@ -357,130 +357,56 @@
   </div>
 
   <div class="card">
-    <div class="card-title">Registro letture</div>
-    <div class="card-sub">ultimi rilevamenti</div>
+    <div class="card-title">Readings Log</div>
+    <div class="card-sub">latest readings</div>
     <table class="readings" style="margin-top:10px;">
-      <thead><tr><th>Data</th><th>Umidità</th><th>Evento</th></tr></thead>
+      <thead><tr><th>Date</th><th>Moisture</th><th>Event</th></tr></thead>
       <tbody id="readingsBody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ============ RIGA 4: LISTE SEMI ============ -->
+<!-- ============ ROW 4: LISTS ============ -->
 <div class="row4">
   <div class="card">
-    <div class="card-title">Semi raccolti</div>
-    <div class="card-sub">tipo e data raccolta</div>
+    <div class="card-title">Harvested Seeds</div>
+    <div class="card-sub">type and harvest date</div>
     <div id="harvestedList" style="margin-top:6px;"></div>
   </div>
   <div class="card">
-    <div class="card-title">Top 3 semi consigliati</div>
-    <div class="card-sub">in base a stagione e condizioni suolo</div>
+    <div class="card-title">Top 3 Recommended Seeds</div>
+    <div class="card-sub">based on season and soil conditions</div>
     <div id="recommendedList" style="margin-top:6px;"></div>
   </div>
 </div>
 
 <script>
-/* =========================================================================
-   DATI — sostituisci questo blocco con i dati reali del tuo programma.
-   Puoi:
-   1) sostituire direttamente i valori qui sotto, oppure
-   2) sostituire l'intero oggetto DATA con il risultato di una fetch() al
-      tuo backend, rispettando la stessa struttura. Vedi loadData() in fondo.
-   ========================================================================= */
 const DATA = {
-  gauges: [
-    { label: "Umidità terreno",        value: 62,  unit: "%",  color: "var(--blue)"   },
-    { label: "Ossigenazione terreno",  value: 74,  unit: "%",  color: "var(--green)"  },
-    { label: "Giorni alla raccolta",   value: 18,  unit: "gg", color: "var(--yellow)", max: 90 },
-    // Seme attualmente piantato nel campo. Se il campo è vuoto, imposta seed: null (mostrerà "Vuoto").
-    { type: "seed", label: "Seme piantato", seed: "Pomodoro San Marzano", icon: "🍅" }
-  ],
-
-  // Dati meteo mostrati nella zona in alto. Il backend li espone dentro
-  // to_dashboard_data() come blocco "meteo": {data, temperatura, piove}.
-  meteo: { data: "14/08/2026", stagione: "estate", temperatura: 24, piove: false },
-
-  // Eventi calendario. Chiave = data completa "YYYY-MM-DD", valore = tipo evento:
-  // "irrigazione" | "semina" | "raccolta"
-  // Il calendario è navigabile liberamente su qualsiasi mese/anno (passato o futuro):
-  // basta che il tuo programma invii qui le date reali via API, non serve limitarsi
-  // al mese corrente. Nella realtà la semina avviene circa ogni 2 mesi e la raccolta
-  // è un evento puntuale (un giorno solo) per ciclo colturale.
-  calendar: {
-    // mese mostrato all'apertura della dashboard (indice 0 = gennaio)
-    initialYear: 2026, initialMonth: 7, // Agosto 2026
-    events: {
-      "2026-06-05": "semina",           // semina ciclo precedente
-      "2026-08-03": "semina",           // nuova semina (~2 mesi dopo)
-      "2026-08-10": "irrigazione",
-      "2026-08-11": "irrigazione",
-      "2026-08-15": "irrigazione",
-      "2026-08-21": "raccolta",         // un solo giorno di raccolta per ciclo
-      "2026-10-03": "semina"            // prossima semina prevista (~2 mesi dopo)
-    }
-  },
-
-  // NOTA: la card "Attività campo" (heatmap) non ha più dati propri: viene
-  // generata automaticamente dagli stessi eventi di "calendar.events" qui sopra,
-  // mostrando il mese attualmente visualizzato nel calendario (4-6 righe = settimane
-  // del mese, 7 colonne = giorni della settimana). Basta popolare calendar.events
-  // e la heatmap si aggiorna da sola in sincrono col calendario.
-
-  // Serie storiche per il grafico
-  trend: {
-    labels: ["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],
-    umidita: [55,58,60,57,62,65,63,68,66,70,64,62,66,62],
-    temperatura: [22,23,24,26,25,24,27,28,26,25,24,23,25,24]
-  },
-
-  // Ultime letture (tabella a destra)
-  readings: [
-    { data: "14 Ago", umidita: "62%", evento: "nessuno" },
-    { data: "13 Ago", umidita: "66%", evento: "irrigazione" },
-    { data: "12 Ago", umidita: "62%", evento: "nessuno" },
-    { data: "11 Ago", umidita: "64%", evento: "irrigazione" },
-    { data: "10 Ago", umidita: "70%", evento: "irrigazione" },
-    { data: "09 Ago", umidita: "66%", evento: "nessuno" }
-  ],
-
-  // Lista semi raccolti
-  harvested: [
-    { seed: "Pomodoro San Marzano", icon: "🍅", date: "23 Ago 2026", color: "var(--yellow-soft)" },
-    { seed: "Zucchina",             icon: "🥒", date: "20 Ago 2026", color: "var(--yellow-soft)" },
-    { seed: "Basilico",             icon: "🌿", date: "12 Ago 2026", color: "var(--yellow-soft)" }
-  ],
-
-  // Top 3 semi consigliati da piantare
-  recommended: [
-    { seed: "Lattuga romana", reason: "Ciclo breve, adatta al periodo", score: "94%" },
-    { seed: "Fagiolino",      reason: "Buona resa con umidità attuale", score: "89%" },
-    { seed: "Ravanello",      reason: "Ottima per rotazione post-raccolta", score: "85%" }
-  ]
+  gauges: [],
+  weather: {},
+  calendar: { initialYear: 2026, initialMonth: 7, events: {} },
+  trend: { labels: [], humidity: [], temperature: [] },
+  readings: [],
+  harvested: [],
+  recommended: []
 };
 
-/* ============================= RENDER ============================= */
-
-// --- Zona meteo (data, temperatura, sole/pioggia) ---
 function renderWeather(){
-  const m = DATA.meteo || {};
-  document.getElementById("weatherDate").textContent = m.data || "--";
+  const w = DATA.weather || {};
+  document.getElementById("weatherDate").textContent = w.date || "--";
   document.getElementById("weatherTemp").textContent =
-    (m.temperatura !== undefined && m.temperatura !== null ? m.temperatura : "--") + " °C";
+    (w.temperature !== undefined && w.temperature !== null ? w.temperature : "--") + " °C";
   document.getElementById("weatherSeason").textContent =
-    m.stagione ? m.stagione.charAt(0).toUpperCase() + m.stagione.slice(1) : "--";
-  const piove = !!m.piove;
-  document.getElementById("weatherIcon").textContent = piove ? "🌧️" : "☀️";
-  document.getElementById("weatherStatus").textContent = piove ? "Pioggia" : "Sereno";
+    w.season ? w.season.charAt(0).toUpperCase() + w.season.slice(1) : "--";
+  const isRaining = !!w.is_raining;
+  document.getElementById("weatherIcon").textContent = isRaining ? "🌧️" : "☀️";
+  document.getElementById("weatherStatus").textContent = isRaining ? "Rain" : "Clear";
 }
 
-// --- Gauges ---
 function renderGauges(){
   const wrap = document.getElementById("gaugesRow");
   wrap.innerHTML = "";
   DATA.gauges.forEach(g=>{
-
-    // --- Card "seme piantato": niente gauge circolare, solo stato testuale ---
     if(g.type === "seed"){
       const isEmpty = !g.seed;
       const card = document.createElement("div");
@@ -497,14 +423,12 @@ function renderGauges(){
           ">${isEmpty ? "—" : (g.icon || "🌱")}</div>
         </div>
         <div class="card-sub" style="font-size:13px;font-weight:700;color:${isEmpty ? "var(--text-dim)" : "var(--text)"};margin-top:2px;">
-          ${isEmpty ? "Vuoto" : g.seed}
+          ${isEmpty ? "Empty" : g.seed}
         </div>
       `;
       wrap.appendChild(card);
       return;
     }
-
-    // --- Card gauge circolare standard ---
     const max = g.max || 100;
     const pct = Math.min(100, Math.round((g.value/max)*100));
     const r = 50, c = 2*Math.PI*r;
@@ -522,24 +446,15 @@ function renderGauges(){
         </svg>
         <div class="gauge-value">${g.value}<small>${g.unit}</small></div>
       </div>
-      <div class="card-sub">${g.max ? "max "+g.max+" "+g.unit : "attuale"}</div>
+      <div class="card-sub">${g.max ? "max "+g.max+" "+g.unit : "current"}</div>
     `;
     wrap.appendChild(card);
   });
 }
 
-// --- Calendario ---
-// Stato di navigazione: quale mese/anno è mostrato in questo momento.
-// Non è vincolato ai dati: puoi scorrere liberamente avanti/indietro su
-// qualsiasi mese, anche oltre il 2026 (passato o futuro).
-const calState = {
-  year: DATA.calendar.initialYear,
-  month: DATA.calendar.initialMonth // 0 = gennaio ... 11 = dicembre
-};
-
-const MONTH_NAMES = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno",
-                      "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
-
+const calState = { year: DATA.calendar.initialYear, month: DATA.calendar.initialMonth };
+const MONTH_NAMES = ["January","February","March","April","May","June",
+                      "July","August","September","October","November","December"];
 function pad2(n){ return String(n).padStart(2,"0"); }
 
 function calNavigate(delta){
@@ -547,7 +462,7 @@ function calNavigate(delta){
   if(calState.month > 11){ calState.month = 0; calState.year++; }
   if(calState.month < 0){ calState.month = 11; calState.year--; }
   renderCalendar();
-  renderHeatmap(); // "Attività campo" segue lo stesso mese del calendario
+  renderHeatmap();
 }
 
 function renderCalendar(){
@@ -555,11 +470,11 @@ function renderCalendar(){
   document.getElementById("calTitle").textContent = `${MONTH_NAMES[month]} ${year}`;
   const table = document.getElementById("calendarTable");
   const firstDay = new Date(year, month, 1);
-  const startOffset = (firstDay.getDay()+6)%7; // lun=0
+  const startOffset = (firstDay.getDay()+6)%7; 
   const daysInMonth = new Date(year, month+1, 0).getDate();
   const daysPrevMonth = new Date(year, month, 0).getDate();
 
-  let html = "<tr>" + ["Lu","Ma","Me","Gi","Ve","Sa","Do"].map(d=>`<th>${d}</th>`).join("") + "</tr>";
+  let html = "<tr>" + ["Mo","Tu","We","Th","Fr","Sa","Su"].map(d=>`<th>${d}</th>`).join("") + "</tr>";
   let day = 1 - startOffset;
   for(let w=0; w<6; w++){
     html += "<tr>";
@@ -582,20 +497,15 @@ function renderCalendar(){
   table.innerHTML = html;
 }
 
-// --- Heatmap "Attività campo" ---
-// Mostra lo stesso mese attualmente visualizzato nel calendario (calState),
-// come griglia settimane-del-mese (righe) x giorni-della-settimana (colonne),
-// usando gli stessi eventi di DATA.calendar.events. Righe/colonne restano
-// sempre sincronizzate col calendario perché condividono lo stesso stato.
 function renderHeatmap(){
   const { year, month } = calState;
   const gridEl = document.getElementById("hmGrid");
   const colsEl = document.getElementById("hmCols");
   const subEl = document.getElementById("hmSub");
 
-  const dayLabels = ["Lu","Ma","Me","Gi","Ve","Sa","Do"];
+  const dayLabels = ["Mo","Tu","We","Th","Fr","Sa","Su"];
   const firstDay = new Date(year, month, 1);
-  const startOffset = (firstDay.getDay()+6)%7; // lun=0
+  const startOffset = (firstDay.getDay()+6)%7; 
   const daysInMonth = new Date(year, month+1, 0).getDate();
 
   const weeks = [];
@@ -616,7 +526,6 @@ function renderHeatmap(){
   }
 
   subEl.textContent = `${MONTH_NAMES[month]} ${year}`;
-
   gridEl.style.gridTemplateRows = `repeat(${weeks.length}, 1fr)`;
   gridEl.innerHTML = "";
   weeks.forEach(week=>{
@@ -627,27 +536,21 @@ function renderHeatmap(){
       const cell = document.createElement("div");
       const val = cellData ? cellData.evt : null;
       cell.className = "hm-cell" + (val ? " "+val : "");
-      cell.title = cellData ? (cellData.evt || "nessun evento") + " — giorno " + cellData.day : "";
+      cell.title = cellData ? (cellData.evt || "no event") + " — day " + cellData.day : "";
       if(!cellData) cell.style.opacity = "0.25";
       rowEl.appendChild(cell);
     });
     gridEl.appendChild(rowEl);
   });
-
   colsEl.style.gridTemplateColumns = `repeat(${dayLabels.length}, 1fr)`;
   colsEl.innerHTML = dayLabels.map(d=>`<div>${d}</div>`).join("");
 }
 
-// --- Grafico linee (SVG semplice, senza librerie esterne) ---
-// Ogni punto e' interattivo: passandoci sopra il cursore (o toccandolo,
-// su mobile) compare un tooltip con data, umidita' e temperatura di
-// quel giorno. Un cerchio "hit-area" invisibile e piu' largo di quello
-// visibile rende piu' facile centrare il punto col mouse.
 function renderLineChart(){
   const svg = document.getElementById("lineChart");
   const tooltip = document.getElementById("chartTooltip");
   const card = svg.closest(".chart-card");
-  const { labels, umidita, temperatura } = DATA.trend;
+  const { labels, humidity, temperature } = DATA.trend;
 
   if(!labels || labels.length === 0){
     svg.innerHTML = "";
@@ -656,13 +559,8 @@ function renderLineChart(){
 
   const H = 220, padL = 30, padR = 10, padT = 10, padB = 24;
   const plotH = H - padT - padB;
-
-  // Spaziatura FISSA tra un punto e il successivo: la larghezza del disegno
-  // cresce con i dati (e il contenitore scrolla) invece di stirare/comprimere
-  // tutti i punti dentro una larghezza fissa. Cosi' il grafico non si
-  // "schiaccia" piu' man mano che passano i giorni.
   const STEP = 26;
-  const minPlotW = 580; // larghezza minima quando ci sono pochi punti
+  const minPlotW = 580; 
   const plotW = Math.max(minPlotW, STEP * Math.max(0, labels.length - 1));
   const W = padL + padR + plotW;
 
@@ -670,7 +568,7 @@ function renderLineChart(){
   svg.setAttribute("width", W);
   svg.style.width = W + "px";
 
-  const allVals = [...umidita, ...temperatura];
+  const allVals = [...humidity, ...temperature];
   const minV = Math.min(...allVals) - 5, maxV = Math.max(...allVals) + 5;
 
   const x = i => labels.length > 1 ? padL + i * STEP : padL + plotW/2;
@@ -686,15 +584,15 @@ function renderLineChart(){
 
   let dots = "";
   let hitAreas = "";
-  temperatura.forEach((v,i)=> dots += `<circle class="chart-dot" data-i="${i}" data-series="temp" cx="${x(i)}" cy="${y(v)}" r="2.5" fill="var(--yellow)"/>`);
-  umidita.forEach((v,i)=> dots += `<circle class="chart-dot" data-i="${i}" data-series="umid" cx="${x(i)}" cy="${y(v)}" r="2.5" fill="var(--blue)"/>`);
+  temperature.forEach((v,i)=> dots += `<circle class="chart-dot" data-i="${i}" data-series="temp" cx="${x(i)}" cy="${y(v)}" r="2.5" fill="var(--yellow)"/>`);
+  humidity.forEach((v,i)=> dots += `<circle class="chart-dot" data-i="${i}" data-series="umid" cx="${x(i)}" cy="${y(v)}" r="2.5" fill="var(--blue)"/>`);
   labels.forEach((_,i)=> hitAreas += `<circle class="chart-hit" data-i="${i}" cx="${x(i)}" cy="${padT + plotH/2}" r="12" fill="transparent" style="cursor:pointer"/>`);
 
   svg.innerHTML = `
     <g id="chartVLine" style="display:none;"><line class="chart-vline" x1="0" y1="${padT}" x2="0" y2="${padT+plotH}"/></g>
     ${gridLines}
-    <path d="${pathFor(temperatura)}" fill="none" stroke="var(--yellow)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <path d="${pathFor(umidita)}" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="${pathFor(temperature)}" fill="none" stroke="var(--yellow)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="${pathFor(humidity)}" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     ${dots}
     ${hitAreas}
   `;
@@ -712,12 +610,11 @@ function renderLineChart(){
 
     tooltip.innerHTML = `
       <div class="tt-date">${labels[i]}</div>
-      <div class="tt-row"><span class="tt-dot" style="background:var(--blue)"></span>Umidità: ${umidita[i]}%</div>
-      <div class="tt-row"><span class="tt-dot" style="background:var(--yellow)"></span>Temperatura: ${temperatura[i]}°C</div>
+      <div class="tt-row"><span class="tt-dot" style="background:var(--blue)"></span>Moisture: ${humidity[i]}%</div>
+      <div class="tt-row"><span class="tt-dot" style="background:var(--yellow)"></span>Temperature: ${temperature[i]}°C</div>
     `;
     tooltip.style.display = "block";
 
-    // Posiziona il tooltip vicino al cursore, evitando che esca dalla card.
     let left = clientX - cardRect.left + 14;
     let top = clientY - cardRect.top - 14;
     const ttW = 150, ttH = 70;
@@ -739,7 +636,6 @@ function renderLineChart(){
     hit.addEventListener("mouseenter", (e)=> mostraTooltip(i, e.clientX, e.clientY));
     hit.addEventListener("mousemove", (e)=> mostraTooltip(i, e.clientX, e.clientY));
     hit.addEventListener("mouseleave", nascondiTooltip);
-    // touch: tap per mostrare/nascondere, utile su mobile
     hit.addEventListener("touchstart", (e)=>{
       e.preventDefault();
       const t = e.touches[0];
@@ -747,35 +643,30 @@ function renderLineChart(){
     }, { passive:false });
   });
   svg.addEventListener("touchend", nascondiTooltip);
-
-  // Scorre automaticamente fino all'ultimo giorno registrato (il piu' recente),
-  // cosi' l'utente vede sempre il dato di oggi senza dover scrollare a mano.
   const scrollWrap = document.getElementById("chartScroll");
   scrollWrap.scrollLeft = scrollWrap.scrollWidth;
 }
 
-// --- Tabella letture ---
 function renderReadings(){
   const body = document.getElementById("readingsBody");
   body.innerHTML = DATA.readings.map(r=>`
     <tr>
-      <td>${r.data}</td>
-      <td>${r.umidita}</td>
-      <td><span class="badge ${r.evento}">${r.evento}</span></td>
+      <td>${r.date}</td>
+      <td>${r.moisture}</td>
+      <td><span class="badge ${r.event}">${r.event}</span></td>
     </tr>
   `).join("");
 }
 
-// --- Liste semi ---
 function renderLists(){
   const hEl = document.getElementById("harvestedList");
   hEl.innerHTML = DATA.harvested.map(h=>`
     <div class="list-item">
       <div class="li-left">
-        <div class="seed-icon" style="background:${h.color}">${h.icon}</div>
+        <div class="seed-icon" style="background:${h.color || 'var(--yellow-soft)'}">${h.icon || '🌱'}</div>
         <div>
           <div class="seed-name">${h.seed}</div>
-          <div class="seed-sub">Raccolto il ${h.date}</div>
+          <div class="seed-sub">Harvested on ${h.date}</div>
         </div>
       </div>
     </div>
@@ -806,51 +697,33 @@ function renderAll(){
   renderLists();
 }
 
-/* =========================================================================
-   INTEGRAZIONE COL BACKEND REALE
-   L'oggetto DATA qui sopra resta come fallback/anteprima finché il primo
-   fetch non risponde. Da quel momento in poi i dati reali (provenienti da
-   VistaAggregata.to_dashboard_data(), vedi core/vista.py) sovrascrivono
-   quelli di esempio e la dashboard si aggiorna ogni 3 secondi.
-   ========================================================================= */
+const API_BASE = ""; 
+const COOLDOWN_SKIP_DAYS_MS = 5000;
+let skipUnlockedAt = 0; 
+
 async function loadData(){
   try{
-    const res = await fetch("http://localhost:8080/api/dashboard-data");
+    const res = await fetch(`${API_BASE}/api/dashboard-data`);
     const json = await res.json();
     Object.assign(DATA, json);
     renderAll();
   }catch(err){
-    console.error("Errore nel caricamento dei dati dashboard:", err);
+    console.error("Error loading dashboard data:", err);
   }
 }
 
-renderAll();       // primo render immediato con i dati di esempio
-loadData();         // subito dopo, sovrascrive con i dati reali
-setInterval(loadData, 3000); // refresh automatico ogni 3 secondi
+renderAll();       
+loadData();         
+setInterval(loadData, 3000); 
 
-/* =========================================================================
-   CONTROLLI CAMPO — comandi verso plantation_manager/terreno.py.
-   Il backend (main.py) e' l'unica fonte di verita' per la validazione
-   (range giorni, cooldown, catalogo semi): qui in JS replichiamo gli
-   stessi limiti solo per dare un feedback immediato, MAI come unica
-   difesa — un utente potrebbe sempre bypassare il browser e chiamare
-   l'API direttamente.
-   ========================================================================= */
-const API_BASE = "http://localhost:8080";
-const COOLDOWN_AVANZA_GIORNI_MS = 5000; // deve combaciare col cooldown lato server
-let saltaSbloccatoAlle = 0; // timestamp (ms) da cui il bottone torna cliccabile
-
-function mostraMessaggio(id, testo, tipo){
+function showMessage(id, text, type){
   const el = document.getElementById(id);
-  el.textContent = testo;
-  el.className = "control-msg" + (tipo ? " " + tipo : "");
+  el.textContent = text;
+  el.className = "control-msg" + (type ? " " + type : "");
 }
 
-// --- Popola la tendina semi dal catalogo del backend (core/semi.py) ---
-// L'utente sceglie solo da qui: niente campo di testo libero, quindi
-// niente refusi che farebbero ignorare il comando su terreno.py.
-async function caricaListaSemi(){
-  const sel = document.getElementById("selectSeme");
+async function loadSeedList(){
+  const sel = document.getElementById("selectSeed");
   try{
     const res = await fetch(`${API_BASE}/api/semi`);
     const json = await res.json();
@@ -858,41 +731,38 @@ async function caricaListaSemi(){
       .map(s => `<option value="${s.nome}">${s.label}</option>`)
       .join("");
   }catch(err){
-    sel.innerHTML = `<option value="">Errore caricamento</option>`;
-    console.error("Errore caricamento catalogo semi:", err);
+    sel.innerHTML = `<option value="">Error loading</option>`;
+    console.error("Error loading seed catalog:", err);
   }
 }
 
-// --- Countdown visivo sul bottone "Salta": lo ridisabilita per tutta
-// la durata del cooldown, cosi' non basta smettere di cliccare per un
-// istante per rimandare subito un altro comando. ---
-function avviaCountdownAvanzaGiorni(){
-  const btn = document.getElementById("btnAvanzaGiorni");
+function startSkipCountdown(){
+  const btn = document.getElementById("btnSkipDays");
   btn.disabled = true;
   const timer = setInterval(() => {
-    const restanti = Math.ceil((saltaSbloccatoAlle - Date.now()) / 1000);
-    if(restanti <= 0){
+    const remaining = Math.ceil((skipUnlockedAt - Date.now()) / 1000);
+    if(remaining <= 0){
       btn.disabled = false;
-      btn.textContent = "Salta";
+      btn.textContent = "Skip";
       clearInterval(timer);
     } else {
-      btn.textContent = `Attendi ${restanti}s`;
+      btn.textContent = `Wait ${remaining}s`;
     }
   }, 250);
 }
 
-async function inviaAvanzaGiorni(){
-  const btn = document.getElementById("btnAvanzaGiorni");
-  if(btn.disabled) return; // richiesta gia' in volo o cooldown attivo
+async function sendSkipDays(){
+  const btn = document.getElementById("btnSkipDays");
+  if(btn.disabled) return; 
 
-  const input = document.getElementById("inputGiorni");
+  const input = document.getElementById("inputDays");
   const giorni = parseInt(input.value, 10);
   if(!Number.isInteger(giorni) || giorni < 1 || giorni > 30){
-    mostraMessaggio("msgAvanzaGiorni", "Inserisci un numero tra 1 e 30.", "errore");
+    showMessage("msgSkipDays", "Enter a number between 1 and 30.", "error");
     return;
   }
 
-  btn.disabled = true; // disabilita SUBITO, prima ancora della risposta del server
+  btn.disabled = true; 
   try{
     const res = await fetch(`${API_BASE}/api/comandi/avanza-giorni`, {
       method: "POST",
@@ -901,25 +771,25 @@ async function inviaAvanzaGiorni(){
     });
     const json = await res.json();
     if(!res.ok){
-      mostraMessaggio("msgAvanzaGiorni", json.errore || "Errore imprevisto.", "errore");
-      btn.disabled = false; // rifiutato dal server: nessun cooldown da scontare
+      showMessage("msgSkipDays", json.error || "Unexpected error.", "error");
+      btn.disabled = false;
       return;
     }
-    mostraMessaggio("msgAvanzaGiorni", `Salto di ${giorni} giorni inviato.`, "ok");
-    saltaSbloccatoAlle = Date.now() + COOLDOWN_AVANZA_GIORNI_MS;
-    avviaCountdownAvanzaGiorni();
+    showMessage("msgSkipDays", `Skip of ${giorni} days sent.`, "ok");
+    skipUnlockedAt = Date.now() + COOLDOWN_SKIP_DAYS_MS;
+    startSkipCountdown();
   }catch(err){
-    mostraMessaggio("msgAvanzaGiorni", "Impossibile contattare il backend.", "errore");
+    showMessage("msgSkipDays", "Cannot contact backend.", "error");
     btn.disabled = false;
   }
 }
 
-async function inviaPiantaSeme(){
-  const btn = document.getElementById("btnPiantaSeme");
-  const sel = document.getElementById("selectSeme");
+async function sendPlantSeed(){
+  const btn = document.getElementById("btnPlantSeed");
+  const sel = document.getElementById("selectSeed");
   const nome = sel.value;
   if(!nome){
-    mostraMessaggio("msgPiantaSeme", "Scegli un seme dalla lista.", "errore");
+    showMessage("msgPlantSeed", "Choose a seed from the list.", "error");
     return;
   }
 
@@ -932,24 +802,21 @@ async function inviaPiantaSeme(){
     });
     const json = await res.json();
     if(!res.ok){
-      mostraMessaggio("msgPiantaSeme", json.errore || "Errore imprevisto.", "errore");
+      showMessage("msgPlantSeed", json.error || "Unexpected error.", "error");
     } else {
-      mostraMessaggio("msgPiantaSeme", `Richiesta di semina per "${nome}" inviata.`, "ok");
+      showMessage("msgPlantSeed", `Plant request for "${nome}" sent.`, "ok");
     }
   }catch(err){
-    mostraMessaggio("msgPiantaSeme", "Impossibile contattare il backend.", "errore");
+    showMessage("msgPlantSeed", "Cannot contact backend.", "error");
   }finally{
     btn.disabled = false;
   }
 }
 
-document.getElementById("btnAvanzaGiorni").addEventListener("click", inviaAvanzaGiorni);
-document.getElementById("btnPiantaSeme").addEventListener("click", inviaPiantaSeme);
-caricaListaSemi();
+document.getElementById("btnSkipDays").addEventListener("click", sendSkipDays);
+document.getElementById("btnPlantSeed").addEventListener("click", sendPlantSeed);
+loadSeedList();
 
-// Navigazione calendario: click sulle frecce < e > per scorrere mese per mese,
-// avanti o indietro, senza limiti di anno (utile per consultare stagioni passate
-// o pianificare quelle future).
 document.getElementById("calPrev").addEventListener("click", () => calNavigate(-1));
 document.getElementById("calNext").addEventListener("click", () => calNavigate(1));
 </script>

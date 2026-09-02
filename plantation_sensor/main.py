@@ -23,7 +23,7 @@ async def monitor_loop(mqtt_client):
             
             if current_status["camp_availability"]:
                 crop_info = current_status["status_detail"]
-                print(f"[PLANTATION] Active Crop: {crop_info['plant_name']} | Remaining: {crop_info['time_left']}d | Health: {crop_info['health']}", flush=True)
+                print(f"[PLANTATION] Active Crop: {crop_info['plant_name']} | Remaining: {crop_info['time_left']}d | Health: {crop_info['health']} | Min_moisture: {crop_info['min_soilmoisture']} | Max_moisture: {crop_info['max_soilmoisture']}", flush=True)
                 
                 lower_bound = crop_info.get("min_soilmoisture")
                 upper_bound = crop_info.get("max_soilmoisture")

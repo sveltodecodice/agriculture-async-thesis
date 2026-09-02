@@ -18,11 +18,7 @@ def _ensure_file():
 
 
 def record_harvest(seed_name: str, harvest_date: str = None) -> dict:
-    """
-    Appends one entry to the harvest deposit log.
-    `harvest_date` should be the in-sim date (e.g. "22/11/2026") if you have it;
-    falls back to the real-world UTC timestamp if not provided.
-    """
+
     if not seed_name:
         print("[DEPOSIT] Skipped record: no seed name provided.", flush=True)
         return {}
