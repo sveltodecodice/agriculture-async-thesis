@@ -2,7 +2,7 @@ import json
 from core.harvest_deposit import record_harvest
 from core.plantation_control import clear_camp
 
-async def process_plantation_status(farm_state: dict, client, payload_bytes: bytes):
+async def process_plantation_status(client, payload_bytes):
     """Processes incoming plantation telemetry and triggers automated harvest."""
     try:
         data = json.loads(payload_bytes.decode('utf-8'))
@@ -12,6 +12,14 @@ async def process_plantation_status(farm_state: dict, client, payload_bytes: byt
         farm_state["seed_name"] = detail.get("plant_name")
         farm_state["time_left"] = detail.get("time_left", 0)
         farm_state["min_moisture"] = detail.get("min_soilmoisture", 0.0)
+
+        # Check for auto-irrigation directly when plantation reports status
+        if farm_state["occupied"] and not farm_state["harvest_pending"]:
+            await auto_irrigate(
+                client, 
+                current_moisture=farm_state["moisture"], 
+                min_moisture=farm_state["min_moisture"]
+            )
 
         is_ready = farm_state["occupied"] and farm_state["time_left"] <= 0
         can_harvest = is_ready and farm_state["seed_name"] and not farm_state["harvest_pending"]
@@ -26,5 +34,5 @@ async def process_plantation_status(farm_state: dict, client, payload_bytes: byt
         if not farm_state["occupied"]:
             farm_state["harvest_pending"] = False
 
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[ERROR] Plantation status processing failed: {e}", flush=True)

@@ -22,5 +22,8 @@ elif action == "skip":
     days = sys.argv[2] if len(sys.argv) > 2 else "1"
     publish.single("camp_manager/cmd/skip", days, hostname=broker)
     print(f"-> Sent command: Skip {days} days")
+elif action == "reoxygenate":
+    publish.single("camp_manager/cmd/reoxygenate", "trigger", hostname=broker)
+    print("-> Sent command: Reoxygenate Soil")
 else:
     print("Unknown command.")

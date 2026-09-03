@@ -19,9 +19,11 @@ async def consume_stream(client):
         # 1. Handle normal environment updates
         if topic == "environment/telemetry":
             ambient_data = json.loads(payload_str)
+            
+            # Process the telemetry math first while irrigation_active is STILL True
             telemetry = process_terrain_update(initial_state, ambient_data)
             
-            # Reset the pump state after the tick
+            # Reset the pump state AFTER the update calculations complete
             initial_state["irrigation_active"] = False
 
             await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
@@ -32,13 +34,12 @@ async def consume_stream(client):
             )
 
         # 2. Handle forced irrigation commands from the Camp Manager
+        # 2. Handle forced irrigation commands from the Camp Manager
+        # 2. Handle forced irrigation commands from the Camp Manager
         elif topic == "terrain/cmd/irrigate":
-            irrigation_amount = float(payload_str) if payload_str else 15.0
-            
-            # Instantly boost the soil moisture and activate the pump flag
-            initial_state["soil_moisture"] = min(100.0, initial_state["soil_moisture"] + irrigation_amount)
             initial_state["irrigation_active"] = True
-            print(f"[TERRAIN] Irrigation activated! Added {irrigation_amount}% moisture. Current: {initial_state['soil_moisture']:.1f}%", flush=True)
+            print("[TERRAIN] Irrigation requested! Pump activated for the next tick.", flush=True)
+            
 
 
 async def connect_and_listen():

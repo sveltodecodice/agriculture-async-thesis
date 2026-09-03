@@ -5,7 +5,7 @@ import aiomqtt
 
 # Import from your manager's core files
 from core.plantation_control import plant_seed, clear_camp
-from core.irrigation_control import force_irrigation
+from core.irrigation_control import force_irrigation, auto_irrigate
 from core.time_control import force_skip_days
 from core.seeds import list_seeds
 from core.harvest_deposit import record_harvest
@@ -116,8 +116,10 @@ async def listen_camp_commands(client: aiomqtt.Client):
         elif "environment/telemetry" in topic:
             try:
                 data = json.loads(message.payload.decode('utf-8'))
-                farm_state["season"] = data.get("season", farm_state["season"])
+                farm_state["season"] = data.get("season", farm_state["season"]) 
                 farm_state["date"] = data.get("date", farm_state.get("date"))
+                farm_state["oxygen"] = data.get("oxygenation", data.get("oxygen", 100.0))
+                farm_state["temperature"] = data.get("temperature", farm_state.get("temperature", 12))
                 
                 if not farm_state["occupied"]:
                     farm_state["empty_days"] += 1
@@ -135,8 +137,16 @@ async def listen_camp_commands(client: aiomqtt.Client):
                 data = json.loads(message.payload.decode('utf-8'))
                 farm_state["moisture"] = data.get("soil_moisture", 50.0)
                 farm_state["date"] = data.get("date", farm_state.get("date"))
-            except Exception:
-                pass
+                
+                # Automatically check and trigger irrigation if field is occupied
+                if farm_state["occupied"] and not farm_state["harvest_pending"]:
+                    await auto_irrigate(
+                        client, 
+                        current_moisture=farm_state["moisture"], 
+                        min_moisture=farm_state["min_moisture"]
+                    )
+            except Exception as e:
+                print(f"[ERROR] Auto-irrigation check failed: {e}", flush=True)
 
 
 async def main():

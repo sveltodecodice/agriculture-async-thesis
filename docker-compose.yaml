@@ -3,6 +3,7 @@ version: '3.8'
 services:
   mqtt-broker:
     image: eclipse-mosquitto:latest
+    platform: linux/amd64
     container_name: mqtt_broker
     ports:
       - "1883:1883" 
@@ -53,6 +54,21 @@ services:
       - MQTT_BROKER_HOST=mqtt-broker
     depends_on:
       - mqtt-broker
+
+  node-red:
+    image: nodered/node-red:latest
+    container_name: node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      - node_red_data:/data
+    depends_on:
+      - mqtt-broker
+
+volumes:
+  node_red_data:
+
+  
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/irrigate" -m "trigger"  force irrigation
