@@ -2,13 +2,11 @@ import json
 import os
 from datetime import datetime, timezone
 
-# Stored next to core/, e.g. camp_manager/data/harvest_deposit.json
 DEPOSIT_FILE = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "data",
     "harvest_deposit.json",
 )
-
 
 def _ensure_file():
     os.makedirs(os.path.dirname(DEPOSIT_FILE), exist_ok=True)
@@ -16,9 +14,7 @@ def _ensure_file():
         with open(DEPOSIT_FILE, "w") as f:
             json.dump([], f)
 
-
-def record_harvest(seed_name: str, harvest_date: str = None) -> dict:
-
+async def record_harvest(seed_name: str, harvest_date: str = None, mqtt_client = None) -> dict:
     if not seed_name:
         print("[DEPOSIT] Skipped record: no seed name provided.", flush=True)
         return {}
@@ -40,18 +36,23 @@ def record_harvest(seed_name: str, harvest_date: str = None) -> dict:
         json.dump(data, f, indent=2)
 
     print(f"[DEPOSIT] Recorded harvest -> {record}", flush=True)
+
+    # Automatically notify MQTT (and Node-RED) of the new harvest
+    if mqtt_client:
+        try:
+            payload = f"🌾 Last Harvested: {seed_name.upper()} on {harvest_date or 'Today'}"
+            await mqtt_client.publish("camp/harvest_deposit", payload)
+        except Exception as e:
+            print(f"[DEPOSIT ERROR] Failed to publish MQTT harvest event: {e}", flush=True)
+
     return record
 
-
 def get_harvest_history() -> list:
-    """Returns the full harvest log."""
     _ensure_file()
     with open(DEPOSIT_FILE, "r") as f:
         return json.load(f)
 
-
 def get_harvest_count(seed_name: str = None) -> int:
-    """Total harvests logged, optionally filtered by seed name."""
     history = get_harvest_history()
     if seed_name:
         return sum(1 for h in history if h.get("seed") == seed_name)

@@ -3,10 +3,15 @@ import json
 import os
 import aiomqtt
 
-from core.plant_conditions import seed_planted, clear_field, advance_days, get_status
-from core.seeds import list_seeds
+# Import core functions
+from core.plant_conditions import (
+    seed_planted,
+    clear_field,
+    advance_days,
+    get_status,
+)
 
-BROKER_IP = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
+BROKER_IP = os.getenv("MQTT_BROKER_HOST", "localhost")
 BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 
 node_state = {
@@ -16,36 +21,22 @@ node_state = {
 
 async def monitor_loop(mqtt_client):
     while True:
-        await asyncio.sleep(8)
-        try:
-            current_level = node_state["moisture"]
-            current_status = get_status(current_level)
-            
-            if current_status["camp_availability"]:
-                crop_info = current_status["status_detail"]
-                print(f"[PLANTATION] Active Crop: {crop_info['plant_name']} | Remaining: {crop_info['time_left']}d | Health: {crop_info['health']} | Min_moisture: {crop_info['min_soilmoisture']} | Max_moisture: {crop_info['max_soilmoisture']}", flush=True)
-                
-                lower_bound = crop_info.get("min_soilmoisture")
-                upper_bound = crop_info.get("max_soilmoisture")
-                
-                if current_level is not None and current_level < lower_bound:
-                    print(f"[PLANTATION] Moisture {current_level}% breached lower threshold {lower_bound}%. Requesting irrigation.", flush=True)
-                    await mqtt_client.publish("terrain/cmd/irrigate", payload="15.0")
-            else:
-                print("[PLANTATION] Field status: vacant", flush=True)
+        await asyncio.sleep(5)
+        current_status = get_status(node_state["moisture"])
+        
+        # Publish current plantation status telemetry to Camp Manager
+        await mqtt_client.publish("plantation/status", payload=json.dumps(current_status))
 
-            await mqtt_client.publish("plantation/status", payload=json.dumps(current_status))
-        except Exception as err:
-            print(f"[PLANTATION ERROR] Loop exception: {err}", flush=True)
 
 async def start_node():
     while True:
         try:
             async with aiomqtt.Client(hostname=BROKER_IP, port=BROKER_PORT) as mqtt_client:
-                # 1. FIX THE SUBSCRIPTIONS HERE
+                # 1. SUBSCRIPTIONS
                 await mqtt_client.subscribe("environment/telemetry")
                 await mqtt_client.subscribe("camp/terrain_telemetry")
                 await mqtt_client.subscribe("camp_manager/commands")
+                await mqtt_client.subscribe("plantation/cmd/#")
                 
                 print("Plantation subsystem online.", flush=True)
                 asyncio.create_task(monitor_loop(mqtt_client))
@@ -53,41 +44,49 @@ async def start_node():
                 async for incoming in mqtt_client.messages:
                     channel = str(incoming.topic)
                     raw_payload = incoming.payload.decode()
-                    
-                    # 2. FIX THE TERRAIN TOPIC AND PAYLOAD KEY HERE
-                    if "camp/terrain_telemetry" in channel:
+
+                    # 2. HANDLE TELEMETRY
+                    if channel == "camp/terrain_telemetry":
                         packet = json.loads(raw_payload)
-                        # The terrain sensor sends "soil_moisture", not "moisture"
                         if "soil_moisture" in packet:
                             node_state["moisture"] = float(packet["soil_moisture"])
-                            
-                    # 3. FIX THE AMBIENT TOPIC HERE
-                    elif "environment/telemetry" in channel:
+
+                    elif channel == "environment/telemetry":
                         packet = json.loads(raw_payload)
                         if "season" in packet:
                             node_state["current_season"] = packet.get("season", "winter")
-                        # Advance internal counter by 1 day on ambient tick
+                        # Advance internal plant growth timer by 1 day on each environment tick
                         advance_days(1)
-                            
-                    elif "camp_manager/commands" in channel:
+
+                    # 3. HANDLE COMMANDS FROM CAMP MANAGER
+                    elif channel in ["camp_manager/commands", "plantation/cmd/clear"]:
                         try:
+                            # Handle string commands directly
+                            if raw_payload == "trigger" or channel == "plantation/cmd/clear":
+                                clear_field()
+                                print("[PLANTATION] Field status reset to vacant.", flush=True)
+                                continue
+
+                            # Handle JSON command packets
                             packet = json.loads(raw_payload)
                             if packet.get("action") == "PLANT":
                                 target_seed = packet.get("seed")
                                 if target_seed:
                                     seed_planted(target_seed)
                                     print(f"[PLANTATION] Successfully sowed: {target_seed.get('name')}", flush=True)
-                            elif packet.get("action") == "HARVEST":
+                            elif packet.get("action") in ["HARVEST", "CLEAR"]:
                                 clear_field()
                                 print("[PLANTATION] Field cleared.", flush=True)
-                        except Exception:
-                            pass
+                        except Exception as err:
+                            print(f"[PLANTATION ERROR] Command handling error: {err}", flush=True)
+
         except aiomqtt.MqttError:
             print("Broker link lost. Reconnecting...", flush=True)
             await asyncio.sleep(4)
         except Exception as ex:
             print(f"Critical fault: {ex}", flush=True)
             await asyncio.sleep(2)
+
 
 if __name__ == "__main__":
     try:

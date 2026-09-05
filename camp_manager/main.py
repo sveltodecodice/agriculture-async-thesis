@@ -43,32 +43,38 @@ async def auto_plant_monitor_loop(client):
                 farm_state["empty_days"] = 0
 
 async def process_plantation_status(client, payload_bytes):
-    """Processes incoming plantation telemetry and triggers automated harvest."""
+    """Processes incoming plantation telemetry and triggers automated harvest/clear."""
     try:
         data = json.loads(payload_bytes.decode('utf-8'))
         farm_state["occupied"] = bool(data.get("camp_availability", False))
         
         detail = data.get("status_detail") or {}
+        
+        # Handle string "seed not planted" or vacant status payload
+        if not isinstance(detail, dict) or not detail.get("plant_name"):
+            farm_state["occupied"] = False
+            farm_state["seed_name"] = None
+            farm_state["harvest_pending"] = False
+            return
+
         farm_state["seed_name"] = detail.get("plant_name")
         farm_state["time_left"] = detail.get("time_left", 0)
         farm_state["min_moisture"] = detail.get("min_soilmoisture", 0.0)
 
-        is_ready = farm_state["occupied"] and farm_state["time_left"] <= 0
-        can_harvest = is_ready and farm_state["seed_name"] and not farm_state["harvest_pending"]
-
-        if can_harvest:
+        # Trigger clear/harvest as soon as time_left reaches 0
+        if farm_state["occupied"] and farm_state["time_left"] <= 0 and not farm_state["harvest_pending"]:
             farm_state["harvest_pending"] = True
-            print(f"[CAMP MANAGER] {farm_state['seed_name']} finished growing. Harvesting...", flush=True)
-            record_harvest(farm_state["seed_name"], farm_state.get("date"))
+            print(f"[CAMP MANAGER] {farm_state['seed_name']} growth complete (0d left). Clearing camp...", flush=True)
+            
+            # Record harvest and publish event directly to MQTT for Node-RED
+            await record_harvest(farm_state["seed_name"], farm_state.get("date"), client)
             await clear_camp(client)
+            await client.publish("plantation/cmd/clear", "trigger")
             farm_state["empty_days"] = 0
 
-        if not farm_state["occupied"]:
-            farm_state["harvest_pending"] = False
-
-    except Exception:
-        pass
-
+    except Exception as e:
+        print(f"[ERROR] Plantation status error: {e}", flush=True)
+        
 async def listen_camp_commands(client: aiomqtt.Client):
     """Listens for manual commands and live sensor telemetry."""
     await client.subscribe("camp_manager/cmd/#")
@@ -94,13 +100,26 @@ async def listen_camp_commands(client: aiomqtt.Client):
                 print(f"[ERROR] Seed '{payload}' not found in database.", flush=True)
                 
         elif topic == "camp_manager/cmd/clear":
-            seed_being_cleared = farm_state["seed_name"]
+            print("[CAMP MANAGER] Manual clear requested. Clearing camp...", flush=True)
             await clear_camp(client)
-            if seed_being_cleared:
-                record_harvest(seed_being_cleared, farm_state.get("date"))
+            await client.publish("plantation/cmd/clear", "trigger")
+            
+            # Reset local state immediately without recording to deposit
+            farm_state["occupied"] = False
+            farm_state["seed_name"] = None
+            farm_state["harvest_pending"] = False
+            farm_state["empty_days"] = 0
+            
+            # Send cleared update to Node-RED UI
+            empty_status = {"camp_availability": False, "status_detail": {"plant_name": "None"}}
+            await client.publish("plantation/status", json.dumps(empty_status))
             
         elif topic == "camp_manager/cmd/irrigate":
             await force_irrigation(client, farm_state["moisture"])
+
+        elif topic == "camp_manager/cmd/reoxygenate":
+            print("[CAMP MANAGER] Reoxygenation requested. Forwarding to terrain sensor...", flush=True)
+            await client.publish("terrain/cmd/reoxygenate", "trigger")
             
         elif topic == "camp_manager/cmd/skip":
             try:
@@ -138,6 +157,12 @@ async def listen_camp_commands(client: aiomqtt.Client):
                 farm_state["moisture"] = data.get("soil_moisture", 50.0)
                 farm_state["date"] = data.get("date", farm_state.get("date"))
                 
+                # Calculate and publish top 3 recommended seeds
+                top_seeds = find_top_3_seeds(farm_state["moisture"], farm_state.get("season", "spring"))
+                top_names = [s["name"].capitalize() for s in top_seeds[:3]]
+                top_seeds_str = "🌱 Top 3 Seeds: " + ", ".join(top_names)
+                await client.publish("camp/top_seeds", top_seeds_str)
+
                 # Automatically check and trigger irrigation if field is occupied
                 if farm_state["occupied"] and not farm_state["harvest_pending"]:
                     await auto_irrigate(

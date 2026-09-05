@@ -34,20 +34,23 @@ async def consume_stream(client):
             )
 
         # 2. Handle forced irrigation commands from the Camp Manager
-        # 2. Handle forced irrigation commands from the Camp Manager
-        # 2. Handle forced irrigation commands from the Camp Manager
         elif topic == "terrain/cmd/irrigate":
             initial_state["irrigation_active"] = True
             print("[TERRAIN] Irrigation requested! Pump activated for the next tick.", flush=True)
-            
+
+        # 3. Handle reoxygenation commands from the Camp Manager
+        elif topic == "terrain/cmd/reoxygenate":
+            initial_state["oxygenation"] = 100.0
+            print("[TERRAIN] Soil successfully reoxygenated to 100.0%!", flush=True)
 
 
 async def connect_and_listen():
     """Nesting livello 1: gestisce la sessione del client"""
     async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
-        # Subscribe to BOTH topics now
+        # Subscribe to all required topics
         await client.subscribe("environment/telemetry")
         await client.subscribe("terrain/cmd/irrigate")
+        await client.subscribe("terrain/cmd/reoxygenate")
         
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)
