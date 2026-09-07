@@ -1,12 +1,14 @@
 services:
   mqtt-broker:
     image: eclipse-mosquitto:latest
-    platform: linux/amd64
     container_name: mqtt_broker
+    environment:
+    - MQTT_BROKER_USER=farm_admin
+    - MQTT_BROKER_PASS=secure_farm
     ports:
-      - "1883:1883" 
+      - "1883:1883"
     volumes:
-      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config:/mosquitto/config
     networks:
       - farm_net
 
@@ -16,6 +18,8 @@ services:
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
     depends_on:
       - mqtt-broker
     networks:
@@ -27,6 +31,8 @@ services:
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
     depends_on:
       - mqtt-broker
     networks:
@@ -38,6 +44,8 @@ services:
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
     depends_on:
       - mqtt-broker
     networks:
@@ -49,6 +57,8 @@ services:
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
     depends_on:
       - mqtt-broker
     networks:

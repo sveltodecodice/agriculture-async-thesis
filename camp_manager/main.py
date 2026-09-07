@@ -7,11 +7,13 @@ from core.plantation_control import plant_seed, clear_camp
 from core.irrigation_control import force_irrigation, auto_irrigate
 from core.time_control import force_skip_days
 from core.seeds import list_seeds
-from core.harvest_deposit import record_harvest, DEPOSIT_FILE
+from core.harvest_deposit import save_harvest, get_harvest_history, FILE_PATH
 from core.seed_matcher import find_top_3_seeds
 
 broker_host = os.getenv('MQTT_BROKER_HOST', 'mqtt-broker')
 broker_port = int(os.getenv('MQTT_BROKER_PORT', 1883))
+broker_user = os.getenv("MQTT_BROKER_USER", "farm_admin")
+broker_pass = os.getenv("MQTT_BROKER_PASS", "secure_farm")
 
 farm_state = {
     "occupied": False,
@@ -35,7 +37,7 @@ async def auto_plant_monitor_loop(client):
                 top_seeds = find_top_3_seeds(farm_state["moisture"], current_season)
                 target_seed = top_seeds[0] if top_seeds else list_seeds[0]
                 
-                log_msg = f"⏱️ Field vacant for 3 days. Auto-planted {target_seed['name']} for {current_season}."
+                log_msg = f"🌾 Field vacant for 3 days. Auto-planted {target_seed['name']} for {current_season}."
                 print(f"[CAMP MANAGER] {log_msg}", flush=True)
                 await client.publish("camp/notifications", log_msg)
                 
@@ -44,7 +46,7 @@ async def auto_plant_monitor_loop(client):
 
 async def handle_system_reset(client):
     try:
-        with open(DEPOSIT_FILE, "w") as f:
+        with open(FILE_PATH, "w") as f:
             json.dump([], f)
         
         farm_state.update({
@@ -61,8 +63,7 @@ async def handle_system_reset(client):
         })
 
         await clear_camp(client)
-        await client.publish("camp/harvest_deposit", "")
-        
+        await client.publish("camp/harvest_deposit", "Harvest Deposit: Empty")
         await client.publish("environment/cmd/reset", "01/01/2026")
         await client.publish("terrain/cmd/reset", "trigger")
         await client.publish("plantation/cmd/reset", "trigger")
@@ -92,11 +93,12 @@ async def process_plantation_status(client, payload_bytes):
         if farm_state["occupied"] and farm_state["time_left"] <= 0 and not farm_state["harvest_pending"]:
             farm_state["harvest_pending"] = True
             
-            log_msg = f"🌾 {farm_state['seed_name']} growth complete! Auto-harvesting..."
+            log_msg = f"🎉 {farm_state['seed_name']} growth complete! Auto-harvesting..."
             print(f"[CAMP MANAGER] {log_msg}", flush=True)
             await client.publish("camp/notifications", log_msg)
             
-            await record_harvest(farm_state["seed_name"], farm_state.get("date"), client, mqtt_client=client)
+            updated_history = save_harvest(farm_state["seed_name"], farm_state.get("date"))
+            await client.publish("camp/harvest_deposit", payload=json.dumps(updated_history))
             await clear_camp(client)
             farm_state["empty_days"] = 0
 
@@ -111,6 +113,11 @@ async def listen_camp_commands(client: aiomqtt.Client):
     
     print("[CAMP MANAGER] Listening for commands and telemetry...", flush=True)
     
+    # Push initial harvest deposit on startup so Node-RED populates immediately
+    history = get_harvest_history()
+    history_payload = json.dumps(history) if history else "🌾 Harvest Deposit: Empty"
+    await client.publish("camp/harvest_deposit", history_payload)
+    
     async for message in client.messages:
         topic = str(message.topic)
         raw_payload = message.payload.decode('utf-8').strip() if isinstance(message.payload, bytes) else str(message.payload).strip()
@@ -121,7 +128,7 @@ async def listen_camp_commands(client: aiomqtt.Client):
             await handle_system_reset(client)
 
         elif topic == "camp_manager/cmd/plant":
-            selected_seed = next((s for s in list_seeds if s["name"] == payload_lower), None)
+            selected_seed = next((s for s in list_seeds if s["name"].lower() == payload_lower), None)
             if selected_seed:
                 await plant_seed(client, user_selected_seed=selected_seed)
                 farm_state["empty_days"] = 0
@@ -183,7 +190,7 @@ async def listen_camp_commands(client: aiomqtt.Client):
                 
                 top_seeds = find_top_3_seeds(farm_state["moisture"], farm_state.get("season", "spring"))
                 top_names = [s["name"].capitalize() for s in top_seeds[:3]]
-                await client.publish("camp/top_seeds", "🌱 Top 3 Seeds: " + ", ".join(top_names))
+                await client.publish("camp/top_seeds", "🧪 Top 3 Seeds: " + ", ".join(top_names))
 
                 target_min = farm_state["min_moisture"] if farm_state["occupied"] else 20.0
                 await auto_irrigate(client, current_moisture=farm_state["moisture"], min_moisture=target_min)
@@ -194,7 +201,12 @@ async def main():
     print("[CAMP MANAGER] Starting up...", flush=True)
     while True:
         try:
-            async with aiomqtt.Client(hostname=broker_host, port=broker_port) as client:
+            async with aiomqtt.Client(
+                hostname=broker_host,
+                port=broker_port,
+                username=broker_user,
+                password=broker_pass
+            ) as client:
                 asyncio.create_task(listen_camp_commands(client))
                 asyncio.create_task(auto_plant_monitor_loop(client))
                 while True:

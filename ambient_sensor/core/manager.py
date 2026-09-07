@@ -4,12 +4,6 @@ from core.temperature import get_temperature
 from core.weather import get_weather_condition
 
 
-
-#crea il pacchetto da mandare agli altri moduli
-
-
-
-
 def current_date(state: dict) -> str:
     return f"{state['day']:02d}/{state['month']:02d}/{state['year']}"
 
@@ -29,9 +23,13 @@ def update_environment(state: dict):
     state["day"] += 1
     max_days = get_max_days(state["year"], state["month"])
 
+#change the month if the day is over the max days
+
     if state["day"] > max_days:
         state["day"] = 1
         state["month"] += 1
+
+#change the year if the n of month is over 12
         
         if state["month"] > 12:
             state["month"] = 1

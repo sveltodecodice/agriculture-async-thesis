@@ -11,24 +11,27 @@ async def plant_seed(mqtt_client, user_selected_seed: dict = None, top_3_seeds: 
         return False
 
     seed_name = seed_to_plant.get("name") if isinstance(seed_to_plant, dict) else str(seed_to_plant)
-    payload = json.dumps({"plant_name": seed_name})
     
+    payload = json.dumps({
+        "action": "PLANT",
+        "seed": seed_to_plant
+    })
+    
+    await mqtt_client.publish("camp_manager/commands", payload=payload)
     await mqtt_client.publish("plantation/cmd/plant", payload=payload)
     print(f"[CAMP MANAGER] Dispatched PLANT command for: {seed_name}", flush=True)
     return True
 
 async def clear_camp(mqtt_client):
+    payload = json.dumps({"action": "CLEAR"})
+    await mqtt_client.publish("camp_manager/commands", payload=payload)
     await mqtt_client.publish("plantation/cmd/clear", payload="trigger")
-    
-    empty_payload = {
-        "camp_availability": False,
-        "status_detail": {
-            "plant_name": "None",
-            "status": "EMPTY",
-            "time_left": 0,
-            "min_soilmoisture": 20.0
-        }
-    }
-    await mqtt_client.publish("plantation/status", payload=json.dumps(empty_payload))
-    print("[CAMP MANAGER] Dispatched CLEAR command and updated status to EMPTY.", flush=True)
+    print("[CAMP MANAGER] Dispatched CLEAR command.", flush=True)
+    return True
+
+async def reset_camp(mqtt_client):
+    payload = json.dumps({"action": "RESET"})
+    await mqtt_client.publish("camp_manager/commands", payload=payload)
+    await mqtt_client.publish("plantation/cmd/reset", payload="trigger")
+    print("[CAMP MANAGER] Dispatched RESET command.", flush=True)
     return True

@@ -1,4 +1,3 @@
-
 plantation_state = {
     "occupied": False,
     "plant_name": None,
@@ -17,6 +16,13 @@ def seed_planted(seed: dict):
 
 
 def clear_field():
+    plantation_state["occupied"] = False
+    plantation_state["plant_name"] = None
+    plantation_state["min_moisture"] = 0.0
+    plantation_state["max_moisture"] = 0.0
+    plantation_state["time_left"] = 0
+
+def reset():
     plantation_state["occupied"] = False
     plantation_state["plant_name"] = None
     plantation_state["min_moisture"] = 0.0
@@ -43,7 +49,14 @@ def get_status(current_moisture: float = None) -> dict:
     ready_to_harvest = plantation_state["occupied"] and plantation_state["time_left"] == 0
 
     if not plantation_state["occupied"]:
-        plant_status = "seed not planted"
+        plant_status = {
+            "plant_name": "None",
+            "time_left": 0,
+            "ready_to_harvest": False,
+            "health": "FIELD IS EMPTY",
+            "min_soilmoisture": 0.0,
+            "max_soilmoisture": 0.0
+        }
     else:
         plant_status = {
             "plant_name": plantation_state["plant_name"],

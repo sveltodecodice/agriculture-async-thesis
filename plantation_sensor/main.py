@@ -13,6 +13,8 @@ from core.plant_conditions import (
 
 BROKER_IP = os.getenv("MQTT_BROKER_HOST", "localhost")
 BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
+broker_user = os.getenv("MQTT_BROKER_USER", "farm_admin")
+broker_pass = os.getenv("MQTT_BROKER_PASS", "secure_farm")
 
 node_state = {
     "moisture": None,
@@ -24,14 +26,19 @@ async def monitor_loop(mqtt_client):
         await asyncio.sleep(5)
         current_status = get_status(node_state["moisture"])
         
-        # Publish current plantation status telemetry to Camp Manager
+        # Always stringify JSON payload before sending
         await mqtt_client.publish("plantation/status", payload=json.dumps(current_status))
 
 
 async def start_node():
     while True:
         try:
-            async with aiomqtt.Client(hostname=BROKER_IP, port=BROKER_PORT) as mqtt_client:
+            async with aiomqtt.Client(
+                hostname=BROKER_IP,
+                port=BROKER_PORT,
+                username=broker_user,
+                password=broker_pass
+            ) as mqtt_client:
                 # 1. SUBSCRIPTIONS
                 await mqtt_client.subscribe("environment/telemetry")
                 await mqtt_client.subscribe("camp/terrain_telemetry")
@@ -58,25 +65,30 @@ async def start_node():
                         # Advance internal plant growth timer by 1 day on each environment tick
                         advance_days(1)
 
-                    # 3. HANDLE COMMANDS FROM CAMP MANAGER
-                    elif channel in ["camp_manager/commands", "plantation/cmd/clear"]:
+                    # 3. HANDLE COMMANDS FROM CAMP MANAGER & DIRECT TOPICS
+                    elif channel in ["camp_manager/commands", "plantation/cmd/clear", "plantation/cmd/reset", "plantation/cmd/plant"]:
                         try:
-                            # Handle string commands directly
-                            if raw_payload == "trigger" or channel == "plantation/cmd/clear":
+                            # Direct clear or reset commands
+                            if channel in ["plantation/cmd/clear", "plantation/cmd/reset"]:
                                 clear_field()
                                 print("[PLANTATION] Field status reset to vacant.", flush=True)
-                                continue
+                                await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
 
-                            # Handle JSON command packets
-                            packet = json.loads(raw_payload)
-                            if packet.get("action") == "PLANT":
-                                target_seed = packet.get("seed")
-                                if target_seed:
-                                    seed_planted(target_seed)
-                                    print(f"[PLANTATION] Successfully sowed: {target_seed.get('name')}", flush=True)
-                            elif packet.get("action") in ["HARVEST", "CLEAR"]:
-                                clear_field()
-                                print("[PLANTATION] Field cleared.", flush=True)
+                            # JSON command packets
+                            else:
+                                packet = json.loads(raw_payload)
+                                action = packet.get("action")
+                                if action == "PLANT":
+                                    target_seed = packet.get("seed")
+                                    if target_seed:
+                                        seed_planted(target_seed)
+                                        seed_name = target_seed.get('name') if isinstance(target_seed, dict) else target_seed
+                                        print(f"[PLANTATION] Successfully sowed: {seed_name}", flush=True)
+                                        await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
+                                elif action in ["HARVEST", "CLEAR", "RESET"]:
+                                    clear_field()
+                                    print("[PLANTATION] Field cleared.", flush=True)
+                                    await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
                         except Exception as err:
                             print(f"[PLANTATION ERROR] Command handling error: {err}", flush=True)
 

@@ -7,8 +7,10 @@ from core.terrain_condition import create_terrain_state, process_terrain_update
 
 MQTT_BROKER = os.getenv("MQTT_BROKER_HOST", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
+broker_user = os.getenv("MQTT_BROKER_USER", "farm_admin")
+broker_pass = os.getenv("MQTT_BROKER_PASS", "secure_farm")
 
-initial_state = create_terrain_state(initial_moisture=50.0)
+initial_state = create_terrain_state(initial_moisture=50.0, initial_oxygen=70.0)
 
 async def consume_stream(client):
     async for msg in client.messages:
@@ -35,20 +37,25 @@ async def consume_stream(client):
             initial_state["oxygenation"] = 100.0
             print("[TERRAIN] Soil successfully reoxygenated to 100.0%!", flush=True)
 
-        elif topic in ["terrain/cmd/reset", "environment/cmd/reset"]:
+        elif topic in ["terrain/cmd/reset", "environment/cmd/reset", "camp_manager/cmd/reset"]:
             fresh_state = create_terrain_state(initial_moisture=50.0)
             initial_state.clear()
             initial_state.update(fresh_state)
             print("[TERRAIN] Sensor reset back to Day 1 initial state.", flush=True)
 
-
 async def connect_and_listen():
-    async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
+    async with aiomqtt.Client(
+        hostname=MQTT_BROKER,
+        port=MQTT_PORT,
+        username=broker_user,
+        password=broker_pass
+    ) as client:
         await client.subscribe("environment/telemetry")
         await client.subscribe("terrain/cmd/irrigate")
         await client.subscribe("terrain/cmd/reoxygenate")
         await client.subscribe("terrain/cmd/reset")
         await client.subscribe("environment/cmd/reset")
+        await client.subscribe("camp_manager/cmd/reset")
         
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)
