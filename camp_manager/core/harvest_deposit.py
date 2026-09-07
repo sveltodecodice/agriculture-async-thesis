@@ -37,7 +37,6 @@ async def record_harvest(seed_name: str, harvest_date: str = None, mqtt_client =
 
     print(f"[DEPOSIT] Recorded harvest -> {record}", flush=True)
 
-    # Automatically notify MQTT (and Node-RED) of the new harvest
     if mqtt_client:
         try:
             payload = f"🌾 Last Harvested: {seed_name.upper()} on {harvest_date or 'Today'}"

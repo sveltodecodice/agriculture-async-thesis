@@ -11,19 +11,13 @@ MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
 initial_state = create_terrain_state(initial_moisture=50.0)
 
 async def consume_stream(client):
-    """Nesting livello 1: aspetta i messaggi in ingresso"""
     async for msg in client.messages:
         topic = str(msg.topic)
         payload_str = msg.payload.decode()
 
-        # 1. Handle normal environment updates
         if topic == "environment/telemetry":
             ambient_data = json.loads(payload_str)
-            
-            # Process the telemetry math first while irrigation_active is STILL True
             telemetry = process_terrain_update(initial_state, ambient_data)
-            
-            # Reset the pump state AFTER the update calculations complete
             initial_state["irrigation_active"] = False
 
             await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
@@ -33,31 +27,34 @@ async def consume_stream(client):
                 flush=True
             )
 
-        # 2. Handle forced irrigation commands from the Camp Manager
         elif topic == "terrain/cmd/irrigate":
             initial_state["irrigation_active"] = True
             print("[TERRAIN] Irrigation requested! Pump activated for the next tick.", flush=True)
 
-        # 3. Handle reoxygenation commands from the Camp Manager
         elif topic == "terrain/cmd/reoxygenate":
             initial_state["oxygenation"] = 100.0
             print("[TERRAIN] Soil successfully reoxygenated to 100.0%!", flush=True)
 
+        elif topic in ["terrain/cmd/reset", "environment/cmd/reset"]:
+            fresh_state = create_terrain_state(initial_moisture=50.0)
+            initial_state.clear()
+            initial_state.update(fresh_state)
+            print("[TERRAIN] Sensor reset back to Day 1 initial state.", flush=True)
+
 
 async def connect_and_listen():
-    """Nesting livello 1: gestisce la sessione del client"""
     async with aiomqtt.Client(hostname=MQTT_BROKER, port=MQTT_PORT) as client:
-        # Subscribe to all required topics
         await client.subscribe("environment/telemetry")
         await client.subscribe("terrain/cmd/irrigate")
         await client.subscribe("terrain/cmd/reoxygenate")
+        await client.subscribe("terrain/cmd/reset")
+        await client.subscribe("environment/cmd/reset")
         
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)
 
 
 async def main():
-    """Nesting livello 2: loop di retry in caso di disconnessione"""
     while True:
         try:
             await connect_and_listen()

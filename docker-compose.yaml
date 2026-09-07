@@ -1,4 +1,3 @@
-
 services:
   mqtt-broker:
     image: eclipse-mosquitto:latest
@@ -8,6 +7,8 @@ services:
       - "1883:1883" 
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - farm_net
 
   ambient-sensor:
     build: ./ambient_sensor
@@ -17,6 +18,8 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
+    networks:
+      - farm_net
 
   terrain-sensor:
     build: ./terrain_sensor
@@ -26,6 +29,8 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
+    networks:
+      - farm_net
 
   plantation-sensor:
     build: ./plantation_sensor
@@ -35,6 +40,8 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
+    networks:
+      - farm_net
 
   camp-manager:
     build: ./camp_manager
@@ -44,6 +51,8 @@ services:
       - MQTT_BROKER_PORT=1883
     depends_on:
       - mqtt-broker
+    networks:
+      - farm_net
       
   node-red:
     image: nodered/node-red:latest
@@ -54,10 +63,15 @@ services:
       - node_red_data:/data
     depends_on:
       - mqtt-broker
+    networks:
+      - farm_net
+
+networks:
+  farm_net:
+    driver: bridge
 
 volumes:
   node_red_data:
-
   
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
