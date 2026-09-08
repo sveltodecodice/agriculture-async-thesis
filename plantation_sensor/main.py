@@ -10,6 +10,7 @@ from core.plant_conditions import (
     advance_days,
     get_status,
 )
+from core.mqtt_utils import publish_json, Deduper
 
 BROKER_IP = os.getenv("MQTT_BROKER_HOST", "localhost")
 BROKER_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
@@ -21,13 +22,19 @@ node_state = {
     "current_season": "winter"
 }
 
+# Istanza di dedup dedicata a questo servizio (non condividerla altrove,
+# es. camp_manager e' sottoscritto agli stessi topic ma deve tenere la
+# propria memoria separata)
+dedup = Deduper()
+
+
 async def monitor_loop(mqtt_client):
     while True:
         await asyncio.sleep(5)
         current_status = get_status(node_state["moisture"])
-        
-        # Always stringify JSON payload before sending
-        await mqtt_client.publish("plantation/status", payload=json.dumps(current_status))
+
+        # Always stringify JSON payload before sending, timestamped
+        await publish_json(mqtt_client, "plantation/status", current_status)
 
 
 async def start_node():
@@ -44,7 +51,7 @@ async def start_node():
                 await mqtt_client.subscribe("camp/terrain_telemetry")
                 await mqtt_client.subscribe("camp_manager/commands")
                 await mqtt_client.subscribe("plantation/cmd/#")
-                
+
                 print("Plantation subsystem online.", flush=True)
                 asyncio.create_task(monitor_loop(mqtt_client))
 
@@ -55,11 +62,19 @@ async def start_node():
                     # 2. HANDLE TELEMETRY
                     if channel == "camp/terrain_telemetry":
                         packet = json.loads(raw_payload)
+
+                        if dedup.is_duplicate_or_stale("camp/terrain_telemetry", packet.get("ts")):
+                            continue
+
                         if "soil_moisture" in packet:
                             node_state["moisture"] = float(packet["soil_moisture"])
 
                     elif channel == "environment/telemetry":
                         packet = json.loads(raw_payload)
+
+                        if dedup.is_duplicate_or_stale("environment/telemetry", packet.get("ts")):
+                            continue
+
                         if "season" in packet:
                             node_state["current_season"] = packet.get("season", "winter")
                         # Advance internal plant growth timer by 1 day on each environment tick
@@ -71,8 +86,13 @@ async def start_node():
                             # Direct clear or reset commands
                             if channel in ["plantation/cmd/clear", "plantation/cmd/reset"]:
                                 clear_field()
+                                if channel == "plantation/cmd/reset":
+                                    # Il reset invalida la storia dei ts: altrimenti un
+                                    # messaggio legittimo post-reset potrebbe essere
+                                    # scartato come "stale"
+                                    dedup.reset()
                                 print("[PLANTATION] Field status reset to vacant.", flush=True)
-                                await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
+                                await publish_json(mqtt_client, "plantation/status", get_status(node_state["moisture"]))
 
                             # JSON command packets
                             else:
@@ -84,11 +104,11 @@ async def start_node():
                                         seed_planted(target_seed)
                                         seed_name = target_seed.get('name') if isinstance(target_seed, dict) else target_seed
                                         print(f"[PLANTATION] Successfully sowed: {seed_name}", flush=True)
-                                        await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
+                                        await publish_json(mqtt_client, "plantation/status", get_status(node_state["moisture"]))
                                 elif action in ["HARVEST", "CLEAR", "RESET"]:
                                     clear_field()
                                     print("[PLANTATION] Field cleared.", flush=True)
-                                    await mqtt_client.publish("plantation/status", payload=json.dumps(get_status(node_state["moisture"])))
+                                    await publish_json(mqtt_client, "plantation/status", get_status(node_state["moisture"]))
                         except Exception as err:
                             print(f"[PLANTATION ERROR] Command handling error: {err}", flush=True)
 

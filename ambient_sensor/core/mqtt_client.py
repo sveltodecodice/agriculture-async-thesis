@@ -1,6 +1,7 @@
-import json
 import asyncio
 import aiomqtt
+
+from .mqtt_utils import publish_json
 
 
 async def dispatch_payload(handler, raw_payload):
@@ -11,7 +12,11 @@ async def dispatch_payload(handler, raw_payload):
 
 
 async def publish_data(client, topic, data):
-    await client.publish(topic, json.dumps(data), qos=1)
+    # Lo stamping del timestamp ("ts") e' delegato a mqtt_utils.publish_json,
+    # cosi' lo stesso identico codice/formato e' usato da tutti i servizi
+    # (ambient, terrain, plantation, camp_manager) invece di essere
+    # reimplementato qui.
+    await publish_json(client, topic, data, qos=1)
 
 
 async def listen_commands(client, handlers):

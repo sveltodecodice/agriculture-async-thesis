@@ -1,9 +1,10 @@
-import asyncio 
-import json 
+import asyncio
+import json
 import os
 import aiomqtt
 
 from core.terrain_condition import create_terrain_state, process_terrain_update
+from core.mqtt_utils import publish_json, Deduper
 
 MQTT_BROKER = os.getenv("MQTT_BROKER_HOST", "localhost")
 MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 1883))
@@ -12,6 +13,10 @@ broker_pass = os.getenv("MQTT_BROKER_PASS", "secure_farm")
 
 initial_state = create_terrain_state(initial_moisture=50.0, initial_oxygen=70.0)
 
+# Istanza di dedup dedicata a questo servizio
+dedup = Deduper()
+
+
 async def consume_stream(client):
     async for msg in client.messages:
         topic = str(msg.topic)
@@ -19,10 +24,14 @@ async def consume_stream(client):
 
         if topic == "environment/telemetry":
             ambient_data = json.loads(payload_str)
+
+            if dedup.is_duplicate_or_stale("environment/telemetry", ambient_data.get("ts")):
+                continue
+
             telemetry = process_terrain_update(initial_state, ambient_data)
             initial_state["irrigation_active"] = False
 
-            await client.publish("camp/terrain_telemetry", json.dumps(telemetry), qos=1)
+            await publish_json(client, "camp/terrain_telemetry", telemetry, qos=1)
             print(
                 f"[{telemetry['date']}] Moisture: {telemetry['soil_moisture']:.1f}% | "
                 f"O2: {telemetry['oxygenation']:.1f}% | Pump: {telemetry['irrigation_active']}",
@@ -41,7 +50,11 @@ async def consume_stream(client):
             fresh_state = create_terrain_state(initial_moisture=50.0)
             initial_state.clear()
             initial_state.update(fresh_state)
+            # Il reset invalida la storia dei ts: altrimenti un messaggio
+            # legittimo post-reset potrebbe essere scartato come "stale"
+            dedup.reset()
             print("[TERRAIN] Sensor reset back to Day 1 initial state.", flush=True)
+
 
 async def connect_and_listen():
     async with aiomqtt.Client(
@@ -56,7 +69,7 @@ async def connect_and_listen():
         await client.subscribe("terrain/cmd/reset")
         await client.subscribe("environment/cmd/reset")
         await client.subscribe("camp_manager/cmd/reset")
-        
+
         print("Terrain sensor active, listening...", flush=True)
         await consume_stream(client)
 
