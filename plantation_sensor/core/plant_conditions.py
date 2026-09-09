@@ -10,9 +10,14 @@ plantation_state = {
 def seed_planted(seed: dict):
     plantation_state["occupied"] = True
     plantation_state["plant_name"] = seed["name"]
-    plantation_state["min_moisture"] = seed["min_soilmoisture"]
-    plantation_state["max_moisture"] = seed["max_soilmoisture"]
-    plantation_state["time_left"] = seed["time_harvest"][0]
+    plantation_state["min_moisture"] = seed.get("min_soilmoisture", 20.0)
+    plantation_state["max_moisture"] = seed.get("max_soilmoisture", 80.0)
+    
+    harvest_time = seed.get("time_harvest", 5)
+    if isinstance(harvest_time, (list, tuple)):
+        plantation_state["time_left"] = harvest_time[0]
+    else:
+        plantation_state["time_left"] = int(harvest_time)
 
 
 def clear_field():
@@ -22,28 +27,25 @@ def clear_field():
     plantation_state["max_moisture"] = 0.0
     plantation_state["time_left"] = 0
 
+
 def reset():
-    plantation_state["occupied"] = False
-    plantation_state["plant_name"] = None
-    plantation_state["min_moisture"] = 0.0
-    plantation_state["max_moisture"] = 0.0
-    plantation_state["time_left"] = 0
+    clear_field()
 
 
 def advance_days(days_passed: int = 1):
     if plantation_state["occupied"] and plantation_state["time_left"] > 0:
         plantation_state["time_left"] = max(0, plantation_state["time_left"] - days_passed)
 
+
 def check_health(current_moisture: float) -> str:
-    if plantation_state["occupied"]:
-        if current_moisture < plantation_state["min_moisture"]:
-            return "TOO_DRY"
-        elif current_moisture > plantation_state["max_moisture"]:
-            return "TOO_WET"
-        else:
-            return "HEALTHY"
-    else:
+    if not plantation_state["occupied"]:
         return "FIELD IS EMPTY"
+    if current_moisture < plantation_state["min_moisture"]:
+        return "TOO_DRY"
+    if current_moisture > plantation_state["max_moisture"]:
+        return "TOO_WET"
+    return "HEALTHY"
+
 
 def get_status(current_moisture: float = None) -> dict:
     ready_to_harvest = plantation_state["occupied"] and plantation_state["time_left"] == 0

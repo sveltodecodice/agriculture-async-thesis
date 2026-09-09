@@ -7,40 +7,24 @@ FILE_PATH = "data/harvest_deposit.json"
 def get_harvest_history():
     if not os.path.exists(FILE_PATH):
         os.makedirs("data", exist_ok=True)
-        f = open(FILE_PATH, "w")
-        json.dump([], f)
-        f.close()
+        with open(FILE_PATH, "w") as f:
+            json.dump([], f)
         return []
 
     try:
-        f = open(FILE_PATH, "r")
-        data = json.load(f)
-        f.close()
-        return data
+        with open(FILE_PATH, "r") as f:
+            return json.load(f)
     except Exception:
         return []
 
 def save_harvest(seed_name, harvest_date=None):
-    if not os.path.exists(FILE_PATH):
-        os.makedirs("data", exist_ok=True)
-        f = open(FILE_PATH, "w")
-        json.dump([], f)
-        f.close()
+    data = get_harvest_history()
 
-    f = open(FILE_PATH, "r")
-    data = json.load(f)
-    f.close()
+    d = harvest_date if harvest_date else str(datetime.now())
+    data.append({"seed": seed_name, "harvested_on": d})
 
-    if harvest_date:
-        d = harvest_date
-    else:
-        d = str(datetime.now())
-
-    item = {"seed": seed_name, "harvested_on": d}
-    data.append(item)
-
-    f = open(FILE_PATH, "w")
-    json.dump(data, f, indent=2)
-    f.close()
+    os.makedirs("data", exist_ok=True)
+    with open(FILE_PATH, "w") as f:
+        json.dump(data, f, indent=2)
 
     return data

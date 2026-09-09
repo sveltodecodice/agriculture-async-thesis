@@ -1,14 +1,11 @@
-# irrigation_control.py
 import json
 import aio_pika
 
 from core.communication_par_man import AMQP_URL
 
 
-async def force_irrigation(mqtt_client, current_moisture: float, irrigation_amount: float = 25.0):
+async def force_irrigation(mqtt_client=None, current_moisture: float = 0.0, irrigation_amount: float = 25.0):
     print(f"Publishing command to FORCE irrigate. (Current moisture: {current_moisture}%)", flush=True)
-
-    # Connessione a RabbitMQ e invio messaggio sulla coda AMQP del terreno
     conn = await aio_pika.connect_robust(AMQP_URL)
     async with conn:
         ch = await conn.channel()
@@ -20,9 +17,7 @@ async def force_irrigation(mqtt_client, current_moisture: float, irrigation_amou
 
 
 async def auto_irrigate(mqtt_client, current_moisture: float, min_moisture: float = 20.0, irrigation_amount: float = 25.0):
-    # Enforce minimum minimal_moisture floor of 20.0%
     minimal_moisture = max(min_moisture, 20.0)
-
     if current_moisture <= minimal_moisture:
         print(f"Moisture level ({current_moisture}%) fell below safety minimum ({minimal_moisture}%). Auto-irrigating!", flush=True)
         await force_irrigation(mqtt_client, current_moisture, irrigation_amount)

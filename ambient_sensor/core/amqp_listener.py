@@ -7,8 +7,11 @@ from core.mqtt_client import publish_data
 
 
 async def handle_skip(payload, state, mqtt):
-    days = payload.get("days", payload.get("payload", 1))
-    d_count = int(days) if str(days).isdigit() else 1
+    raw_days = payload.get("days", payload.get("payload", 1))
+    try:
+        d_count = int(raw_days)
+    except (ValueError, TypeError):
+        d_count = 1
 
     for _ in range(max(1, d_count)):
         update_environment(state)

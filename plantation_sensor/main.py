@@ -1,5 +1,6 @@
 import asyncio
 import json
+import ssl
 import aiomqtt
 
 from core.amqp_listener import consume_amqp_commands
@@ -42,27 +43,46 @@ async def listen_mqtt_telemetry(mqtt, state, dedup):
             pkt = json.loads(raw)
             if dedup.is_duplicate_or_stale(TELEMETRY_ENV_TOPIC, pkt.get("ts")):
                 continue
-            if "season" in pkt:
-                state["current_season"] = pkt.get("season", "winter")
-            advance_days(1)
+            
+            new_date = pkt.get("date")
+            if new_date and new_date != state.get("last_date"):
+                state["last_date"] = new_date
+                advance_days(1)
 
 
 async def worker(state, dedup):
-    client = aiomqtt.Client(MQTT_HOST, MQTT_PORT, username=MQTT_USER, password=MQTT_PASS)
+    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+
+    client = aiomqtt.Client(
+        MQTT_HOST,
+        MQTT_PORT,
+        username=MQTT_USER,
+        password=MQTT_PASS,
+        tls_context=ssl_ctx
+    )
     async with client:
         print("Plantation subsystem online.")
         t1 = asyncio.create_task(monitor_loop(client, state))
         t2 = asyncio.create_task(listen_mqtt_telemetry(client, state, dedup))
         t3 = asyncio.create_task(consume_amqp_commands(state, dedup, client))
 
-        done, _ = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+
+        # Annulla subito le altre task pendenti per sbloccare la riconnessione
+        for task in pending:
+            task.cancel()
+        if pending:
+            await asyncio.gather(*pending, return_exceptions=True)
+
         for task in done:
             if task.exception():
                 raise task.exception()
 
 
 async def main():
-    state = {"moisture": None, "current_season": "winter"}
+    state = {"moisture": None, "last_date": None}
     dedup = Deduper()
 
     while True:
@@ -73,4 +93,5 @@ async def main():
             await asyncio.sleep(5)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())

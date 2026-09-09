@@ -4,11 +4,14 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq-broker
     ports:
-      - "5672:5672"   # Porta AMQP per i servizi Python
-      - "15672:15672" # Dashboard Web (utente: farm_admin / pass: secure_farm)
+      - "5671:5671"   # AMQPS cifrato
+      - "15672:15672" # Management Dashboard
     environment:
       RABBITMQ_DEFAULT_USER: farm_admin
       RABBITMQ_DEFAULT_PASS: secure_farm
+    volumes:
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ./certs:/etc/rabbitmq/certs:ro
     networks:
       - farm_net
 
@@ -19,9 +22,10 @@ services:
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
     ports:
-      - "1883:1883"
+      - "8883:8883"   # MQTTS cifrato
     volumes:
       - ./config:/mosquitto/config
+      - ./certs:/mosquitto/certs:ro
     networks:
       - farm_net
 
@@ -30,13 +34,15 @@ services:
     container_name: ambient_sensor_app
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
-      - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
       - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
+      - RABBITMQ_PORT=5671
       - RABBITMQ_USER=farm_admin
       - RABBITMQ_PASS=secure_farm
+    volumes:
+      - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
       - rabbitmq
@@ -48,13 +54,15 @@ services:
     container_name: terrain_sensor_app
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
-      - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
       - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
+      - RABBITMQ_PORT=5671
       - RABBITMQ_USER=farm_admin
       - RABBITMQ_PASS=secure_farm
+    volumes:
+      - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
       - rabbitmq
@@ -66,13 +74,15 @@ services:
     container_name: plantation_sensor_app
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
-      - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
       - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
+      - RABBITMQ_PORT=5671
       - RABBITMQ_USER=farm_admin
       - RABBITMQ_PASS=secure_farm
+    volumes:
+      - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
       - rabbitmq
@@ -84,19 +94,38 @@ services:
     container_name: camp_manager_app
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
-      - MQTT_BROKER_PORT=1883
+      - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
       - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
+      - RABBITMQ_PORT=5671
       - RABBITMQ_USER=farm_admin
       - RABBITMQ_PASS=secure_farm
+    volumes:
+      - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
       - rabbitmq
     networks:
       - farm_net
-      
+
+  dashboard:
+    build: ./dashboard
+    container_name: dashboard_app
+    ports:
+      - "8501:8501"
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_net
+
   node-red:
     image: nodered/node-red:latest
     container_name: node-red
@@ -104,6 +133,7 @@ services:
       - "1880:1880"
     volumes:
       - node_red_data:/data
+      - ./certs:/data/certs:ro
     depends_on:
       - mqtt-broker
     networks:
@@ -115,7 +145,6 @@ networks:
 
 volumes:
   node_red_data:
-  
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
 #docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/irrigate" -m "trigger"  force irrigation
@@ -124,3 +153,6 @@ volumes:
 #python camp_manager/cmd.py irrigate
 #python camp_manager/cmd.py clear
 #python camp_manager/cmd.py skip 5
+
+#http://localhost:15672/#/queues
+#http://127.0.0.1:1880/#flow/f6f2187d.f17ca8

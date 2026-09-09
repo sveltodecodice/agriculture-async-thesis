@@ -12,7 +12,6 @@ from core.irrigation_control import force_irrigation
 from core.logger import clear_logs, log_event
 from core.plantation_control import clear_camp, plant_seed
 from core.seeds import list_seeds
-from core.time_control import force_skip_days
 
 
 async def handle_system_reset(mqtt, state):

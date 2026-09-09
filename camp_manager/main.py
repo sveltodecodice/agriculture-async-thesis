@@ -1,5 +1,6 @@
 import asyncio
 import json
+import ssl
 import aio_pika
 import aiomqtt
 
@@ -27,7 +28,11 @@ from core.seeds import list_seeds
 
 
 async def send_amqp_command(routing_key: str, data: dict):
-    conn = await aio_pika.connect_robust(AMQP_URL)
+    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+
+    conn = await aio_pika.connect_robust(AMQP_URL, ssl_context=ssl_ctx)
     async with conn:
         ch = await conn.channel()
         await ch.default_exchange.publish(
@@ -229,15 +234,32 @@ async def listen_telemetry(mqtt, state):
             pass
 
 
-async def worker(state):
-    client = aiomqtt.Client(MQTT_HOST, MQTT_PORT, username=MQTT_USER, password=MQTT_PASS)
+async def worker(state, dedup=None):
+    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
+
+    client = aiomqtt.Client(
+        MQTT_HOST,
+        MQTT_PORT,
+        username=MQTT_USER,
+        password=MQTT_PASS,
+        tls_context=ssl_ctx
+    )
     async with client:
-        print("Camp manager online.")
-        t1 = asyncio.create_task(auto_plant_monitor_loop(client, state))
-        t2 = asyncio.create_task(listen_telemetry(client, state))
+        print("Service online. Starting tasks...")
+
+        t1 = asyncio.create_task(listen_telemetry(client, state))
+        t2 = asyncio.create_task(auto_plant_monitor_loop(client, state))
         t3 = asyncio.create_task(consume_amqp_commands(state, client))
 
-        done, _ = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+
+        for task in pending:
+            task.cancel()
+        if pending:
+            await asyncio.gather(*pending, return_exceptions=True)
+
         for task in done:
             if task.exception():
                 raise task.exception()
@@ -270,4 +292,5 @@ async def main():
             await asyncio.sleep(5)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
