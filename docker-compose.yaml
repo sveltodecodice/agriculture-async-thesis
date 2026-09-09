@@ -1,10 +1,23 @@
 services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-broker
+    ports:
+      - "5672:5672"   # Porta AMQP per i servizi Python
+      - "15672:15672" # Dashboard Web (utente: farm_admin / pass: secure_farm)
+    environment:
+      RABBITMQ_DEFAULT_USER: farm_admin
+      RABBITMQ_DEFAULT_PASS: secure_farm
+    networks:
+      - farm_net
+
   mqtt-broker:
     image: eclipse-mosquitto:latest
     container_name: mqtt_broker
     environment:
-    - MQTT_BROKER_USER=farm_admin
-    - MQTT_BROKER_PASS=secure_farm
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
     ports:
       - "1883:1883"
     volumes:
@@ -20,8 +33,13 @@ services:
       - MQTT_BROKER_PORT=1883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=farm_admin
+      - RABBITMQ_PASS=secure_farm
     depends_on:
       - mqtt-broker
+      - rabbitmq
     networks:
       - farm_net
 
@@ -33,8 +51,13 @@ services:
       - MQTT_BROKER_PORT=1883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=farm_admin
+      - RABBITMQ_PASS=secure_farm
     depends_on:
       - mqtt-broker
+      - rabbitmq
     networks:
       - farm_net
 
@@ -46,8 +69,13 @@ services:
       - MQTT_BROKER_PORT=1883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=farm_admin
+      - RABBITMQ_PASS=secure_farm
     depends_on:
       - mqtt-broker
+      - rabbitmq
     networks:
       - farm_net
 
@@ -59,8 +87,13 @@ services:
       - MQTT_BROKER_PORT=1883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=farm_admin
+      - RABBITMQ_PASS=secure_farm
     depends_on:
       - mqtt-broker
+      - rabbitmq
     networks:
       - farm_net
       
