@@ -1,15 +1,17 @@
 from core.seeds import list_seeds
 
-plantation_state = {
-    "occupied": False,
-    "plant_name": None,
-    "min_moisture": 0.0,
-    "max_moisture": 0.0,
-    "time_left": 0
-}
+
+def create_default_plantation_state():
+    return {
+        "occupied": False,
+        "plant_name": None,
+        "min_moisture": 0.0,
+        "max_moisture": 0.0,
+        "time_left": 0
+    }
 
 
-def seed_planted(seed):
+def seed_planted(plantation_state: dict, seed):
     if isinstance(seed, dict):
         p_name = seed.get("name") or seed.get("seed") or seed.get("plant_name") or "Unknown"
     else:
@@ -34,7 +36,7 @@ def seed_planted(seed):
         plantation_state["time_left"] = int(harvest_t) if harvest_t is not None else 5
 
 
-def clear_field():
+def clear_field(plantation_state: dict):
     plantation_state["occupied"] = False
     plantation_state["plant_name"] = None
     plantation_state["min_moisture"] = 0.0
@@ -42,16 +44,16 @@ def clear_field():
     plantation_state["time_left"] = 0
 
 
-def reset():
-    clear_field()
+def reset(plantation_state: dict):
+    clear_field(plantation_state)
 
 
-def advance_days(days_passed: int = 1):
+def advance_days(plantation_state: dict, days_passed: int = 1):
     if plantation_state["occupied"] and plantation_state["time_left"] > 0:
         plantation_state["time_left"] = max(0, plantation_state["time_left"] - days_passed)
 
 
-def check_health(current_moisture: float) -> str:
+def check_health(plantation_state: dict, current_moisture: float) -> str:
     if not plantation_state["occupied"]:
         return "FIELD IS EMPTY"
     if current_moisture is None:
@@ -63,7 +65,7 @@ def check_health(current_moisture: float) -> str:
     return "HEALTHY"
 
 
-def get_status(current_moisture: float = None) -> dict:
+def get_status(plantation_state: dict, current_moisture: float = None) -> dict:
     ready_to_harvest = plantation_state["occupied"] and plantation_state["time_left"] == 0
 
     if not plantation_state["occupied"]:
@@ -80,7 +82,7 @@ def get_status(current_moisture: float = None) -> dict:
             "plant_name": plantation_state["plant_name"],
             "time_left": plantation_state["time_left"],
             "ready_to_harvest": ready_to_harvest,
-            "health": check_health(current_moisture),
+            "health": check_health(plantation_state, current_moisture),
             "min_soilmoisture": plantation_state["min_moisture"],
             "max_soilmoisture": plantation_state["max_moisture"],
         }

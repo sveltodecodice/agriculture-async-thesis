@@ -1,157 +1,1697 @@
 [
   {
-    "date": "04/03/2026",
-    "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 50.0% | Oxy: 70.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
-  },
-  {
     "date": "01/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 47.8% | Oxy: 66.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: Sunny | Moist: 50.0% | Oxy: 70.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
   },
   {
     "date": "02/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 61.0% | Oxy: 62.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 47.6% | Oxy: 62.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
   },
   {
-    "date": "02/01/2026",
+    "date": "03/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 46.6% | Oxy: 58.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "03/01/2026",
     "event": "AUTO_PLANT",
-    "details": "Auto-planted spinach | Temp: 13\u00b0C | Weather: rain | Moist: 61.0% | Oxy: 62.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: None"
-  },
-  {
-    "date": "03/01/2026",
-    "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 58.2% | Oxy: 58.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Tomato"
-  },
-  {
-    "date": "03/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "Triggered auto-irrigation | Temp: 16\u00b0C | Weather: sun | Moist: 58.2% | Oxy: 58.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Auto-planted wheat | Temp: 13\u00b0C | Weather: sun | Moist: 46.6% | Oxy: 58.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: None"
   },
   {
     "date": "04/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 85.1% | Oxy: 53.6% | Soil: Franco | Water: 15.0mm | Pump: ON | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 45.1% | Oxy: 54.8% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "05/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 82.6% | Oxy: 49.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 44.1% | Oxy: 51.1% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "06/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 80.1% | Oxy: 44.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 42.8% | Oxy: 47.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "07/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 77.6% | Oxy: 40.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 41.8% | Oxy: 43.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "08/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 91.1% | Oxy: 36.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 40.8% | Oxy: 39.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "09/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 88.6% | Oxy: 31.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 39.4% | Oxy: 36.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "10/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 26.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
-  },
-  {
-    "date": "10/01/2026",
-    "event": "AUTO_OXYGENATE",
-    "details": "Triggered auto-oxygenation | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 26.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 37.9% | Oxy: 32.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "11/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 95.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 36.7% | Oxy: 29.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 14\u00b0C | Weather: sun | Moist: 36.7% | Oxy: 29.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "12/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 90.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 35.7% | Oxy: 96.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "13/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 85.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 34.7% | Oxy: 92.8% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "14/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 81.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 33.4% | Oxy: 89.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "15/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 76.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 32.4% | Oxy: 85.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "16/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 94.8% | Oxy: 71.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 31.4% | Oxy: 82.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "17/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 92.1% | Oxy: 67.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 30.4% | Oxy: 78.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "18/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 89.8% | Oxy: 62.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 29.4% | Oxy: 74.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "19/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 87.3% | Oxy: 58.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 27.9% | Oxy: 71.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "20/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 84.6% | Oxy: 53.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 26.7% | Oxy: 67.8% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "21/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 81.9% | Oxy: 49.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 25.3% | Oxy: 64.4% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "22/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 79.2% | Oxy: 44.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 24.3% | Oxy: 61.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "23/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 92.7% | Oxy: 40.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 22.8% | Oxy: 57.6% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "24/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 90.2% | Oxy: 35.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 21.8% | Oxy: 54.1% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "25/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 31.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 20.4% | Oxy: 50.8% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "26/01/2026",
     "event": "DAILY_SNAPSHOT",
-    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 26.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 19.4% | Oxy: 47.5% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "27/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 18.0% | Oxy: 44.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 40.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.0% fino a 23.0% | Temp: 13\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 40.9% | Soil: Loam | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "29/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 36.9% | Oxy: 37.3% | Soil: Loam | Water: 15.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "30/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 35.4% | Oxy: 33.7% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 34.4% | Oxy: 30.1% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 32.9% | Oxy: 26.5% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 12\u00b0C | Weather: sun | Moist: 32.9% | Oxy: 26.5% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "02/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 31.6% | Oxy: 96.5% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 30.6% | Oxy: 92.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "04/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 29.2% | Oxy: 89.3% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 27.7% | Oxy: 85.7% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "06/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 26.3% | Oxy: 82.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 25.3% | Oxy: 78.8% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "08/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 23.8% | Oxy: 75.3% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 22.8% | Oxy: 71.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "10/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 21.3% | Oxy: 68.5% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 20.3% | Oxy: 65.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 19.0% | Oxy: 61.9% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "02/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 28.6% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 27.2% | Oxy: 63.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 25.7% | Oxy: 59.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "Auto-planted wheat | Temp: 13\u00b0C | Weather: sun | Moist: 25.7% | Oxy: 59.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: None"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 24.7% | Oxy: 56.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: None"
+  },
+  {
+    "date": "06/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 23.7% | Oxy: 52.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 22.7% | Oxy: 49.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "08/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 21.7% | Oxy: 46.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 20.5% | Oxy: 42.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 19.5% | Oxy: 39.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 18.1% | Oxy: 36.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 32.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.3% fino a 23.0% | Temp: 14\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 32.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 22.0% | Oxy: 29.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 13\u00b0C | Weather: sun | Moist: 22.0% | Oxy: 29.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "14/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 20.8% | Oxy: 96.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 19.8% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 18.7% | Oxy: 90.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "17/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 17.7% | Oxy: 86.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "17/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.3% fino a 23.0% | Temp: 14\u00b0C | Weather: rain | Moist: 17.7% | Oxy: 86.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "18/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 21.8% | Oxy: 83.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "19/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 20.8% | Oxy: 79.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 19.8% | Oxy: 76.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 29.0% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "02/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 27.6% | Oxy: 63.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 26.6% | Oxy: 59.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "Auto-planted wheat | Temp: 13\u00b0C | Weather: sun | Moist: 26.6% | Oxy: 59.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: None"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 25.6% | Oxy: 56.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 24.6% | Oxy: 52.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "06/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 23.6% | Oxy: 49.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 22.1% | Oxy: 45.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "08/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 20.7% | Oxy: 42.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 19.7% | Oxy: 39.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 18.7% | Oxy: 35.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 17.6% | Oxy: 32.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.4% fino a 23.0% | Temp: 16\u00b0C | Weather: sun | Moist: 17.6% | Oxy: 32.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 21.7% | Oxy: 28.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 12\u00b0C | Weather: sun | Moist: 21.7% | Oxy: 28.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 20.6% | Oxy: 96.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "14/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 19.3% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 18.1% | Oxy: 90.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 86.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 23.0% | Temp: 14\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 86.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "17/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 21.5% | Oxy: 83.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "18/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 20.3% | Oxy: 79.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "19/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 19.1% | Oxy: 76.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: rain | Moist: 18.1% | Oxy: 73.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "21/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 69.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "21/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 23.0% | Temp: 12\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 69.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "22/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 21.8% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "23/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 20.8% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "24/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: rain | Moist: 19.5% | Oxy: 59.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "25/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 18.5% | Oxy: 56.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
   },
   {
     "date": "26/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 17.2% | Oxy: 53.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.8% fino a 23.0% | Temp: 15\u00b0C | Weather: rain | Moist: 17.2% | Oxy: 53.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "27/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 22.0% | Oxy: 49.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 20.5% | Oxy: 46.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "29/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 19.3% | Oxy: 43.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "30/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 18.1% | Oxy: 39.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 36.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 23.0% | Temp: 15\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 36.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 21.9% | Oxy: 33.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "02/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 20.9% | Oxy: 29.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "02/02/2026",
     "event": "AUTO_OXYGENATE",
-    "details": "Triggered auto-oxygenation | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 26.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+    "details": "Triggered auto-oxygenation | Temp: 12\u00b0C | Weather: sun | Moist: 20.9% | Oxy: 29.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 19.6% | Oxy: 96.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "04/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 18.6% | Oxy: 93.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 90.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 23.0% | Temp: 16\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 90.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "06/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 22.0% | Oxy: 86.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 20.8% | Oxy: 83.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "08/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 19.8% | Oxy: 79.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 18.6% | Oxy: 76.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "10/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: rain | Moist: 17.6% | Oxy: 73.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "10/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.4% fino a 23.0% | Temp: 16\u00b0C | Weather: rain | Moist: 17.6% | Oxy: 73.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "11/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 22.0% | Oxy: 69.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 21.0% | Oxy: 66.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "13/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 19.7% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "14/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 18.2% | Oxy: 59.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 56.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 23.0% | Temp: 14\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 56.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "16/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 21.7% | Oxy: 53.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "17/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 20.5% | Oxy: 49.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "18/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 19.0% | Oxy: 46.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "19/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 18.0% | Oxy: 43.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "20/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 39.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "20/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.0% fino a 23.0% | Temp: 13\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 39.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "21/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 21.9% | Oxy: 36.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "22/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: rain | Moist: 20.9% | Oxy: 33.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "23/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 19.9% | Oxy: 29.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "23/02/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 16\u00b0C | Weather: sun | Moist: 19.9% | Oxy: 29.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "24/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 96.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "25/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 17.9% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "25/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.1% fino a 23.0% | Temp: 13\u00b0C | Weather: sun | Moist: 17.9% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "26/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 22.0% | Oxy: 89.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "27/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 20.5% | Oxy: 86.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "28/02/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 19.2% | Oxy: 83.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 14.8% | Oxy: 79.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.2% fino a 23.0% | Temp: 24\u00b0C | Weather: sun | Moist: 14.8% | Oxy: 79.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "02/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 19.2% | Oxy: 75.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 15.7% | Oxy: 71.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.3% fino a 23.0% | Temp: 21\u00b0C | Weather: sun | Moist: 15.7% | Oxy: 71.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "04/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 19.3% | Oxy: 67.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 15.5% | Oxy: 63.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.5% fino a 23.0% | Temp: 24\u00b0C | Weather: sun | Moist: 15.5% | Oxy: 63.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "06/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 20.1% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 55.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "07/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.3% fino a 23.0% | Temp: 24\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 55.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "08/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 20.2% | Oxy: 51.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: rain | Moist: 17.3% | Oxy: 47.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.7% fino a 23.0% | Temp: 21\u00b0C | Weather: rain | Moist: 17.3% | Oxy: 47.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "10/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 19.5% | Oxy: 43.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 39.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 23.0% | Temp: 22\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 39.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "12/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 35.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 15.7% | Oxy: 31.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.3% fino a 23.0% | Temp: 22\u00b0C | Weather: sun | Moist: 15.7% | Oxy: 31.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "14/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 27.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "14/03/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 25\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 27.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 16.0% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.0% fino a 23.0% | Temp: 24\u00b0C | Weather: sun | Moist: 16.0% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "16/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 18.1% | Oxy: 91.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 14.2% | Oxy: 87.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.8% fino a 23.0% | Temp: 25\u00b0C | Weather: sun | Moist: 14.2% | Oxy: 87.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "18/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: rain | Moist: 19.2% | Oxy: 83.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 15.0% | Oxy: 79.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.0% fino a 23.0% | Temp: 21\u00b0C | Weather: sun | Moist: 15.0% | Oxy: 79.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "20/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 20.1% | Oxy: 75.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: rain | Moist: 16.5% | Oxy: 70.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.5% fino a 23.0% | Temp: 24\u00b0C | Weather: rain | Moist: 16.5% | Oxy: 70.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "22/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 19.7% | Oxy: 67.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "23/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "23/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 23.0% | Temp: 21\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "24/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 20.4% | Oxy: 59.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 54.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 23.0% | Temp: 25\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 54.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 19.4% | Oxy: 50.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "27/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 46.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "27/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 23.0% | Temp: 22\u00b0C | Weather: sun | Moist: 16.6% | Oxy: 46.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "28/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 19.3% | Oxy: 42.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 15.9% | Oxy: 38.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.1% fino a 23.0% | Temp: 24\u00b0C | Weather: sun | Moist: 15.9% | Oxy: 38.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "30/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 18.7% | Oxy: 34.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 15.8% | Oxy: 30.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.2% fino a 23.0% | Temp: 22\u00b0C | Weather: sun | Moist: 15.8% | Oxy: 30.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 21.0% | Oxy: 26.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 20\u00b0C | Weather: sun | Moist: 21.0% | Oxy: 26.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 18.2% | Oxy: 96.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 15.1% | Oxy: 92.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.9% fino a 23.0% | Temp: 22\u00b0C | Weather: sun | Moist: 15.1% | Oxy: 92.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 20.6% | Oxy: 87.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "05/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 16.2% | Oxy: 83.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "06/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 12.8% | Oxy: 79.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "06/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.2% fino a 20.0% | Temp: 24\u00b0C | Weather: sun | Moist: 12.8% | Oxy: 79.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "07/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 75.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "07/04/2026",
+    "event": "AUTO_PLANT",
+    "details": "Auto-planted sunflower | Temp: 24\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 75.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: None"
+  },
+  {
+    "date": "08/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 14.2% | Oxy: 71.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "08/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +10.8% fino a 25.0% | Temp: 22\u00b0C | Weather: sun | Moist: 14.2% | Oxy: 71.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "09/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 21.6% | Oxy: 67.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "10/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: rain | Moist: 17.9% | Oxy: 63.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "10/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.1% fino a 25.0% | Temp: 21\u00b0C | Weather: rain | Moist: 17.9% | Oxy: 63.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "11/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 21.7% | Oxy: 59.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "12/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 55.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "12/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.1% fino a 25.0% | Temp: 22\u00b0C | Weather: sun | Moist: 18.9% | Oxy: 55.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "13/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 22.4% | Oxy: 51.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "14/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 18.1% | Oxy: 47.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "14/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.9% fino a 25.0% | Temp: 23\u00b0C | Weather: sun | Moist: 18.1% | Oxy: 47.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "15/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 22.4% | Oxy: 42.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "16/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 19.7% | Oxy: 38.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "16/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.3% fino a 25.0% | Temp: 23\u00b0C | Weather: sun | Moist: 19.7% | Oxy: 38.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "17/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 21.3% | Oxy: 34.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "18/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 18.5% | Oxy: 30.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "18/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.5% fino a 25.0% | Temp: 21\u00b0C | Weather: sun | Moist: 18.5% | Oxy: 30.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "19/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: rain | Moist: 22.7% | Oxy: 26.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "19/04/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 20\u00b0C | Weather: rain | Moist: 22.7% | Oxy: 26.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "20/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 18.6% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "20/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 25.0% | Temp: 24\u00b0C | Weather: sun | Moist: 18.6% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "21/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 22.0% | Oxy: 91.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "22/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 20.0% | Oxy: 87.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "23/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 83.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "23/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.3% fino a 25.0% | Temp: 22\u00b0C | Weather: sun | Moist: 16.7% | Oxy: 83.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "24/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 21.8% | Oxy: 79.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "25/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 18.7% | Oxy: 75.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "25/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.3% fino a 25.0% | Temp: 25\u00b0C | Weather: sun | Moist: 18.7% | Oxy: 75.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "26/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 22.2% | Oxy: 71.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "27/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 66.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "27/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.3% fino a 25.0% | Temp: 25\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 66.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "28/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: rain | Moist: 21.8% | Oxy: 62.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "29/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 18.6% | Oxy: 58.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "29/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.4% fino a 25.0% | Temp: 22\u00b0C | Weather: sun | Moist: 18.6% | Oxy: 58.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "30/04/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 20.6% | Oxy: 54.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "01/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 16.4% | Oxy: 50.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "01/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.6% fino a 25.0% | Temp: 25\u00b0C | Weather: sun | Moist: 16.4% | Oxy: 50.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "02/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 22.8% | Oxy: 46.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "03/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 20.0% | Oxy: 41.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "04/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 38.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "04/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.3% fino a 25.0% | Temp: 20\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 38.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "05/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: sun | Moist: 20.6% | Oxy: 34.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "06/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 30.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "06/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.0% fino a 25.0% | Temp: 20\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 30.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "07/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: rain | Moist: 20.6% | Oxy: 25.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "07/05/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 25\u00b0C | Weather: rain | Moist: 20.6% | Oxy: 25.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "08/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 24\u00b0C | Weather: sun | Moist: 16.4% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "08/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +8.6% fino a 25.0% | Temp: 24\u00b0C | Weather: sun | Moist: 16.4% | Oxy: 95.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "09/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 25\u00b0C | Weather: sun | Moist: 20.7% | Oxy: 91.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "10/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 21\u00b0C | Weather: rain | Moist: 17.6% | Oxy: 87.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "10/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +7.4% fino a 25.0% | Temp: 21\u00b0C | Weather: rain | Moist: 17.6% | Oxy: 87.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "11/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: rain | Moist: 21.9% | Oxy: 83.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "12/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: rain | Moist: 19.1% | Oxy: 79.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "12/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +5.9% fino a 25.0% | Temp: 22\u00b0C | Weather: rain | Moist: 19.1% | Oxy: 79.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "13/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: sun | Moist: 20.5% | Oxy: 75.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "14/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 22\u00b0C | Weather: rain | Moist: 18.1% | Oxy: 71.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "14/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Irrigato +6.9% fino a 25.0% | Temp: 22\u00b0C | Weather: rain | Moist: 18.1% | Oxy: 71.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Sunflower"
+  },
+  {
+    "date": "15/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 20\u00b0C | Weather: sun | Moist: 23.0% | Oxy: 67.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "16/05/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 23\u00b0C | Weather: sun | Moist: 20.1% | Oxy: 63.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Sunflower"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.6% | Temp: 14\u00b0C | Weather: sun | Moist: 14.4% | Oxy: 33.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.2% | Temp: 15\u00b0C | Weather: sun | Moist: 14.8% | Oxy: 29.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "18/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.8% | Temp: 14\u00b0C | Weather: sun | Moist: 14.2% | Oxy: 83.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "23/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.4% | Temp: 16\u00b0C | Weather: sun | Moist: 14.6% | Oxy: 67.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.3% | Temp: 16\u00b0C | Weather: rain | Moist: 14.7% | Oxy: 50.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.4% | Temp: 16\u00b0C | Weather: sun | Moist: 14.6% | Oxy: 37.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "07/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 12\u00b0C | Weather: rain | Moist: 14.0% | Oxy: 90.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.4% | Temp: 16\u00b0C | Weather: sun | Moist: 14.6% | Oxy: 29.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "12/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.7% | Temp: 14\u00b0C | Weather: rain | Moist: 14.3% | Oxy: 73.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "17/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.6% | Temp: 13\u00b0C | Weather: sun | Moist: 14.4% | Oxy: 57.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "22/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 15\u00b0C | Weather: sun | Moist: 14.0% | Oxy: 40.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.3% | Temp: 14\u00b0C | Weather: rain | Moist: 14.7% | Oxy: 86.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "21/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.1% | Temp: 15\u00b0C | Weather: sun | Moist: 14.9% | Oxy: 73.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.9% | Temp: 16\u00b0C | Weather: rain | Moist: 14.1% | Oxy: 56.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.3% | Temp: 12\u00b0C | Weather: rain | Moist: 13.7% | Oxy: 40.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.4% | Temp: 16\u00b0C | Weather: rain | Moist: 14.6% | Oxy: 96.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "17/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 16\u00b0C | Weather: rain | Moist: 14.3% | Oxy: 83.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.6% | Temp: 12\u00b0C | Weather: sun | Moist: 14.4% | Oxy: 80.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 25\u00b0C | Weather: sun | Moist: 14.0% | Oxy: 68.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "22/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 14\u00b0C | Weather: sun | Moist: 14.3% | Oxy: 66.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "07/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 23\u00b0C | Weather: sun | Moist: 14.0% | Oxy: 60.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +8.7% | Temp: 22\u00b0C | Weather: sun | Moist: 11.3% | Oxy: 52.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "27/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 14\u00b0C | Weather: sun | Moist: 14.3% | Oxy: 50.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "11/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +7.4% | Temp: 22\u00b0C | Weather: sun | Moist: 12.6% | Oxy: 44.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +7.5% | Temp: 23\u00b0C | Weather: rain | Moist: 12.5% | Oxy: 36.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[fortnite] Autoseminato wheat | Temp: 14\u00b0C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato wheat | Temp: 13\u00b0C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato wheat | Temp: 15\u00b0C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.3% | Temp: 12\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 35.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.5% | Temp: 15\u00b0C | Weather: rain | Moist: 17.5% | Oxy: 39.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 13\u00b0C | Weather: rain | Moist: 17.0% | Oxy: 90.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.1% | Temp: 12\u00b0C | Weather: rain | Moist: 16.9% | Oxy: 93.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "21/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.3% | Temp: 13\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 73.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 14\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 76.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.2% | Temp: 12\u00b0C | Weather: sun | Moist: 17.8% | Oxy: 56.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 13\u00b0C | Weather: sun | Moist: 17.2% | Oxy: 60.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.2% | Temp: 16\u00b0C | Weather: sun | Moist: 16.8% | Oxy: 43.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 14\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 96.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "10/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.2% | Temp: 13\u00b0C | Weather: sun | Moist: 17.8% | Oxy: 79.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "14/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 13\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 63.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.7% | Temp: 12\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 40.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.9% | Temp: 14\u00b0C | Weather: rain | Moist: 17.1% | Oxy: 41.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "19/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 14\u00b0C | Weather: rain | Moist: 17.2% | Oxy: 46.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.6% | Temp: 12\u00b0C | Weather: rain | Moist: 17.4% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "30/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.2% | Temp: 14\u00b0C | Weather: sun | Moist: 17.8% | Oxy: 27.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "24/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 13\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 29.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.7% | Temp: 16\u00b0C | Weather: rain | Moist: 17.3% | Oxy: 76.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "04/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.9% | Temp: 12\u00b0C | Weather: sun | Moist: 17.1% | Oxy: 83.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "01/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.7% | Temp: 21\u00b0C | Weather: sun | Moist: 15.3% | Oxy: 82.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "03/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.6% | Temp: 21\u00b0C | Weather: sun | Moist: 17.4% | Oxy: 74.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.4% | Temp: 16\u00b0C | Weather: sun | Moist: 17.6% | Oxy: 66.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.0% | Temp: 23\u00b0C | Weather: sun | Moist: 15.0% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "09/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.3% | Temp: 15\u00b0C | Weather: sun | Moist: 17.7% | Oxy: 39.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "07/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 20\u00b0C | Weather: sun | Moist: 17.2% | Oxy: 58.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "14/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.0% | Temp: 16\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 49.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.1% | Temp: 20\u00b0C | Weather: sun | Moist: 16.9% | Oxy: 51.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.1% | Temp: 14\u00b0C | Weather: sun | Moist: 17.9% | Oxy: 96.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "11/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.2% | Temp: 22\u00b0C | Weather: sun | Moist: 15.8% | Oxy: 43.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.5% | Temp: 23\u00b0C | Weather: sun | Moist: 15.5% | Oxy: 35.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "19/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.6% | Temp: 14\u00b0C | Weather: sun | Moist: 17.4% | Oxy: 32.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "18/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 13\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 80.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.1% | Temp: 24\u00b0C | Weather: sun | Moist: 15.9% | Oxy: 26.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.0% | Temp: 20\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 92.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "24/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.8% | Temp: 14\u00b0C | Weather: sun | Moist: 17.2% | Oxy: 86.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 21\u00b0C | Weather: sun | Moist: 17.2% | Oxy: 84.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "23/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.6% | Temp: 13\u00b0C | Weather: rain | Moist: 17.4% | Oxy: 63.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.7% | Temp: 21\u00b0C | Weather: sun | Moist: 16.3% | Oxy: 75.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "28/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.1% | Temp: 16\u00b0C | Weather: sun | Moist: 17.9% | Oxy: 73.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[fortnite] Autoseminato wheat | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato wheat | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato wheat | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +6.0% | Temp: 14\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 36.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 12\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 39.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.0% | Temp: 15\u00b0C | Weather: sun | Moist: 17.0% | Oxy: 36.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.1% | Temp: 16\u00b0C | Weather: sun | Moist: 17.9% | Oxy: 93.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 16\u00b0C | Weather: sun | Moist: 17.2% | Oxy: 93.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.4% | Temp: 15\u00b0C | Weather: sun | Moist: 17.6% | Oxy: 90.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[fortnite] Irrigato +5.7% | Temp: 15\u00b0C | Weather: sun | Moist: 17.3% | Oxy: 76.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Wheat"
   }
 ]

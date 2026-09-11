@@ -14,11 +14,11 @@ async def handle_command(action, state, dedup):
         state["oxygenation"] = 100.0
         print("Soil reoxygenated to 100.0%.")
     elif act in ("RESET", "RESTART"):
-        fresh = create_terrain_state(initial_moisture=50.0, initial_oxygen=70.0)
+        fresh = create_terrain_state(initial_moisture=30.0, initial_oxygen=70.0)
         state.clear()
         state.update(fresh)
         dedup.reset()
-        print("Terrain sensor state reset back to initial baseline.")
+        print("Terrain sensor state reset back to initial 30.0% baseline.")
 
 
 async def process_message(msg, state, dedup):
