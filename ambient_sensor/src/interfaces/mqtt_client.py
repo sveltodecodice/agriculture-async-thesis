@@ -1,7 +1,6 @@
 import asyncio
-import aiomqtt
 
-from .mqtt_utils import publish_json
+from interfaces.mqtt_utils import publish_json
 
 
 async def dispatch_payload(handler, raw_payload):

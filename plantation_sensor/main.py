@@ -3,7 +3,6 @@ import json
 import ssl
 import aiomqtt
 
-from core.amqp_listener import consume_amqp_commands
 from core.communication_par_pla import (
     MQTT_HOST,
     MQTT_PASS,
@@ -14,23 +13,29 @@ from core.communication_par_pla import (
     TELEMETRY_TERRAIN_TOPIC,
 )
 from core.mqtt_utils import Deduper, publish_json
-from core.plant_conditions import advance_days, get_status
+from core.plant_conditions import advance_days, clear_field, get_status, reset, seed_planted
 
 
 async def monitor_loop(mqtt, state):
     while True:
-        await asyncio.sleep(5)
+        await asyncio.sleep(3)
         status = get_status(state["moisture"])
         await publish_json(mqtt, PLANTATION_STATUS_TOPIC, status)
+
+        detail = status["status_detail"]
+        await mqtt.publish("plantation/plant_name", str(detail["plant_name"]))
+        await mqtt.publish("plantation/time_left", str(detail["time_left"]))
+        await mqtt.publish("plantation/health", str(detail["health"]))
 
 
 async def listen_mqtt_telemetry(mqtt, state, dedup):
     await mqtt.subscribe(TELEMETRY_TERRAIN_TOPIC)
     await mqtt.subscribe(TELEMETRY_ENV_TOPIC)
+    await mqtt.subscribe("plantation/cmd/#")
 
     async for msg in mqtt.messages:
         top = str(msg.topic)
-        raw = msg.payload.decode()
+        raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
 
         if top == TELEMETRY_TERRAIN_TOPIC:
             pkt = json.loads(raw)
@@ -43,11 +48,27 @@ async def listen_mqtt_telemetry(mqtt, state, dedup):
             pkt = json.loads(raw)
             if dedup.is_duplicate_or_stale(TELEMETRY_ENV_TOPIC, pkt.get("ts")):
                 continue
-            
+
             new_date = pkt.get("date")
             if new_date and new_date != state.get("last_date"):
                 state["last_date"] = new_date
                 advance_days(1)
+
+        elif top.startswith("plantation/cmd/"):
+            cmd = top.replace("plantation/cmd/", "").lower()
+            if cmd == "plant":
+                try:
+                    seed_data = json.loads(raw)
+                except Exception:
+                    seed_data = {"name": raw.strip()}
+                seed_planted(seed_data)
+                print(f"[PLANTATION SENSOR] Planted seed: {seed_data.get('name')}", flush=True)
+            elif cmd == "clear":
+                clear_field()
+                print("[PLANTATION SENSOR] Field cleared.", flush=True)
+            elif cmd in ("reset", "restart"):
+                reset()
+                print("[PLANTATION SENSOR] State reset.", flush=True)
 
 
 async def worker(state, dedup):
@@ -60,17 +81,16 @@ async def worker(state, dedup):
         MQTT_PORT,
         username=MQTT_USER,
         password=MQTT_PASS,
-        tls_context=ssl_ctx
+        tls_context=ssl_ctx,
+        identifier="plantation-sensor-app",
     )
     async with client:
-        print("Plantation subsystem online.")
+        print("[PLANTATION SENSOR] Subsystem online.", flush=True)
         t1 = asyncio.create_task(monitor_loop(client, state))
         t2 = asyncio.create_task(listen_mqtt_telemetry(client, state, dedup))
-        t3 = asyncio.create_task(consume_amqp_commands(state, dedup, client))
 
-        done, pending = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_EXCEPTION)
 
-        # Annulla subito le altre task pendenti per sbloccare la riconnessione
         for task in pending:
             task.cancel()
         if pending:
@@ -89,7 +109,7 @@ async def main():
         try:
             await worker(state, dedup)
         except Exception as err:
-            print(f"Plantation node connection dropped ({err}). Reconnecting in 5s...")
+            print(f"[PLANTATION SENSOR] Connection dropped ({err}). Reconnecting in 5s...", flush=True)
             await asyncio.sleep(5)
 
 

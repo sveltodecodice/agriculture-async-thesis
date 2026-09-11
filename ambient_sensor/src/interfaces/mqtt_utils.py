@@ -1,6 +1,4 @@
 """
-core/mqtt_utils.py
-
 Helpers condivisi tra i servizi MQTT del progetto:
 - publish_json: pubblica un dict come JSON, timbrato con un timestamp
   wall-clock ("ts"), cosi' tutti i servizi usano lo stesso formato.

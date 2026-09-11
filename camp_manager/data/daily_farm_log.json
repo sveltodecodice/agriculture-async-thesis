@@ -1,0 +1,157 @@
+[
+  {
+    "date": "04/03/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 50.0% | Oxy: 70.0% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 47.8% | Oxy: 66.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "02/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 61.0% | Oxy: 62.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: EMPTY"
+  },
+  {
+    "date": "02/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "Auto-planted spinach | Temp: 13\u00b0C | Weather: rain | Moist: 61.0% | Oxy: 62.2% | Soil: Loam | Water: 0.0mm | Pump: OFF | Plant: None"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 58.2% | Oxy: 58.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "Triggered auto-irrigation | Temp: 16\u00b0C | Weather: sun | Moist: 58.2% | Oxy: 58.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 85.1% | Oxy: 53.6% | Soil: Franco | Water: 15.0mm | Pump: ON | Plant: Tomato"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: sun | Moist: 82.6% | Oxy: 49.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "06/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 80.1% | Oxy: 44.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "07/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 77.6% | Oxy: 40.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "08/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: rain | Moist: 91.1% | Oxy: 36.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "09/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 88.6% | Oxy: 31.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 26.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "10/01/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 26.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 95.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 90.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "13/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 85.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "14/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 81.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 76.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 94.8% | Oxy: 71.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "17/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 15\u00b0C | Weather: sun | Moist: 92.1% | Oxy: 67.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "18/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 89.8% | Oxy: 62.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "19/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 87.3% | Oxy: 58.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 84.6% | Oxy: 53.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "21/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 16\u00b0C | Weather: sun | Moist: 81.9% | Oxy: 49.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "22/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 79.2% | Oxy: 44.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "23/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 92.7% | Oxy: 40.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "24/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 14\u00b0C | Weather: sun | Moist: 90.2% | Oxy: 35.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "25/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 12\u00b0C | Weather: rain | Moist: 100.0% | Oxy: 31.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "DAILY_SNAPSHOT",
+    "details": "Daily Farm Status | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 26.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  },
+  {
+    "date": "26/01/2026",
+    "event": "AUTO_OXYGENATE",
+    "details": "Triggered auto-oxygenation | Temp: 13\u00b0C | Weather: sun | Moist: 97.5% | Oxy: 26.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Tomato"
+  }
+]

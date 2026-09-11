@@ -1,13 +1,10 @@
 import asyncio
 import json
 import ssl
-import aio_pika
 import aiomqtt
 
-from core.amqp_listener import consume_amqp_commands
 from core.communication_par_man import (
     ACTIVITY_LOGS_TOPIC,
-    AMQP_URL,
     HARVEST_DEPOSIT_TOPIC,
     MQTT_HOST,
     MQTT_PASS,
@@ -27,20 +24,6 @@ from core.seed_matcher import find_top_3_seeds
 from core.seeds import list_seeds
 
 
-async def send_amqp_command(routing_key: str, data: dict):
-    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
-
-    conn = await aio_pika.connect_robust(AMQP_URL, ssl_context=ssl_ctx)
-    async with conn:
-        ch = await conn.channel()
-        await ch.default_exchange.publish(
-            aio_pika.Message(body=json.dumps(data).encode()),
-            routing_key=routing_key
-        )
-
-
 async def auto_plant_monitor_loop(mqtt, state):
     while True:
         await asyncio.sleep(5)
@@ -52,7 +35,7 @@ async def auto_plant_monitor_loop(mqtt, state):
         target = top_seeds[0] if top_seeds else list_seeds[0]
 
         log_msg = f"Field vacant for 3 days. Auto-planted {target['name']}."
-        print(log_msg)
+        print(f"[CAMP MANAGER] {log_msg}", flush=True)
         await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg)
 
         await plant_seed(mqtt, user_selected_seed=target)
@@ -69,7 +52,7 @@ async def process_plantation_status(mqtt, payload_bytes, state):
         detail = data.get("status_detail") or {}
         plant_name = detail.get("plant_name") if isinstance(detail, dict) else None
 
-        if not data.get("camp_availability", False) or not plant_name or plant_name == "None":
+        if not data.get("camp_availability", False) or not plant_name or plant_name in ("None", "Unknown"):
             state["occupied"] = False
             state["seed_name"] = None
             state["harvest_pending"] = False
@@ -86,7 +69,7 @@ async def process_plantation_status(mqtt, payload_bytes, state):
 
         state["harvest_pending"] = True
         log_msg = f"{state['seed_name']} growth complete! Auto-harvesting..."
-        print(log_msg)
+        print(f"[CAMP MANAGER] {log_msg}", flush=True)
         await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg)
 
         history = save_harvest(state["seed_name"], state.get("date"))
@@ -99,58 +82,81 @@ async def process_plantation_status(mqtt, payload_bytes, state):
         state["occupied"] = False
         state["seed_name"] = None
     except Exception as err:
-        print(f"Plantation status error: {err}")
+        print(f"[CAMP MANAGER] Plantation status error: {err}", flush=True)
 
 
 async def handle_env_telemetry(raw, state):
-    data = json.loads(raw)
-    state["season"] = data.get("season", state["season"])
-    state["date"] = data.get("date", state.get("date"))
-    state["temperature"] = data.get("temperature", state.get("temperature", 20))
-    state["weather"] = data.get("weather", state.get("weather", "Sunny"))
+    try:
+        data = json.loads(raw)
+        if isinstance(data, dict):
+            state["season"] = data.get("season", state["season"])
+            state["date"] = data.get("date", state.get("date"))
+            state["temperature"] = data.get("temperature", state.get("temperature", 20))
+            state["weather"] = data.get("weather", state.get("weather", "Sunny"))
+            state["wind_kmh"] = data.get("wind_kmh", 10.0)
+            state["radiation_wm2"] = data.get("radiation_wm2", 500.0)
+            state["rain_mm"] = data.get("rain_mm", 0.0)
+            state["humidity_air"] = data.get("humidity_air", 50.0)
 
-    if not state["occupied"]:
-        state["empty_days"] += 1
-    else:
-        state["empty_days"] = 0
+            if not state["occupied"]:
+                state["empty_days"] += 1
+            else:
+                state["empty_days"] = 0
+    except Exception:
+        pass
 
 
 async def handle_terrain_telemetry(mqtt, raw, state):
-    data = json.loads(raw)
-    state["moisture"] = data.get("soil_moisture", 50.0)
-    state["oxygenation"] = data.get("oxygenation", 70.0)
-    state["irrigation_active"] = data.get("irrigation_active", False)
-    state["date"] = data.get("date", state.get("date"))
+    try:
+        data = json.loads(raw)
+        if not isinstance(data, dict):
+            return
 
-    if state["date"] != state["last_log_date"]:
-        state["last_log_date"] = state["date"]
-        logs = log_event("DAILY_SNAPSHOT", "Daily Farm Status", state["date"], stats=state)
-        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+        state["moisture"] = data.get("soil_moisture", 50.0)
+        state["oxygenation"] = data.get("oxygenation", 70.0)
+        state["irrigation_active"] = data.get("irrigation_active", False)
+        state["soil_type"] = data.get("soil_type", state.get("soil_type", "Loam"))
+        state["water_dispensed_mm"] = data.get("water_dispensed_mm", 0.0)
+        state["date"] = data.get("date", state.get("date"))
 
-    top_seeds = find_top_3_seeds(state["moisture"], state.get("season", "spring"))
-    top_names = [s["name"].capitalize() for s in top_seeds[:3]]
-    await mqtt.publish(TOP_SEEDS_TOPIC, "Top 3 Seeds: " + ", ".join(top_names))
+        if state["date"] != state["last_log_date"]:
+            state["last_log_date"] = state["date"]
+            logs = log_event("DAILY_SNAPSHOT", "Daily Farm Status", state["date"], stats=state)
+            await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
-    target_min = state["min_moisture"] if state["occupied"] else 20.0
+        top_seeds = find_top_3_seeds(state["moisture"], state.get("season", "spring"))
+        top_names = [s["name"].capitalize() for s in top_seeds[:3]]
+        await mqtt.publish(TOP_SEEDS_TOPIC, "Top 3 Seeds: " + ", ".join(top_names))
 
-    if state["moisture"] <= max(target_min, 20.0) and not state["irrigation_active"]:
-        await auto_irrigate(mqtt, current_moisture=state["moisture"], min_moisture=target_min)
-        await mqtt.publish(NOTIFICATIONS_TOPIC, f"Auto-irrigating! Moisture at {state['moisture']}%.")
-        logs = log_event("AUTO_IRRIGATE", "Triggered auto-irrigation", state.get("date"), stats=state)
-        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+        target_min = state["min_moisture"] if state["occupied"] else 20.0
 
-    if state["oxygenation"] < 30.0:
-        await send_amqp_command("cmd_terrain", {"action": "REOXYGENATE"})
-        await mqtt.publish(NOTIFICATIONS_TOPIC, f"Auto-oxygenating! Level at {state['oxygenation']}%.")
-        logs = log_event("AUTO_OXYGENATE", "Triggered auto-oxygenation", state.get("date"), stats=state)
-        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+        if state["moisture"] <= max(target_min, 20.0) and not state["irrigation_active"]:
+            await auto_irrigate(mqtt, current_moisture=state["moisture"], min_moisture=target_min)
+            await mqtt.publish(NOTIFICATIONS_TOPIC, f"Auto-irrigating! Moisture at {state['moisture']}%.")
+            logs = log_event("AUTO_IRRIGATE", "Triggered auto-irrigation", state.get("date"), stats=state)
+            await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+
+        if state["oxygenation"] < 30.0:
+            await mqtt.publish("terrain/cmd/reoxygenate", "trigger")
+            await mqtt.publish(NOTIFICATIONS_TOPIC, f"Auto-oxygenating! Level at {state['oxygenation']}%.")
+            logs = log_event("AUTO_OXYGENATE", "Triggered auto-oxygenation", state.get("date"), stats=state)
+            await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+    except Exception:
+        pass
 
 
 async def handle_dashboard_command(mqtt, cmd, raw, state):
+    clean_raw = raw.strip()
+    parsed_json = None
+    try:
+        parsed_json = json.loads(clean_raw)
+    except Exception:
+        pass
+
     if cmd == "plant":
-        seed_name = raw.strip().lower()
-        target = next((s for s in list_seeds if s["name"].lower() == seed_name), None)
-        selected = target if target else {"name": raw.strip()}
+        seed_name = parsed_json.get("seed") if isinstance(parsed_json, dict) else clean_raw.lower()
+        target = next((s for s in list_seeds if s["name"].lower() == str(seed_name).lower()), None)
+        selected = target if target else {"name": seed_name}
         await plant_seed(mqtt, user_selected_seed=selected)
         state["empty_days"] = 0
         state["occupied"] = True
@@ -164,22 +170,28 @@ async def handle_dashboard_command(mqtt, cmd, raw, state):
         state["seed_name"] = None
         state["harvest_pending"] = False
 
-    elif cmd == "skip":
-        try:
-            days = int(raw.strip())
-        except ValueError:
-            try:
-                days = int(json.loads(raw).get("days", 1))
-            except Exception:
-                days = 1
+    elif cmd in ("skip", "skipdays", "skip_days"):
+        days = 1
+        if isinstance(parsed_json, dict):
+            days = int(parsed_json.get("days", 1))
+        elif clean_raw.isdigit():
+            days = int(clean_raw)
 
-        await send_amqp_command("cmd_environment", {"action": "SKIP", "days": days})
+        await mqtt.publish("environment/cmd/skip", str(days))
         if not state["occupied"]:
             state["empty_days"] += days
 
+        print(f"[CAMP MANAGER] Dispatched SKIP command for {days} days.", flush=True)
+        await mqtt.publish(NOTIFICATIONS_TOPIC, f"Skipped {days} days.")
+
     elif cmd == "reoxygenate":
-        await send_amqp_command("cmd_terrain", {"action": "REOXYGENATE"})
+        await mqtt.publish("terrain/cmd/reoxygenate", "trigger")
         await mqtt.publish(NOTIFICATIONS_TOPIC, "Soil manually reoxygenated.")
+
+    elif cmd in ("set_soil_type", "soil_type"):
+        soil_type = parsed_json.get("type") if isinstance(parsed_json, dict) else clean_raw
+        await mqtt.publish("terrain/cmd/set_soil_type", str(soil_type))
+        await mqtt.publish(NOTIFICATIONS_TOPIC, f"Soil type changed to {soil_type}.")
 
     elif cmd in ("reset", "restart"):
         with open(FILE_PATH, "w") as f:
@@ -190,7 +202,8 @@ async def handle_dashboard_command(mqtt, cmd, raw, state):
             "temperature": 20, "weather": "Sunny", "irrigation_active": False,
             "season": "winter", "date": "01/01/2026", "last_log_date": None,
             "seed_name": None, "min_moisture": 20.0, "max_moisture": 80.0,
-            "time_left": 0, "harvest_pending": False,
+            "time_left": 0, "harvest_pending": False, "soil_type": "Loam",
+            "water_dispensed_mm": 0.0,
         })
 
         clear_logs()
@@ -198,11 +211,12 @@ async def handle_dashboard_command(mqtt, cmd, raw, state):
         await mqtt.publish(HARVEST_DEPOSIT_TOPIC, "Harvest Deposit: Empty")
         await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps([]))
 
-        for q in ("cmd_environment", "cmd_terrain", "cmd_plantation"):
-            await send_amqp_command(q, {"action": "RESET"})
+        await mqtt.publish("environment/cmd/reset", "01/01/2026")
+        await mqtt.publish("terrain/cmd/reset", "trigger")
+        await mqtt.publish("plantation/cmd/reset", "trigger")
 
         await mqtt.publish(NOTIFICATIONS_TOPIC, "System reset complete.")
-        print("Full system reset complete.")
+        print("[CAMP MANAGER] Full system reset complete.", flush=True)
 
 
 async def listen_telemetry(mqtt, state):
@@ -234,7 +248,7 @@ async def listen_telemetry(mqtt, state):
             pass
 
 
-async def worker(state, dedup=None):
+async def worker(state):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
     ssl_ctx.check_hostname = False
     ssl_ctx.verify_mode = ssl.CERT_NONE
@@ -244,16 +258,16 @@ async def worker(state, dedup=None):
         MQTT_PORT,
         username=MQTT_USER,
         password=MQTT_PASS,
-        tls_context=ssl_ctx
+        tls_context=ssl_ctx,
+        identifier="camp-manager-app",
     )
     async with client:
-        print("Service online. Starting tasks...")
+        print("[CAMP MANAGER] Service online. Starting tasks...", flush=True)
 
         t1 = asyncio.create_task(listen_telemetry(client, state))
         t2 = asyncio.create_task(auto_plant_monitor_loop(client, state))
-        t3 = asyncio.create_task(consume_amqp_commands(state, client))
 
-        done, pending = await asyncio.wait([t1, t2, t3], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_EXCEPTION)
 
         for task in pending:
             task.cancel()
@@ -282,13 +296,19 @@ async def main():
         "max_moisture": 80.0,
         "time_left": 0,
         "harvest_pending": False,
+        "soil_type": "Loam",
+        "water_dispensed_mm": 0.0,
+        "wind_kmh": 10.0,
+        "radiation_wm2": 500.0,
+        "rain_mm": 0.0,
+        "humidity_air": 50.0,
     }
 
     while True:
         try:
             await worker(state)
         except Exception as err:
-            print(f"Camp manager connection dropped ({err}). Reconnecting in 5s...")
+            print(f"[CAMP MANAGER] Connection dropped ({err}). Reconnecting in 5s...", flush=True)
             await asyncio.sleep(5)
 
 
