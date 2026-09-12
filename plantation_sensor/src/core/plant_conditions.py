@@ -1,4 +1,5 @@
-from core.seeds import list_seeds
+
+from common.constants import SEEDS_LST
 
 
 def create_default_plantation_state():
@@ -18,7 +19,7 @@ def seed_planted(plantation_state: dict, seed):
         p_name = str(seed).strip()
 
     search_term = p_name.lower()
-    full_seed = next((s for s in list_seeds if s["name"].lower() == search_term), None)
+    full_seed = next((s for s in SEEDS_LST if s["name"].lower() == search_term), None)
 
     plantation_state["occupied"] = True
     plantation_state["plant_name"] = full_seed["name"].capitalize() if full_seed else p_name.capitalize()

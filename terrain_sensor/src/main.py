@@ -3,7 +3,7 @@ import json
 import ssl
 import aiomqtt
 
-from core.communication_par_ter import (
+from common.parameters import (
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -11,8 +11,7 @@ from core.communication_par_ter import (
 )
 from core.mqtt_utils import Deduper, publish_json
 from core.terrain_condition import create_terrain_state, process_terrain_update
-
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+from common.constants import KNOWN_CAMPS
 
 
 async def listen_mqtt_telemetry(client, camp_states, dedup):

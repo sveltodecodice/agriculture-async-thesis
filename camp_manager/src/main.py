@@ -3,7 +3,8 @@ import json
 import ssl
 import aiomqtt
 
-from core.communication_par_man import (
+from common.constants import DEFAULT_STATE, KNOWN_CAMPS, SEED_TARGETS
+from common.parameters import (
     ACTIVITY_LOGS_TOPIC,
     HARVEST_DEPOSIT_TOPIC,
     MQTT_HOST,
@@ -16,41 +17,7 @@ from core.harvest_deposit import save_harvest
 from core.logger import log_event
 from core.plantation_control import clear_camp, plant_seed
 from core.seed_matcher import find_top_3_seeds
-from core.seeds import list_seeds
-
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
-
-SEED_TARGETS = {
-    "wheat": 18.0, "grano": 18.0,
-    "corn": 22.0, "mais": 22.0,
-    "potato": 23.0, "patate": 23.0,
-    "carrot": 24.0, "carote": 24.0,
-    "tomato": 25.0, "pomodoro": 25.0,
-    "zucchini": 26.0, "zucchine": 26.0,
-    "lettuce": 28.0, "insalata": 28.0,
-    "spinach": 30.0, "spinaci": 30.0,
-    "sunflower": 20.0, "girasole": 20.0,
-}
-
-
-def create_default_state():
-    return {
-        "occupied": False,
-        "empty_days": 0,
-        "moisture": 28.0,
-        "oxygenation": 70.0,
-        "temperature": 20,
-        "weather": "Sunny",
-        "irrigation_active": False,
-        "season": "winter",
-        "date": "01/01/2026",
-        "seed_name": None,
-        "min_moisture": 18.0,
-        "time_left": 0,
-        "harvest_pending": False,
-        "soil_type": "Franco",
-        "water_dispensed_mm": 0.0,
-    }
+from common.seeds import SEEDS_LST
 
 
 async def auto_plant_monitor_loop(mqtt, camp_id, state):
@@ -61,7 +28,7 @@ async def auto_plant_monitor_loop(mqtt, camp_id, state):
 
         season = state.get("season", "spring")
         top_seeds = find_top_3_seeds(state["moisture"], season)
-        target = top_seeds[0] if top_seeds else list_seeds[0]
+        target = top_seeds[0] if top_seeds else SEEDS_LST[0]
 
         log_msg = f"[{camp_id.upper()}] Campo libero. Autosemina avviata: {target['name'].capitalize()}."
         print(f"[CAMP MANAGER] {log_msg}", flush=True)
@@ -181,7 +148,7 @@ async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
 
     if cmd == "plant":
         seed_name = parsed_json.get("seed") if isinstance(parsed_json, dict) else clean_raw.lower()
-        target = next((s for s in list_seeds if s["name"].lower() == str(seed_name).lower()), None)
+        target = next((s for s in SEEDS_LST if s["name"].lower() == str(seed_name).lower()), None)
         selected = target if target else {"name": seed_name}
         await plant_seed(mqtt, user_selected_seed=selected, camp_id=camp_id)
         state["empty_days"] = 0
@@ -213,7 +180,7 @@ async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
         await mqtt.publish(f"camp/{camp_id}/terrain/cmd/reoxygenate", "trigger")
 
     elif cmd in ("reset", "restart"):
-        state.update(create_default_state())
+        state.update(DEFAULT_STATE)
 
 
 async def listen_telemetry(mqtt, camp_states):
@@ -233,7 +200,7 @@ async def listen_telemetry(mqtt, camp_states):
             continue
 
         if camp_id not in camp_states:
-            camp_states[camp_id] = create_default_state()
+            camp_states[camp_id] = DEFAULT_STATE
 
         state = camp_states[camp_id]
 
@@ -284,7 +251,7 @@ async def worker(camp_states):
 
 
 async def main():
-    camp_states = {cid: create_default_state() for cid in KNOWN_CAMPS}
+    camp_states = {cid: DEFAULT_STATE for cid in KNOWN_CAMPS}
 
     while True:
         try:

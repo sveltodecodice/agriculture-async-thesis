@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Command to run the application (pointing to your main.py inside core)
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]

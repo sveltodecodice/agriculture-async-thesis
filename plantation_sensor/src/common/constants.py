@@ -1,4 +1,6 @@
-list_seeds = [
+KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+
+SEEDS_LST = [
     {
         "name": "tomato",
         "min_soilmoisture": 60, "max_soilmoisture": 80,

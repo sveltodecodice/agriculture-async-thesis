@@ -7903,5 +7903,10 @@
     "date": "28/03/2026",
     "event": "AUTO_IRRIGATE",
     "details": "[campo_3] Irrigato +5.1% | Temp: 21\u00b0C | Weather: sun | Moist: 29.9% | Oxy: 83.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
+  },
+  {
+    "date": "14/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.8% | Temp: 22\u00b0C | Weather: cloudy | Moist: 28.2% | Oxy: 73.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   }
 ]

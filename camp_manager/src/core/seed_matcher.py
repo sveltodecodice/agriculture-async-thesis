@@ -1,4 +1,4 @@
-from core.seeds import list_seeds
+from common.seeds import SEEDS_LST
 
 def evaluate_season_ok(seed: dict, season: str) -> bool:
     if not season:
@@ -20,10 +20,10 @@ def evaluate_seed(seed: dict, moisture: float, season: str) -> dict:
 
 def find_top_3_seeds(moisture, season):
     # Filter by season first
-    seasonal_matches = [s for s in list_seeds if evaluate_season_ok(s, season)]
+    seasonal_matches = [s for s in SEEDS_LST if evaluate_season_ok(s, season)]
     
     # Fall back to full database if fewer than 3 strict season matches are found
-    candidate_list = seasonal_matches if len(seasonal_matches) >= 3 else list_seeds
+    candidate_list = seasonal_matches if len(seasonal_matches) >= 3 else SEEDS_LST
     
     # Sort candidates by soil moisture proximity
     sorted_seeds = sorted(candidate_list, key=lambda s: abs(s.get("min_soilmoisture", 20.0) - moisture))

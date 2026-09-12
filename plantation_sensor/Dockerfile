@@ -12,4 +12,4 @@ COPY . .
 # Ensure core module imports resolve properly
 ENV PYTHONPATH=/app
 
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]

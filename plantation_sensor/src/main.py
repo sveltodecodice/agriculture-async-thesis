@@ -3,7 +3,7 @@ import json
 import ssl
 import aiomqtt
 
-from core.communication_par_pla import (
+from common.parameters import (
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -18,8 +18,7 @@ from core.plant_conditions import (
     reset,
     seed_planted,
 )
-
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+from common.constants import KNOWN_CAMPS
 
 
 def create_camp_context():
