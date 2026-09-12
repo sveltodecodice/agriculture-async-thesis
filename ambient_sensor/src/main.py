@@ -2,7 +2,7 @@ import asyncio
 import ssl
 import aiomqtt
 
-from core.communication_par_amb import (
+from common.parameters import (
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -10,8 +10,6 @@ from core.communication_par_amb import (
 )
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
-
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 
 async def publish_loop(client, managers):
