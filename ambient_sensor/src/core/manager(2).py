@@ -46,21 +46,21 @@ class SensorManager:
             ValueError: If the supplied date is invalid.
         """
         self.state = self._create_timer_state(d, m, y)
-        
+
     def get_state(self):
         """
         Return current state object.
-        
-        Args: 
+
+        Args:
             None
-        
+
         Returns:
             Dict: Current state in dictionary format
-        
-        Raises: 
+
+        Raises:
             None
         """
-        
+
         return self.state
 
     def get_formatted_date(self) -> str:

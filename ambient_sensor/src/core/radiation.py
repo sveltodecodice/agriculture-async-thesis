@@ -2,6 +2,7 @@ import random
 
 from common.constants import SEASONS_DEFAULT
 
+
 def get_radiation(season: str, weather: str) -> float:
     w = str(weather).lower()
     if w in ("rain", "rainy", "pioggia"):

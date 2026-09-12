@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import ssl
 import aiomqtt
 
@@ -9,7 +10,8 @@ from common.parameters import (
     MQTT_PORT,
     MQTT_USER,
 )
-from core.mqtt_utils import Deduper, publish_json
+from utils.logger_utils import LoggingUtils
+from utils.mqtt_utils import Deduper, publish_json
 from core.plant_conditions import (
     advance_days,
     clear_field,
@@ -19,6 +21,12 @@ from core.plant_conditions import (
     seed_planted,
 )
 from common.constants import KNOWN_CAMPS
+
+LoggingUtils.configure(
+    console_level=logging.INFO,
+)
+
+logger = LoggingUtils.get_logger(__name__)
 
 
 def create_camp_context():
@@ -38,9 +46,15 @@ async def monitor_loop(mqtt, camp_contexts):
             await publish_json(mqtt, status_topic, status)
 
             detail = status["status_detail"]
-            await mqtt.publish(f"camp/{camp_id}/plantation/plant_name", str(detail["plant_name"]))
-            await mqtt.publish(f"camp/{camp_id}/plantation/time_left", str(detail["time_left"]))
-            await mqtt.publish(f"camp/{camp_id}/plantation/health", str(detail["health"]))
+            await mqtt.publish(
+                f"camp/{camp_id}/plantation/plant_name", str(detail["plant_name"])
+            )
+            await mqtt.publish(
+                f"camp/{camp_id}/plantation/time_left", str(detail["time_left"])
+            )
+            await mqtt.publish(
+                f"camp/{camp_id}/plantation/health", str(detail["health"])
+            )
 
 
 async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
@@ -50,7 +64,11 @@ async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
 
     async for msg in mqtt.messages:
         top = str(msg.topic)
-        raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
+        raw = (
+            msg.payload.decode("utf-8")
+            if isinstance(msg.payload, bytes)
+            else str(msg.payload)
+        )
 
         parts = top.split("/")
         if len(parts) >= 2 and parts[0] == "camp":
@@ -88,13 +106,17 @@ async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
                 except Exception:
                     seed_data = {"name": raw.strip()}
                 seed_planted(ctx["plantation"], seed_data)
-                print(f"[PLANTATION SENSOR] [{camp_id.upper()}] Planted seed: {seed_data.get('name')}", flush=True)
+                logging.info(
+                    f"[{camp_id.upper()}] Planted seed: {seed_data.get('name')}",
+                )
             elif cmd == "clear":
                 clear_field(ctx["plantation"])
-                print(f"[PLANTATION SENSOR] [{camp_id.upper()}] Field cleared.", flush=True)
+                logging.info(
+                    f"[{camp_id.upper()}] Field cleared.",
+                )
             elif cmd in ("reset", "restart"):
                 reset(ctx["plantation"])
-                print(f"[PLANTATION SENSOR] [{camp_id.upper()}] State reset.", flush=True)
+                logging.info(f"[{camp_id.upper()}] State reset.")
 
 
 async def worker(camp_contexts, dedup):
@@ -111,11 +133,13 @@ async def worker(camp_contexts, dedup):
         identifier="plantation-sensor-app",
     )
     async with client:
-        print("[PLANTATION SENSOR] Multi-camp subsystem online.", flush=True)
+        logging.info("Multi-camp subsystem online.")
         t1 = asyncio.create_task(monitor_loop(client, camp_contexts))
         t2 = asyncio.create_task(listen_mqtt_telemetry(client, camp_contexts, dedup))
 
-        done, pending = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait(
+            [t1, t2], return_when=asyncio.FIRST_EXCEPTION
+        )
 
         for task in pending:
             task.cancel()
@@ -135,7 +159,9 @@ async def main():
         try:
             await worker(camp_contexts, dedup)
         except Exception as err:
-            print(f"[PLANTATION SENSOR] Connection dropped ({err}). Reconnecting in 5s...", flush=True)
+            logging.error(
+                f"Connection dropped ({err}). Reconnecting in 5s...",
+            )
             await asyncio.sleep(5)
 
 

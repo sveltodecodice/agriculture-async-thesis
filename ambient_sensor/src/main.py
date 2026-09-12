@@ -1,6 +1,7 @@
 import asyncio
 import ssl
 import aiomqtt
+import logging
 
 from common.parameters import (
     MQTT_HOST,
@@ -11,6 +12,13 @@ from common.parameters import (
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
 from common.constants import KNOWN_CAMPS
+from utils.logger_utils import LoggingUtils
+
+LoggingUtils.configure(
+    console_level=logging.INFO,
+)
+
+logger = LoggingUtils.get_logger(__name__)
 
 
 async def publish_loop(client, managers):
@@ -29,7 +37,11 @@ async def listen_mqtt_commands(client, managers):
 
     async for msg in client.messages:
         top = str(msg.topic)
-        raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
+        raw = (
+            msg.payload.decode("utf-8")
+            if isinstance(msg.payload, bytes)
+            else str(msg.payload)
+        )
 
         parts = top.split("/")
         if len(parts) >= 2 and parts[0] == "camp":
@@ -56,14 +68,15 @@ async def listen_mqtt_commands(client, managers):
                 await publish_data(client, topic, st)
                 await asyncio.sleep(0.1)
 
-            print(
-                f"[AMBIENT SENSOR] [{camp_id.upper()}] Skipped {days} days. Current date: {st['day']:02d}/{st['month']:02d}/{st['year']}",
-                flush=True,
+            logger.info(
+                f"[{camp_id.upper()}] Skipped {days} days. Current date: {st['day']:02d}/{st['month']:02d}/{st['year']}",
             )
 
         elif top.endswith("/reset"):
             manager._create_timer_state(d=1, m=1, y=2026)
-            print(f"[AMBIENT SENSOR] [{camp_id.upper()}] Environment state reset to 01/01/2026.", flush=True)
+            logger.info(
+                f"[{camp_id.upper()}] Environment state reset to 01/01/2026.",
+            )
             topic = f"camp/{camp_id}/environment/telemetry"
             await publish_data(client, topic, manager.get_state())
 
@@ -82,12 +95,16 @@ async def worker(managers):
         identifier="ambient-sensor-app",
     )
     async with client:
-        print("[AMBIENT SENSOR] Multi-camp service online. Starting tasks...", flush=True)
+        logger.info(
+            "Multi-camp service online. Starting tasks...",
+        )
 
         t1 = asyncio.create_task(publish_loop(client, managers))
         t2 = asyncio.create_task(listen_mqtt_commands(client, managers))
 
-        done, pending = await asyncio.wait([t1, t2], return_when=asyncio.FIRST_EXCEPTION)
+        done, pending = await asyncio.wait(
+            [t1, t2], return_when=asyncio.FIRST_EXCEPTION
+        )
 
         for task in pending:
             task.cancel()
@@ -101,13 +118,17 @@ async def worker(managers):
 
 async def main():
     managers = {cid: SensorManager(d=1, m=1, y=2026) for cid in KNOWN_CAMPS}
-    print("[AMBIENT SENSOR] Starting multi-camp ambient node...", flush=True)
+    logger.info(
+        "Starting multi-camp ambient node...",
+    )
 
     while True:
         try:
             await worker(managers)
         except Exception as err:
-            print(f"[AMBIENT SENSOR] Connection dropped ({err}). Reconnecting in 5s...", flush=True)
+            logger.error(
+                f"Connection dropped ({err}). Reconnecting in 5s...",
+            )
             await asyncio.sleep(5)
 
 

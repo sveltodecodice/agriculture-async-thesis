@@ -1,5 +1,6 @@
 import random
 
+
 def get_wind_speed(season: str, weather: str) -> float:
     w = str(weather).lower()
     if w in ("rain", "rainy"):

@@ -2,6 +2,7 @@ import random
 
 from common.constants import WEATHER_PROBS
 
+
 def get_weather_condition(season: str) -> str:
     if season not in WEATHER_PROBS:
         raise ValueError(f"Invalid season: {season}.")

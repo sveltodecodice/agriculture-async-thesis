@@ -35,4 +35,7 @@ SEASONS_DEFAULT = {
     "spring": (450.0, 650.0),
     "autumn": (300.0, 500.0),
     "winter": (150.0, 300.0),
-        }
+}
+
+DEFAULT_FORMAT = f" %(asctime)s | " "%(levelname)s | " "%(message)s"
+DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"

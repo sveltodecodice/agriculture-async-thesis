@@ -1,6 +1,6 @@
 import asyncio
 
-from interfaces.mqtt_utils import publish_json
+from utils.mqtt_utils import publish_json
 
 
 async def dispatch_payload(handler, raw_payload):

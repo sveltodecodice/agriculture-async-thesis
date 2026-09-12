@@ -1,8 +1,12 @@
 import json
 import os
 from datetime import datetime
+import logging
 
 from common.constants import DATA_OUTPUT_PATH
+
+logger = logging.getLogger(__name__)
+
 
 def get_harvest_history():
     if not os.path.exists(DATA_OUTPUT_PATH):
@@ -14,8 +18,10 @@ def get_harvest_history():
     try:
         with open(DATA_OUTPUT_PATH, "r") as f:
             return json.load(f)
-    except Exception:
+    except Exception as e:
+        logger.error(f"{e}")
         return []
+
 
 def save_harvest(seed_name, harvest_date=None):
     data = get_harvest_history()

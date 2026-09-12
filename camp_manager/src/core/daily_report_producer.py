@@ -1,16 +1,22 @@
 import json
 import os
+import logging
 
 from common.constants import DAILY_FARM_REPORT_PATH
 
+logger = logging.getLogger(__name__)
 
-def add_to_daily_report(event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None):
+
+def add_to_daily_report(
+    event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None
+):
     logs = []
     if os.path.exists(DAILY_FARM_REPORT_PATH):
         try:
             with open(DAILY_FARM_REPORT_PATH, "r") as f:
                 logs = json.load(f)
-        except Exception:
+        except Exception as e:
+            logger.error(f"{e}")
             logs = []
 
     if stats:
@@ -49,7 +55,8 @@ def get_report():
     try:
         with open(DAILY_FARM_REPORT_PATH, "r") as f:
             return json.load(f)
-    except Exception:
+    except Exception as e:
+        logger.error(f"{e}")
         return []
 
 

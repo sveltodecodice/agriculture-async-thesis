@@ -2,6 +2,7 @@ import random
 
 from common.constants import SEASON_RANGES
 
+
 def get_temperature(season: str) -> int:
     """
     Generate a temperature appropriate for the given season.

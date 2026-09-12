@@ -46,8 +46,12 @@ class SensorManager:
         self.state["weather"] = get_weather_condition(self.state["season"])
         self.state["date"] = self.get_formatted_date()
 
-        self.state["wind_kmh"] = get_wind_speed(self.state["season"], self.state["weather"])
-        self.state["radiation_wm2"] = get_radiation(self.state["season"], self.state["weather"])
+        self.state["wind_kmh"] = get_wind_speed(
+            self.state["season"], self.state["weather"]
+        )
+        self.state["radiation_wm2"] = get_radiation(
+            self.state["season"], self.state["weather"]
+        )
         self.state["humidity_air"] = get_humidity_air(self.state["weather"])
         self.state["rain_mm"] = get_rain_mm(self.state["weather"])
 

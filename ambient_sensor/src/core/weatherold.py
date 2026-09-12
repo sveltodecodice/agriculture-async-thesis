@@ -13,8 +13,8 @@ def get_weather_condition(season: str) -> str:
     Generate a weather condition based on the given season.
 
     The probability of rain depends on the configured probability
-    associated with the supplied season. 
-    
+    associated with the supplied season.
+
     If rain is not generated, the weather condition is considered sunny.
 
     Args:
@@ -29,8 +29,7 @@ def get_weather_condition(season: str) -> str:
     if season not in RAIN_PROBS:
         # non dovrebbe entrarci
         raise ValueError(
-            f"Invalid season: {season}. "
-            f"Expected one of: {', '.join(RAIN_PROBS)}."
+            f"Invalid season: {season}. " f"Expected one of: {', '.join(RAIN_PROBS)}."
         )
 
     rain_probability = RAIN_PROBS[season]

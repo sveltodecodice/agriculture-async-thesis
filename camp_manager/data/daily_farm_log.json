@@ -8053,5 +8053,20 @@
     "date": "10/01/2026",
     "event": "AUTO_IRRIGATE",
     "details": "[campo_1] Irrigato +5.2% | Temp: 13\u00b0C | Weather: sun | Moist: 27.8% | Oxy: 37.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato cabbage | Temp: 12\u00b0C | Weather: cloudy | Moist: 26.6% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Cabbage"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato cabbage | Temp: 12\u00b0C | Weather: cloudy | Moist: 26.6% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Cabbage"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato cabbage | Temp: 12\u00b0C | Weather: cloudy | Moist: 26.6% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Cabbage"
   }
 ]

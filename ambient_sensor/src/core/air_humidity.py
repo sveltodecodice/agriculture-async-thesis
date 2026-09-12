@@ -1,5 +1,6 @@
 import random
 
+
 def get_humidity_air(weather: str) -> float:
     w = str(weather).lower()
     if w in ("rain", "rainy", "pioggia"):
