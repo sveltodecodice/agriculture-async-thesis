@@ -14,7 +14,7 @@ from common.parameters import (
     NOTIFICATIONS_TOPIC,
 )
 from core.harvest_deposit import save_harvest
-from src.core.daily_report_producer import add_to_daily_report
+from core.daily_report_producer import add_to_daily_report
 from core.plantation_control import clear_camp, plant_seed
 from core.seed_matcher import find_top_3_seeds
 from common.seeds import SEEDS_LST

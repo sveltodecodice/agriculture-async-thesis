@@ -7908,5 +7908,35 @@
     "date": "14/04/2026",
     "event": "AUTO_IRRIGATE",
     "details": "[campo_1] Irrigato +6.8% | Temp: 22\u00b0C | Weather: cloudy | Moist: 28.2% | Oxy: 73.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato spinach | Temp: 13\u00b0C | Weather: rain | Moist: 35.0% | Oxy: 66.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato spinach | Temp: 13\u00b0C | Weather: rain | Moist: 35.0% | Oxy: 66.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
+  },
+  {
+    "date": "01/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato spinach | Temp: 13\u00b0C | Weather: rain | Moist: 35.0% | Oxy: 66.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +5.2% | Temp: 13\u00b0C | Weather: cloudy | Moist: 29.8% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
+  },
+  {
+    "date": "03/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 12\u00b0C | Weather: rain | Moist: 29.1% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
+  },
+  {
+    "date": "06/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +5.7% | Temp: 15\u00b0C | Weather: sun | Moist: 29.3% | Oxy: 48.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   }
 ]

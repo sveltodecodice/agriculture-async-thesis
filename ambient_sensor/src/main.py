@@ -10,6 +10,7 @@ from common.parameters import (
 )
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
+from common.constants import KNOWN_CAMPS
 
 
 async def publish_loop(client, managers):
