@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 def add_to_daily_report(
     event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None
 ):
-    logs = []
+    report = []
     if os.path.exists(DAILY_FARM_REPORT_PATH):
         try:
             with open(DAILY_FARM_REPORT_PATH, "r") as f:
-                logs = json.load(f)
+                report = json.load(f)
         except Exception as e:
             logger.error(f"{e}")
-            logs = []
+            report = []
 
     if stats:
         temp = stats.get("temperature", "--")
@@ -40,13 +40,13 @@ def add_to_daily_report(
         "details": details,
     }
 
-    logs.append(entry)
+    report.append(entry)
 
     os.makedirs("data", exist_ok=True)
     with open(DAILY_FARM_REPORT_PATH, "w") as f:
-        json.dump(logs, f, indent=2)
+        json.dump(report, f, indent=2)
 
-    return logs
+    return report
 
 
 def get_report():
