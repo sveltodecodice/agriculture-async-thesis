@@ -3,7 +3,6 @@ import aio_pika
 
 from core.communication_par_man import (
     ACTIVITY_LOGS_TOPIC,
-    AMQP_URL,
     HARVEST_DEPOSIT_TOPIC,
     NOTIFICATIONS_TOPIC,
 )

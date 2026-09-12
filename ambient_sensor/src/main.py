@@ -70,8 +70,10 @@ async def listen_mqtt_commands(client, managers):
 
 async def worker(managers):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+    ssl_ctx.check_hostname = True
+    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
+    
+    
 
     client = aiomqtt.Client(
         MQTT_HOST,

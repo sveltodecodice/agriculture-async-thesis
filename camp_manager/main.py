@@ -18,7 +18,7 @@ from core.plantation_control import clear_camp, plant_seed
 from core.seed_matcher import find_top_3_seeds
 from core.seeds import list_seeds
 
-KNOWN_CAMPS = ["fortnite", "campo_2", "campo_3"]
+KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 SEED_TARGETS = {
     "wheat": 18.0, "grano": 18.0,
@@ -54,7 +54,6 @@ def create_default_state():
 
 
 async def auto_plant_monitor_loop(mqtt, camp_id, state):
-    """Monitora ogni campo autonomamente e ripianta subito un seme compatibile appena è libero."""
     while True:
         await asyncio.sleep(4)
         if state["occupied"]:
@@ -101,7 +100,6 @@ async def process_plantation_status(mqtt, camp_id, payload_bytes, state):
         if not (state["occupied"] and state["time_left"] <= 0 and not state["harvest_pending"]):
             return
 
-        # AVVIO RACCOLTO E LIBERAZIONE CAMPO PER NUOVA SEMINA
         state["harvest_pending"] = True
         log_msg = f"[{camp_id.upper()}] {state['seed_name']} maturazione completata! Auto-raccolto in corso..."
         print(f"[CAMP MANAGER] {log_msg}", flush=True)
@@ -115,7 +113,6 @@ async def process_plantation_status(mqtt, camp_id, payload_bytes, state):
 
         await clear_camp(mqtt, camp_id=camp_id)
         
-        # Reset stato per consentire ad auto_plant_monitor_loop di ripiantare al ciclo successivo
         state["occupied"] = False
         state["seed_name"] = None
         state["harvest_pending"] = False
@@ -209,8 +206,6 @@ async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
             days = int(parsed_json.get("days", 1))
         elif clean_raw.isdigit():
             days = int(clean_raw)
-
-        await mqtt.publish(f"camp/{camp_id}/environment/cmd/skip", str(days))
         if not state["occupied"]:
             state["empty_days"] += days
 
@@ -232,7 +227,7 @@ async def listen_telemetry(mqtt, camp_states):
         raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
 
         parts = top.split("/")
-        camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else "fortnite"
+        camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else "campo_1"
 
         if camp_id not in camp_states:
             camp_states[camp_id] = create_default_state()
@@ -255,8 +250,8 @@ async def listen_telemetry(mqtt, camp_states):
 
 async def worker(camp_states):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+    ssl_ctx.check_hostname = True
+    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -270,8 +265,6 @@ async def worker(camp_states):
         print("[CAMP MANAGER] Multi-camp service online.", flush=True)
 
         tasks = [asyncio.create_task(listen_telemetry(client, camp_states))]
-        
-        # Crea un task di autosemina indipendente per ogni campo
         for camp_id in KNOWN_CAMPS:
             tasks.append(asyncio.create_task(auto_plant_monitor_loop(client, camp_id, camp_states[camp_id])))
 

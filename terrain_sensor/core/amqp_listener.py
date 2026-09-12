@@ -1,7 +1,6 @@
 import json
 import aio_pika
 
-from core.communication_par_ter import AMQP_URL
 from core.terrain_condition import create_terrain_state
 
 

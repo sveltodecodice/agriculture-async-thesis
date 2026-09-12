@@ -1,7 +1,7 @@
 import json
 import aio_pika
 
-from core.communication_par_pla import AMQP_URL, PLANTATION_STATUS_TOPIC
+from core.communication_par_pla import PLANTATION_STATUS_TOPIC
 from core.mqtt_utils import publish_json
 from core.plant_conditions import clear_field, get_status, seed_planted
 

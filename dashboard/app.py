@@ -6,6 +6,21 @@ import pandas as pd
 import paho.mqtt.client as mqtt
 import streamlit as st
 
+# Importazione centralizzata dei semi da seeds.py
+try:
+    from seeds import CROPS_INFO, CROP_KEY_TO_NAME
+except ImportError:
+    try:
+        from camp_manager.seeds import CROPS_INFO, CROP_KEY_TO_NAME
+    except ImportError:
+        # Fallback locale di sicurezza
+        CROPS_INFO = {
+            "Pomodoro": {"key": "tomato", "threshold": 0.250, "ideal_soil": "Franco", "days": 60},
+            "Grano": {"key": "wheat", "threshold": 0.180, "ideal_soil": "Argilloso", "days": 90},
+            "Insalata": {"key": "lettuce", "threshold": 0.280, "ideal_soil": "Sabbioso", "days": 30},
+        }
+        CROP_KEY_TO_NAME = {"tomato": "Pomodoro", "wheat": "Grano", "lettuce": "Insalata"}
+
 st.set_page_config(
     page_title="Controllo Smart Farm", layout="wide", page_icon="🌱"
 )
@@ -17,24 +32,6 @@ MQTT_PASS = os.getenv("MQTT_BROKER_PASS", "secure_farm")
 
 DEFAULT_DATE = "01/01/2026"
 
-CROPS_INFO = {
-    "Pomodoro": {"key": "tomato", "threshold": 0.250, "ideal_soil": "Franco", "days": 60, "water_req": 5.0},
-    "Spinaci": {"key": "spinach", "threshold": 0.300, "ideal_soil": "Franco", "days": 40, "water_req": 4.0},
-    "Insalata": {"key": "lettuce", "threshold": 0.280, "ideal_soil": "Sabbioso", "days": 30, "water_req": 6.0},
-    "Grano": {"key": "wheat", "threshold": 0.180, "ideal_soil": "Argilloso", "days": 90, "water_req": 3.5},
-    "Mais": {"key": "corn", "threshold": 0.220, "ideal_soil": "Franco", "days": 75, "water_req": 4.5},
-    "Zucchine": {"key": "zucchini", "threshold": 0.260, "ideal_soil": "Franco", "days": 50, "water_req": 5.5},
-    "Carote": {"key": "carrot", "threshold": 0.240, "ideal_soil": "Sabbioso", "days": 70, "water_req": 4.0},
-    "Patate": {"key": "potato", "threshold": 0.230, "ideal_soil": "Franco", "days": 80, "water_req": 5.0},
-}
-
-CROP_KEY_TO_NAME = {
-    "tomato": "Pomodoro", "pomodoro": "Pomodoro", "spinach": "Spinaci", "spinaci": "Spinaci",
-    "lettuce": "Insalata", "insalata": "Insalata", "wheat": "Grano", "grano": "Grano",
-    "corn": "Mais", "mais": "Mais", "zucchini": "Zucchine", "zucchine": "Zucchine",
-    "carrot": "Carote", "carote": "Carote", "potato": "Patate", "patate": "Patate",
-}
-
 STATUS_BLACKLIST = [
     "too_wet", "too_dry", "healthy", "ok", "clear", "trigger",
     "sospesa", "attiva", "none", "unknown", "vacant", "field is empty", "nessuna"
@@ -42,6 +39,8 @@ STATUS_BLACKLIST = [
 
 NOISY_TOPICS = ["status_detail", "plant_name", "health", "status", "cmd"]
 SPECIAL_EVENTS = ["RACCOLTO COMPLETATO", "AUTO_IRRIGATE", "AUTO_PLANT", "AUTO_OXYGENATE"]
+
+SOIL_TYPES_OPTIONS = ["Franco", "Argilloso", "Sabbioso", "Franco-Sabbioso", "Franco-Argilloso"]
 
 if "harvest_deposit" not in st.session_state:
     st.session_state.harvest_deposit = []
@@ -86,6 +85,7 @@ mqtt_client, MQTT_QUEUE = get_mqtt_service()
 
 
 def create_initial_camp_state(crop_name="Pomodoro"):
+    crop_meta = CROPS_INFO.get(crop_name, {"threshold": 0.250, "days": 60})
     return {
         "current_day_tracker": DEFAULT_DATE,
         "ambient": {
@@ -101,15 +101,15 @@ def create_initial_camp_state(crop_name="Pomodoro"):
         },
         "terrain": {
             "soil_moisture": 0.280,
-            "threshold": 0.250,
+            "threshold": crop_meta.get("threshold", 0.250),
             "oxygenation": 70.0,
             "soil_type": "Franco",
             "water_dispensed_mm": 0.0,
         },
         "plantation": {
             "crop": crop_name,
-            "soil_threshold": CROPS_INFO.get(crop_name, {}).get("threshold", 0.250),
-            "harvest_days": CROPS_INFO.get(crop_name, {}).get("days", 60),
+            "soil_threshold": crop_meta.get("threshold", 0.250),
+            "harvest_days": crop_meta.get("days", 60),
             "age_days": 0,
             "planted_date": DEFAULT_DATE,
         },
@@ -127,9 +127,9 @@ def create_initial_camp_state(crop_name="Pomodoro"):
 def reset_all_campi():
     st.session_state.logs = []
     st.session_state.harvest_deposit = []
-    st.session_state.terrain_types = {"fortnite": "Franco", "campo_2": "Argilloso", "campo_3": "Sabbioso"}
+    st.session_state.terrain_types = {"campo_1": "Franco", "campo_2": "Argilloso", "campo_3": "Sabbioso"}
     st.session_state.campi_data = {
-        "fortnite": create_initial_camp_state("Pomodoro"),
+        "campo_1": create_initial_camp_state("Pomodoro"),
         "campo_2": create_initial_camp_state("Grano"),
         "campo_3": create_initial_camp_state("Insalata"),
     }
@@ -176,6 +176,15 @@ def process_mqtt_queue():
         parts = topic.split("/")
         camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else payload.get("camp_id")
 
+        if camp_id == "fortnite":
+            camp_id = "campo_1"
+
+        if not camp_id or camp_id not in st.session_state.campi_data:
+            for possible_camp in ["campo_1", "campo_2", "campo_3"]:
+                if possible_camp in topic:
+                    camp_id = possible_camp
+                    break
+
         if not camp_id or camp_id not in st.session_state.campi_data:
             continue
 
@@ -186,6 +195,11 @@ def process_mqtt_queue():
         is_ambient = "ambient" in topic_lower or "environment" in topic_lower or "weather" in topic_lower or ("temperature" in payload and "soil_moisture" not in payload)
         if is_ambient:
             target["ambient"].update({k: v for k, v in payload.items() if v is not None})
+            
+            w_curr = str(target["ambient"].get("weather", "")).lower()
+            if w_curr in ["rain", "rainy", "pioggia"] and float(target["ambient"].get("rain_mm", 0.0)) == 0.0:
+                target["ambient"]["rain_mm"] = 5.0
+
             new_date = target["ambient"].get("date", DEFAULT_DATE)
             old_date = target.get("current_day_tracker", DEFAULT_DATE)
 
@@ -224,7 +238,7 @@ def process_mqtt_queue():
                                 "Data": new_date,
                                 "Ora": "12:00:00",
                                 "Evento": "RACCOLTO COMPLETATO",
-                                "Stato": "RACCOLTO",
+                                "Stato": "Raccolto",
                                 "Temp.": f"{target['ambient'].get('temperature', '-')} °C",
                                 "Umidità aria": f"{target['ambient'].get('humidity_air', '-')} %",
                                 "Umidità suolo": target["terrain"].get("soil_moisture", "-"),
@@ -284,14 +298,20 @@ def process_mqtt_queue():
             )
 
             if not already_logged_today or event_name in SPECIAL_EVENTS:
+                real_status = payload.get("status") or payload.get("health") or payload.get("state")
+                if not real_status or str(real_status).lower() in STATUS_BLACKLIST:
+                    sm = target["terrain"].get("soil_moisture", 0.28)
+                    th = target["plantation"].get("soil_threshold", 0.25)
+                    real_status = "Troppo Secco" if sm < th else ("Troppo Umido" if sm > (th + 0.05) else "In Salute")
+
                 st.session_state.logs.append({
                     "Campo": camp_id, 
                     "Coltivazione": target["plantation"].get("crop", "N/D"),
                     "Terreno": st.session_state.terrain_types.get(camp_id, "Franco"),
                     "Data": curr_full_date, 
                     "Ora": payload.get("time", "06:00:00"),
-                    "Evento": event_name if event_name in SPECIAL_EVENTS else "STATUS_UPDATE", 
-                    "Stato": payload.get("status", "OK"),
+                    "Evento": event_name.upper() if event_name not in NOISY_TOPICS else "TELEMETRIA", 
+                    "Stato": str(real_status).capitalize(),
                     "Temp.": f"{target['ambient'].get('temperature', '-')} °C",
                     "Umidità aria": f"{target['ambient'].get('humidity_air', '-')} %",
                     "Umidità suolo": f"{target['terrain'].get('soil_moisture', 0.28):.3f}",
@@ -303,9 +323,8 @@ def process_mqtt_queue():
 
 
 st.sidebar.title("🏞️ Gestione Azienda")
-selected_camp = st.sidebar.selectbox("Seleziona Campo da Monitorare", ["fortnite", "campo_2", "campo_3"], index=0)
+selected_camp = st.sidebar.selectbox("Seleziona Campo da Monitorare", ["campo_1", "campo_2", "campo_3"], index=0)
 
-# RIMOZIONE MAPPA: Solo 2 Tab
 tab_mon, tab_arch = st.tabs(["📊 Monitoraggio", "📁 Archivio"])
 
 with tab_mon:
@@ -332,19 +351,18 @@ with tab_mon:
         with c_skip:
             skip_val = st.number_input("Avanza giorni", min_value=1, max_value=30, value=1, label_visibility="collapsed")
             if st.button("⏩ Skip Days"):
-                # SOLUZIONE DOPPIO SKIP: invia solo al sensore ambientale del campo
                 mqtt_client.publish(f"camp/{selected_camp}/environment/cmd/skip", str(skip_val))
                 st.toast(f"Avanzamento di {skip_val} giorni inviato a {selected_camp.upper()}!")
 
         with c_irr:
             if st.button("💧 Forza irrigazione", use_container_width=True):
-                mqtt_client.publish(f"camp/{selected_camp}/terrain/cmd/irrigate", "15.0")
+                # Invia unicamente al camp_manager che gestisce l'istruzione verso il terreno
                 mqtt_client.publish(f"camp/{selected_camp}/camp_manager/cmd/irrigate", "trigger")
                 st.toast(f"Comando irrigazione inviato a {selected_camp.upper()}")
 
         with c_reox:
             if st.button("💨 Riossigenazione", use_container_width=True):
-                mqtt_client.publish(f"camp/{selected_camp}/terrain/cmd/reoxygenate", "trigger")
+                # Invia unicamente al camp_manager
                 mqtt_client.publish(f"camp/{selected_camp}/camp_manager/cmd/reoxygenate", "trigger")
                 st.toast(f"Riossigenazione inviata a {selected_camp.upper()}!")
 
@@ -360,10 +378,10 @@ with tab_mon:
                 st.session_state.terrain_types[selected_camp] = "Franco"
                 st.session_state.logs = [l for l in st.session_state.logs if l.get("Campo") != selected_camp]
 
-                mqtt_client.publish(f"camp/{selected_camp}/environment/cmd/reset", "trigger")
+                mqtt_client.publish(f"camp/{selected_camp}/environment/cmd/reset", DEFAULT_DATE)
                 mqtt_client.publish(f"camp/{selected_camp}/terrain/cmd/reset", "trigger")
                 mqtt_client.publish(f"camp/{selected_camp}/camp_manager/cmd/restart", "trigger")
-                st.toast(f"Reset completato per il campo {selected_camp.upper()}!")
+                st.toast(f"Reset completato per il campo {selected_camp.upper()} al {DEFAULT_DATE}!")
 
         with st.expander("🛠️ Semina Nuova Coltivazione & Configurazione Terreno"):
             col_plant, col_soil = st.columns(2)
@@ -373,11 +391,11 @@ with tab_mon:
                 crop_meta = CROPS_INFO[chosen_crop_name]
                 
                 min_req = crop_meta['threshold']
-                max_req = min_req + 0.050
+                max_req = crop_meta.get('max_threshold', min_req + 0.050)
                 st.info(
                     f"💧 **Umidità Preferita / Range Ideale**: {min_req:.3f} - {max_req:.3f} ({int(min_req*100)}% - {int(max_req*100)}%)\n\n"
-                    f"⛰️ **Terreno Ideale**: {crop_meta['ideal_soil']}\n\n"
-                    f"⏱️ **Tempo Maturazione**: {crop_meta['days']} giorni"
+                    f"⛰️ **Terreno Ideale**: {crop_meta.get('ideal_soil', 'Franco')}\n\n"
+                    f"⏱️ **Tempo Maturazione**: {crop_meta.get('days', 60)} giorni"
                 )
                 if st.button("🌱 Conferma Semina"):
                     backend_seed_key = crop_meta["key"]
@@ -393,7 +411,9 @@ with tab_mon:
             with col_soil:
                 st.markdown("**⛰️ Modifica Tipo di Terreno**")
                 current_t = st.session_state.terrain_types.get(selected_camp, "Franco")
-                new_t = st.selectbox("Tipo di Terreno Corrente", ["Franco", "Argilloso", "Sabbioso"], index=["Franco", "Argilloso", "Sabbioso"].index(current_t))
+                if current_t not in SOIL_TYPES_OPTIONS:
+                    current_t = "Franco"
+                new_t = st.selectbox("Tipo di Terreno Corrente", SOIL_TYPES_OPTIONS, index=SOIL_TYPES_OPTIONS.index(current_t))
                 if new_t != current_t:
                     st.session_state.terrain_types[selected_camp] = new_t
                     mqtt_client.publish(f"camp/{selected_camp}/terrain/cmd/set_soil_type", new_t)
@@ -481,26 +501,54 @@ with tab_mon:
 
         st.markdown("---")
 
-        st.markdown("### 🏺 Irrigazione per coltivazione")
-        water_req = CROPS_INFO.get(crop.capitalize(), {}).get("water_req", 5.0) if not is_empty else 0.0
-        needed = 0.0 if (is_empty or (isinstance(curr_moisture, float) and curr_moisture >= min_thresh)) else water_req
+        # CALCOLO BILANCIO IDRICO DINAMICO
+        rain_mm = float(amb.get("rain_mm", 0.0))
+        if is_empty or not isinstance(curr_moisture, float):
+            fabbisogno_mm = 0.0
+            erogata_mm = 0.0
+            risparmiata_mm = 0.0
+            stato_irr = "🟢 Sospesa"
+        else:
+            target_moisture = min_thresh + 0.050
+            fabbisogno_raw = max(0.0, (target_moisture - curr_moisture) * 100.0)
+            fabbisogno_mm = round(fabbisogno_raw, 1)
 
+            erogata_raw = max(0.0, fabbisogno_mm - rain_mm)
+            erogata_mm = round(erogata_raw, 1)
+
+            if curr_moisture >= min_thresh or rain_mm >= fabbisogno_mm:
+                stato_irr = "🟢 Sospesa"
+                risparmiata_mm = round(rain_mm if rain_mm > 0 else fabbisogno_mm, 1)
+            else:
+                stato_irr = "🔴 Attiva"
+                risparmiata_mm = round(rain_mm, 1)
+
+        st.markdown("### 🏺 Irrigazione per coltivazione")
         df_irr = pd.DataFrame([{
             "Coltivazione": crop.capitalize() if not is_empty else "Nessuna", 
             "Terreno": st.session_state.terrain_types.get(selected_camp, "Franco"),
-            "Fabbisogno": f"{water_req} mm", 
-            "Soglia suolo (Valore limite ideale, es. 0.3 = 30%)": min_thresh if not is_empty else "-", 
-            "Stato": "🟢 Sospesa" if needed == 0 else "🔴 Attiva"
+            "Fabbisogno Teorico": f"{fabbisogno_mm} mm", 
+            "Soglia min suolo": min_thresh if not is_empty else "-", 
+            "Stato Impianto": stato_irr
         }])
         st.dataframe(df_irr, use_container_width=True, hide_index=True)
 
         st.markdown("### 📋 Parametri d'Intervento Giornalieri")
-        water_dispensed = ter.get("water_dispensed_mm", 0.0)
+        # COLONNA RINOMINATA IN "Irrigazione" E PIOGGIA CONFLUITA IN "Risparmiata"
         df_param = pd.DataFrame([{
-            "Campo": selected_camp, "Coltivazione": crop.capitalize() if not is_empty else "Nessuna", "Terreno": st.session_state.terrain_types.get(selected_camp, "Franco"),
-            "Tipo": "Automatico", "Stato": "Sospesa" if needed == 0 else "Attiva", "Giorno": current_date_str, "Temp. Aria": f"{amb.get('temperature', 18.0)} °C",
-            "Umidità Aria": f"{amb.get('humidity_air', 60.0)} %", "Pioggia": f"{amb.get('rain_mm', 0.0)} mm", "Vento": f"{amb.get('wind_kmh', 5.0)} km/h",
-            "Radiazione Solare": f"{amb.get('radiation_wm2', 150.0)} W/m²", "Umidità Suolo": moisture_str, "Erogata": f"{water_dispensed} mm", "Risparmiata": f"{water_req - needed} mm"
+            "Campo": selected_camp, 
+            "Coltivazione": crop.capitalize() if not is_empty else "Nessuna", 
+            "Terreno": st.session_state.terrain_types.get(selected_camp, "Franco"),
+            "Tipo": "Automatico", 
+            "Irrigazione": stato_irr, 
+            "Giorno": current_date_str, 
+            "Temp. Aria": f"{amb.get('temperature', 18.0)} °C",
+            "Umidità Aria": f"{amb.get('humidity_air', 60.0)} %", 
+            "Vento": f"{amb.get('wind_kmh', 5.0)} km/h",
+            "Radiazione Solare": f"{amb.get('radiation_wm2', 150.0)} W/m²", 
+            "Umidità Suolo": moisture_str, 
+            "Erogata": f"{erogata_mm} mm", 
+            "Risparmiata": f"{risparmiata_mm} mm"
         }])
         st.dataframe(df_param, use_container_width=True, hide_index=True)
 
@@ -518,7 +566,6 @@ with tab_mon:
             st.line_chart(df_hist, x="Data", y="Radiazione (W/m²)", height=200)
 
         st.markdown("### 📜 Registro cronologico del campo attivo")
-        # FILTRO LOCALE: Mostra solo i log del campo selezionato nella tab Monitoraggio
         camp_logs = [l for l in st.session_state.logs if l.get("Campo") == selected_camp]
         if camp_logs:
             st.dataframe(pd.DataFrame(camp_logs), use_container_width=True, hide_index=True, height=250)
@@ -539,9 +586,8 @@ with tab_arch:
     st.markdown("---")
     st.markdown("### 📜 Registri Cronologici di Tutti i Campi")
 
-    # TABELLE REGISTRO GLOBALE DIVISE E ORDINATE PER OGNI CAMPO
     c1, c2, c3 = st.columns(3)
-    c_list = ["fortnite", "campo_2", "campo_3"]
+    c_list = ["campo_1", "campo_2", "campo_3"]
     cols = [c1, c2, c3]
 
     for idx, c_id in enumerate(c_list):

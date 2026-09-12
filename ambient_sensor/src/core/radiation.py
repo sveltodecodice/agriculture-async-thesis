@@ -9,7 +9,7 @@ def get_radiation(season: str, weather: str) -> float:
         "winter": 250.0,
     }.get(season.lower(), 500.0)
 
-    if weather == "Rainy":
+    if weather == "rain":
         multiplier = random.uniform(0.1, 0.3)
     elif weather == "Cloudy":
         multiplier = random.uniform(0.3, 0.6)

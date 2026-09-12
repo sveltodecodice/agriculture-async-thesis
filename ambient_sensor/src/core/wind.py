@@ -9,7 +9,7 @@ def get_wind_speed(season: str, weather: str) -> float:
         "winter": 10.0,
     }.get(season.lower(), 10.0)
 
-    if weather == "Rainy":
+    if weather == "rain":
         multiplier = random.uniform(1.5, 2.5)
     elif weather == "Cloudy":
         multiplier = random.uniform(1.0, 1.5)

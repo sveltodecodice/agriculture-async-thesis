@@ -100,8 +100,8 @@ async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
 
 async def worker(camp_contexts, dedup):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+    ssl_ctx.check_hostname = True
+    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
 
     client = aiomqtt.Client(
         MQTT_HOST,
