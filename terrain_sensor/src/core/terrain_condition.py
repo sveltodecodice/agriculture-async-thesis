@@ -2,7 +2,9 @@ from core.soil_moisture import get_soil_moisture
 from core.oxygenation import calculate_oxygenation, apply_reoxygenation
 
 
-def create_terrain_state(initial_moisture=30.0, initial_oxygen=70.0, soil_type="Franco") -> dict:
+def create_terrain_state(
+    initial_moisture=30.0, initial_oxygen=70.0, soil_type="Franco"
+) -> dict:
     return {
         "soil_moisture": initial_moisture,
         "oxygenation": initial_oxygen,
@@ -33,7 +35,9 @@ def process_terrain_update(state: dict, ambient_data: dict) -> dict:
         state["soil_moisture"],
     )
 
-    state["oxygenation"] = apply_reoxygenation(o2, minimal_oxygenation=20.0, reoxygenation=60.0)
+    state["oxygenation"] = apply_reoxygenation(
+        o2, minimal_oxygenation=20.0, reoxygenation=60.0
+    )
 
     date_str = ambient_data.get("date")
     if not date_str and "day" in ambient_data:

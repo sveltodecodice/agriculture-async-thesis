@@ -21,7 +21,7 @@ def get_soil_moisture(
         # Ridotto leggermente l'impatto della pioggia per evitare saturazioni immediate
         change = rain_mm * (0.8 / factor)
     else:
-        # Rimossi i blocchi rigidi max(0.8, ...) per permettere un'evaporazione reale 
+        # Rimossi i blocchi rigidi max(0.8, ...) per permettere un'evaporazione reale
         # proporzionata alla scarsa radiazione invernale/nuvolosa
         temp_term = max(0.2, temperature / 20.0)
         rad_term = max(0.2, radiation_wm2 / 400.0)
@@ -32,6 +32,8 @@ def get_soil_moisture(
         change = -evapotranspiration
 
     new_moisture = current_moisture + change
-    new_moisture, water_mm = apply_irrigation(new_moisture, active_irrigation, irrigated_amount=irrigated_amount)
+    new_moisture, water_mm = apply_irrigation(
+        new_moisture, active_irrigation, irrigated_amount=irrigated_amount
+    )
 
     return round(max(0.0, min(100.0, new_moisture)), 1), round(water_mm, 1)

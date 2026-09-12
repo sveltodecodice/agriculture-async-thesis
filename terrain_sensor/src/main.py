@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import ssl
 import aiomqtt
 
@@ -9,9 +10,16 @@ from common.parameters import (
     MQTT_PORT,
     MQTT_USER,
 )
-from core.mqtt_utils import Deduper, publish_json
+from utils.logger_utils import LoggingUtils
+from utils.mqtt_utils import Deduper, publish_json
 from core.terrain_condition import create_terrain_state, process_terrain_update
 from common.constants import KNOWN_CAMPS
+
+LoggingUtils.configure(
+    console_level=logging.INFO,
+)
+
+logger = LoggingUtils.get_logger(__name__)
 
 
 async def listen_mqtt_telemetry(client, camp_states, dedup):
@@ -20,7 +28,11 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
 
     async for msg in client.messages:
         top = str(msg.topic)
-        raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
+        raw = (
+            msg.payload.decode("utf-8")
+            if isinstance(msg.payload, bytes)
+            else str(msg.payload)
+        )
 
         parts = top.split("/")
         if len(parts) >= 2 and parts[0] == "camp":
@@ -29,11 +41,14 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
             continue
 
         if camp_id not in camp_states:
-            camp_states[camp_id] = create_terrain_state(initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco")
+            camp_states[camp_id] = create_terrain_state(
+                initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco"
+            )
 
         state = camp_states[camp_id]
 
         if "environment/telemetry" in top:
+            logger.debug("Fetched telemetry")
             ambient_data = json.loads(raw)
             if dedup.is_duplicate_or_stale(top, ambient_data.get("ts")):
                 continue
@@ -42,11 +57,10 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
             out_topic = f"camp/{camp_id}/terrain/telemetry"
 
             await publish_json(client, out_topic, telemetry, qos=1)
-            print(
-                f"[TERRAIN SENSOR] [{camp_id.upper()}] [{telemetry['date']}] Soil: {telemetry.get('soil_type', 'Franco')} | "
+            logger.info(
+                f"[{camp_id.upper()}] [{telemetry['date']}] Soil: {telemetry.get('soil_type', 'Franco')} | "
                 f"Moisture: {telemetry['soil_moisture']:.1f}% | O2: {telemetry['oxygenation']:.1f}% | "
                 f"Pump: {telemetry['irrigation_active']}",
-                flush=True,
             )
 
         elif "terrain/cmd/" in top:
@@ -63,15 +77,21 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
                 state["soil_moisture"] = min(100.0, state["soil_moisture"] + amount)
                 state["water_dispensed_mm"] = amount
                 state["irrigation_active"] = False
-                print(f"[TERRAIN SENSOR] [{camp_id.upper()}] Irrigated (+{amount:.1f}%)! New moisture: {state['soil_moisture']:.1f}%.", flush=True)
+                logger.info(
+                    f"[{camp_id.upper()}] Irrigated (+{amount:.1f}%)! New moisture: {state['soil_moisture']:.1f}%.",
+                )
 
             elif cmd in ("reoxygenate", "oxygen"):
                 state["oxygenation"] = 100.0
-                print(f"[TERRAIN SENSOR] [{camp_id.upper()}] Soil reoxygenated to 100.0%.", flush=True)
+                logger.info(
+                    f"[{camp_id.upper()}] Soil reoxygenated to 100.0%.",
+                )
 
             elif cmd in ("set_soil_type", "set_type"):
                 state["soil_type"] = raw.strip()
-                print(f"[TERRAIN SENSOR] [{camp_id.upper()}] Soil type set to: {state['soil_type']}", flush=True)
+                logger.info(
+                    f"[{camp_id.upper()}] Soil type set to: {state['soil_type']}",
+                )
 
             elif cmd in ("reset", "restart"):
                 state["soil_moisture"] = 28.0
@@ -79,7 +99,9 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
                 state["soil_type"] = "Franco"
                 state["irrigation_active"] = False
                 dedup.reset()
-                print(f"[TERRAIN SENSOR] [{camp_id.upper()}] Terrain state reset to 28.0%.", flush=True)
+                logger.info(
+                    f"[{camp_id.upper()}] Terrain state reset to 28.0%.",
+                )
 
             telemetry = {
                 "soil_moisture": state["soil_moisture"],
@@ -106,7 +128,7 @@ async def worker(camp_states, dedup):
         identifier="terrain-sensor-app",
     )
     async with client:
-        print("[TERRAIN SENSOR] Multi-camp service online. Starting tasks...", flush=True)
+        logger.info("Multi-camp service online. Starting tasks...")
 
         t1 = asyncio.create_task(listen_mqtt_telemetry(client, camp_states, dedup))
 
@@ -123,14 +145,22 @@ async def worker(camp_states, dedup):
 
 
 async def main():
-    camp_states = {cid: create_terrain_state(initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco") for cid in KNOWN_CAMPS}
+
+    camp_states = {
+        cid: create_terrain_state(
+            initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco"
+        )
+        for cid in KNOWN_CAMPS
+    }
     dedup = Deduper()
 
     while True:
         try:
             await worker(camp_states, dedup)
         except Exception as err:
-            print(f"[TERRAIN SENSOR] Connection dropped ({err}). Reconnecting in 5s...", flush=True)
+            logger.error(
+                f"Connection dropped ({err}). Reconnecting in 5s...",
+            )
             await asyncio.sleep(5)
 
 
