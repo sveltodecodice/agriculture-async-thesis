@@ -14,7 +14,7 @@ from common.parameters import (
     NOTIFICATIONS_TOPIC,
 )
 from core.harvest_deposit import save_harvest
-from core.logger import log_event
+from src.core.daily_report_producer import add_to_daily_report
 from core.plantation_control import clear_camp, plant_seed
 from core.seed_matcher import find_top_3_seeds
 from common.seeds import SEEDS_LST
@@ -39,7 +39,7 @@ async def auto_plant_monitor_loop(mqtt, camp_id, state):
         state["occupied"] = True
         state["seed_name"] = target["name"].capitalize()
 
-        logs = log_event("AUTO_PLANT", f"[{camp_id}] Autoseminato {target['name']}", state.get("date"), stats=state)
+        logs = add_to_daily_report("AUTO_PLANT", f"[{camp_id}] Autoseminato {target['name']}", state.get("date"), stats=state)
         await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
 
@@ -75,7 +75,7 @@ async def process_plantation_status(mqtt, camp_id, payload_bytes, state):
         history = save_harvest(state["seed_name"], state.get("date"))
         await mqtt.publish(HARVEST_DEPOSIT_TOPIC, json.dumps(history))
 
-        logs = log_event("AUTO_HARVEST", f"[{camp_id}] Raccolto {state['seed_name']}", state.get("date"), stats=state)
+        logs = add_to_daily_report("AUTO_HARVEST", f"[{camp_id}] Raccolto {state['seed_name']}", state.get("date"), stats=state)
         await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
         await clear_camp(mqtt, camp_id=camp_id)
@@ -129,7 +129,7 @@ async def handle_terrain_telemetry(mqtt, camp_id, raw, state):
             print(f"[CAMP MANAGER] {notif}", flush=True)
             await mqtt.publish(NOTIFICATIONS_TOPIC, notif)
 
-            logs = log_event("AUTO_IRRIGATE", f"[{camp_id}] Irrigato +{needed_water}%", state.get("date"), stats=state)
+            logs = add_to_daily_report("AUTO_IRRIGATE", f"[{camp_id}] Irrigato +{needed_water}%", state.get("date"), stats=state)
             await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
         if state["oxygenation"] < 30.0:

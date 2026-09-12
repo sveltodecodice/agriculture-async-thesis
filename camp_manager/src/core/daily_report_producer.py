@@ -1,14 +1,14 @@
 import json
 import os
 
-LOG_FILE = "data/daily_farm_log.json"
+from common.constants import DAILY_FARM_REPORT_PATH
 
 
-def log_event(event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None):
+def add_to_daily_report(event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None):
     logs = []
-    if os.path.exists(LOG_FILE):
+    if os.path.exists(DAILY_FARM_REPORT_PATH):
         try:
-            with open(LOG_FILE, "r") as f:
+            with open(DAILY_FARM_REPORT_PATH, "r") as f:
                 logs = json.load(f)
         except Exception:
             logs = []
@@ -37,24 +37,24 @@ def log_event(event_type: str, details: str, date_str: str = "01/01/2026", stats
     logs.append(entry)
 
     os.makedirs("data", exist_ok=True)
-    with open(LOG_FILE, "w") as f:
+    with open(DAILY_FARM_REPORT_PATH, "w") as f:
         json.dump(logs, f, indent=2)
 
     return logs
 
 
-def get_logs():
-    if not os.path.exists(LOG_FILE):
+def get_report():
+    if not os.path.exists(DAILY_FARM_REPORT_PATH):
         return []
     try:
-        with open(LOG_FILE, "r") as f:
+        with open(DAILY_FARM_REPORT_PATH, "r") as f:
             return json.load(f)
     except Exception:
         return []
 
 
-def clear_logs():
+def clear_reports():
     os.makedirs("data", exist_ok=True)
-    with open(LOG_FILE, "w") as f:
+    with open(DAILY_FARM_REPORT_PATH, "w") as f:
         json.dump([], f)
     return []

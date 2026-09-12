@@ -29,3 +29,10 @@ DEFAULT_STATE = {
         "soil_type": "Franco",
         "water_dispensed_mm": 0.0,
     }
+
+OUTPUT_DIRECTORY = "data/"
+DATA_OUTPUT_FILENAME = "harvest_deposit.json"
+DATA_OUTPUT_PATH = OUTPUT_DIRECTORY + DATA_OUTPUT_FILENAME
+
+DAILY_FARM_REPORT_FILENAME = "daily_farm_log.json"
+DAILY_FARM_REPORT_PATH = OUTPUT_DIRECTORY + DAILY_FARM_REPORT_FILENAME
