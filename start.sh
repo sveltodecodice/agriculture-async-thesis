@@ -17,4 +17,4 @@ echo "==> Rebuilding images"
 docker compose build
 
 echo "==> Starting Docker Compose"
-docker compose up "$@"
+docker compose up 

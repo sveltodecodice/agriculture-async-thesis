@@ -1,6 +1,10 @@
 from core.irrigation import apply_irrigation
 from common.constants import SOIL_FACTOR
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def get_soil_moisture(
     current_moisture: float,
@@ -28,10 +32,13 @@ def get_soil_moisture(
         wind_term = max(0.3, wind_kmh / 10.0)
 
         # Aumentato il fattore base di evaporazione da 2.0 a 3.5 per smaltire l'acqua in eccesso
-        evapotranspiration = (3.5 * temp_term * rad_term * wind_term) * factor
+        evapotranspiration = (5 * temp_term * rad_term * wind_term) * factor
         change = -evapotranspiration
 
     new_moisture = current_moisture + change
+    logger.info(
+        f"New soil moisture: {new_moisture} | Previous moisture: {current_moisture} | Delta: {change}"
+    )
     new_moisture, water_mm = apply_irrigation(
         new_moisture, active_irrigation, irrigated_amount=irrigated_amount
     )

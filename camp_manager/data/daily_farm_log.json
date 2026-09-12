@@ -1,97 +1,42 @@
 [
   {
-    "date": "01/01/2026",
+    "date": "04/01/2026",
     "event": "AUTO_PLANT",
-    "details": "[campo_1] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
+    "details": "[campo_1] Autoseminato spinach | Temp: 13°C | Weather: cloudy | Moist: 29.5% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
   },
   {
-    "date": "01/01/2026",
+    "date": "04/01/2026",
     "event": "AUTO_PLANT",
-    "details": "[campo_2] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
+    "details": "[campo_2] Autoseminato spinach | Temp: 13°C | Weather: cloudy | Moist: 29.5% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
   },
   {
-    "date": "01/01/2026",
+    "date": "04/01/2026",
     "event": "AUTO_PLANT",
-    "details": "[campo_3] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "[campo_1] Irrigato +8.3% | Temp: 15\u00b0C | Weather: cloudy | Moist: 24.7% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "[campo_2] Irrigato +7.7% | Temp: 15\u00b0C | Weather: sun | Moist: 25.3% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "[campo_3] Irrigato +7.2% | Temp: 15\u00b0C | Weather: sun | Moist: 25.8% | Oxy: 63.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
-  },
-  {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_1] Autoseminato lettuce | Temp: 12\u00b0C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_2] Autoseminato lettuce | Temp: 12\u00b0C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_3] Autoseminato lettuce | Temp: 12\u00b0C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "[campo_1] Irrigato +6.7% | Temp: 15\u00b0C | Weather: rain | Moist: 26.3% | Oxy: 66.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
-    "event": "AUTO_IRRIGATE",
-    "details": "[campo_3] Irrigato +6.5% | Temp: 14\u00b0C | Weather: cloudy | Moist: 26.5% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_3] Autoseminato spinach | Temp: 13°C | Weather: cloudy | Moist: 29.5% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach"
   },
   {
     "date": "05/01/2026",
     "event": "AUTO_IRRIGATE",
-    "details": "[campo_3] Irrigato +6.1% | Temp: 12\u00b0C | Weather: cloudy | Moist: 26.9% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_1] Irrigato +6.4% | Temp: 14°C | Weather: cloudy | Moist: 28.6% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   },
   {
-    "date": "06/01/2026",
+    "date": "05/01/2026",
     "event": "AUTO_IRRIGATE",
-    "details": "[campo_2] Irrigato +5.1% | Temp: 13\u00b0C | Weather: rain | Moist: 27.9% | Oxy: 52.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_2] Irrigato +18.2% | Temp: 13°C | Weather: sun | Moist: 16.8% | Oxy: 56.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   },
   {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_1] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_2] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "01/01/2026",
-    "event": "AUTO_PLANT",
-    "details": "[campo_3] Autoseminato lettuce | Temp: 20\u00b0C | Weather: Sunny | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce"
-  },
-  {
-    "date": "02/01/2026",
+    "date": "05/01/2026",
     "event": "AUTO_IRRIGATE",
-    "details": "[campo_1] Irrigato +6.4% | Temp: 13\u00b0C | Weather: rain | Moist: 26.6% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_3] Irrigato +6.7% | Temp: 13°C | Weather: sun | Moist: 28.3% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   },
   {
-    "date": "02/01/2026",
+    "date": "08/01/2026",
     "event": "AUTO_IRRIGATE",
-    "details": "[campo_3] Irrigato +6.5% | Temp: 13\u00b0C | Weather: cloudy | Moist: 26.5% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_2] Irrigato +6.7% | Temp: 14°C | Weather: sun | Moist: 28.3% | Oxy: 46.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   },
   {
-    "date": "03/01/2026",
+    "date": "10/01/2026",
     "event": "AUTO_IRRIGATE",
-    "details": "[campo_2] Irrigato +5.4% | Temp: 14\u00b0C | Weather: rain | Moist: 27.6% | Oxy: 62.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce"
+    "details": "[campo_2] Irrigato +5.4% | Temp: 15°C | Weather: rain | Moist: 29.6% | Oxy: 39.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach"
   }
 ]

@@ -31,7 +31,7 @@ logger = LoggingUtils.get_logger(__name__)
 async def auto_plant_monitor_loop(mqtt, camp_id, state):
     while True:
         await asyncio.sleep(4)
-        if state["occupied"]:
+        if state["occupied"] or state.get("empty_days", 0) < 3:
             continue
 
         season = state.get("season", "spring")
@@ -114,26 +114,33 @@ async def process_plantation_status(mqtt, camp_id, payload_bytes, state):
         print(f"Plantation error on {camp_id}: {err}")
 
 
-async def handle_env_telemetry(raw, state):
+async def handle_env_telemetry(raw_data, state):
     try:
-        data = json.loads(raw)
+        data = json.loads(raw_data)
         if isinstance(data, dict):
+            new_date = data.get("date")
+            old_date = state.get("date")
+
             state["season"] = data.get("season", state["season"])
-            state["date"] = data.get("date", state.get("date"))
             state["temperature"] = data.get("temperature", state.get("temperature", 20))
             state["weather"] = data.get("weather", state.get("weather", "Sunny"))
 
-            if not state["occupied"]:
-                state["empty_days"] += 1
-            else:
-                state["empty_days"] = 0
-    except Exception:
+            if new_date and new_date != old_date:
+                state["date"] = new_date
+                if not state["occupied"]:
+                    state["empty_days"] += 1
+                else:
+                    state["empty_days"] = 0
+            elif new_date:
+                state["date"] = new_date
+    except Exception as e:
+        logging.error(f"{e}")
         pass
 
 
-async def handle_terrain_telemetry(mqtt, camp_id, raw, state):
+async def handle_terrain_telemetry(mqtt, camp_id, raw_data, state):
     try:
-        data = json.loads(raw)
+        data = json.loads(raw_data)
         if not isinstance(data, dict):
             return
 
@@ -172,11 +179,11 @@ async def handle_terrain_telemetry(mqtt, camp_id, raw, state):
         logger.error(f"Terrain telemetry error on {camp_id}: {err}")
 
 
-async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
-    clean_raw = raw.strip()
+async def handle_dashboard_command(mqtt, camp_id, cmd, raw_data, state):
+    clean_raw_data = raw_data.strip()
     parsed_json = None
     try:
-        parsed_json = json.loads(clean_raw)
+        parsed_json = json.loads(clean_raw_data)
     except Exception:
         pass
 
@@ -184,7 +191,7 @@ async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
         seed_name = (
             parsed_json.get("seed")
             if isinstance(parsed_json, dict)
-            else clean_raw.lower()
+            else clean_raw_data.lower()
         )
         target = next(
             (s for s in SEEDS_LST if s["name"].lower() == str(seed_name).lower()), None
@@ -211,8 +218,8 @@ async def handle_dashboard_command(mqtt, camp_id, cmd, raw, state):
         days = 1
         if isinstance(parsed_json, dict):
             days = int(parsed_json.get("days", 1))
-        elif clean_raw.isdigit():
-            days = int(clean_raw)
+        elif clean_raw_data.isdigit():
+            days = int(clean_raw_data)
         if not state["occupied"]:
             state["empty_days"] += days
 
@@ -231,7 +238,7 @@ async def listen_telemetry(mqtt, camp_states):
 
     async for msg in mqtt.messages:
         top = str(msg.topic)
-        raw = (
+        raw_data = (
             msg.payload.decode("utf-8")
             if isinstance(msg.payload, bytes)
             else str(msg.payload)
@@ -250,14 +257,14 @@ async def listen_telemetry(mqtt, camp_states):
 
         try:
             if "environment" in top:
-                await handle_env_telemetry(raw, state)
+                await handle_env_telemetry(raw_data, state)
             elif "plantation" in top:
                 await process_plantation_status(mqtt, camp_id, msg.payload, state)
             elif "terrain" in top:
-                await handle_terrain_telemetry(mqtt, camp_id, raw, state)
+                await handle_terrain_telemetry(mqtt, camp_id, raw_data, state)
             elif "camp_manager/cmd/" in top:
                 cmd = top.split("camp_manager/cmd/")[-1].lower()
-                await handle_dashboard_command(mqtt, camp_id, cmd, raw, state)
+                await handle_dashboard_command(mqtt, camp_id, cmd, raw_data, state)
         except Exception:
             pass
 
@@ -306,7 +313,7 @@ async def main():
             await worker(camp_states)
         except Exception as err:
             logger.error(
-                f"Connection dropped ({err}). Reconnecting in 5s...",
+                f"Connection dropped ({err}). Reconnecting in 5s...", exc_info=True
             )
             await asyncio.sleep(5)
 

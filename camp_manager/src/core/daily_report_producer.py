@@ -1,6 +1,6 @@
-import json
-import os
 import logging
+import os
+import orjson
 
 from common.constants import DAILY_FARM_REPORT_PATH
 
@@ -9,14 +9,22 @@ logger = logging.getLogger(__name__)
 
 def add_to_daily_report(
     event_type: str, details: str, date_str: str = "01/01/2026", stats: dict = None
-):
+) -> list:
     report = []
+
+    # Ensure target directory exists
+    dir_path = os.path.dirname(DAILY_FARM_REPORT_PATH.split("/")[0])
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
+
     if os.path.exists(DAILY_FARM_REPORT_PATH):
         try:
-            with open(DAILY_FARM_REPORT_PATH, "r") as f:
-                report = json.load(f)
+            with open(DAILY_FARM_REPORT_PATH, "rb") as f:
+                content = f.read()
+                if content.strip():
+                    report = orjson.loads(content)
         except Exception as e:
-            logger.error(f"{e}")
+            logger.error(f"Error reading daily report file: {e}", exc_info=True)
             report = []
 
     if stats:
@@ -42,26 +50,10 @@ def add_to_daily_report(
 
     report.append(entry)
 
-    os.makedirs("data", exist_ok=True)
-    with open(DAILY_FARM_REPORT_PATH, "w") as f:
-        json.dump(report, f, indent=2)
+    try:
+        with open(DAILY_FARM_REPORT_PATH, "wb") as f:
+            f.write(orjson.dumps(report, option=orjson.OPT_INDENT_2))
+    except Exception as e:
+        logger.error(f"Error writing to daily report file: {e}", exc_info=True)
 
     return report
-
-
-def get_report():
-    if not os.path.exists(DAILY_FARM_REPORT_PATH):
-        return []
-    try:
-        with open(DAILY_FARM_REPORT_PATH, "r") as f:
-            return json.load(f)
-    except Exception as e:
-        logger.error(f"{e}")
-        return []
-
-
-def clear_reports():
-    os.makedirs("data", exist_ok=True)
-    with open(DAILY_FARM_REPORT_PATH, "w") as f:
-        json.dump([], f)
-    return []

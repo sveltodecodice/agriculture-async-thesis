@@ -1,6 +1,6 @@
 KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
-SEASONS_MAP = {
+MONTH_NUM_SEASON_MAP = {
     1: "winter",
     2: "winter",
     3: "spring",
@@ -15,14 +15,14 @@ SEASONS_MAP = {
     12: "winter",
 }
 
-SEASON_RANGES = {
+SEASONS_TEMP_RANGES = {
     "autumn": (16, 22),
     "winter": (12, 16),
     "spring": (20, 25),
     "summer": (28, 35),
 }
 
-WEATHER_PROBS = {
+SEASONS_WEATHER_PROBABILITY = {
     "winter": {"rain": 0.3, "cloudy": 0.4, "sun": 0.3},
     "spring": {"rain": 0.2, "cloudy": 0.3, "sun": 0.5},
     "summer": {"rain": 0.1, "cloudy": 0.2, "sun": 0.7},
@@ -30,7 +30,7 @@ WEATHER_PROBS = {
 }
 
 
-SEASONS_DEFAULT = {
+SEASONS_RAD_DEFAULT = {
     "summer": (600.0, 850.0),
     "spring": (450.0, 650.0),
     "autumn": (300.0, 500.0),

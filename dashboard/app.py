@@ -7,20 +7,9 @@ import paho.mqtt.client as mqtt
 import streamlit as st
 import ssl
 
-# Importazione centralizzata dei semi da seeds.py
-try:
-    from seeds import CROPS_INFO, CROP_KEY_TO_NAME
-except ImportError:
-    try:
-        from camp_manager.seeds import CROPS_INFO, CROP_KEY_TO_NAME
-    except ImportError:
-        # Fallback locale di sicurezza
-        CROPS_INFO = {
-            "Pomodoro": {"key": "tomato", "threshold": 0.250, "ideal_soil": "Franco", "days": 60},
-            "Grano": {"key": "wheat", "threshold": 0.180, "ideal_soil": "Argilloso", "days": 90},
-            "Insalata": {"key": "lettuce", "threshold": 0.280, "ideal_soil": "Sabbioso", "days": 30},
-        }
-        CROP_KEY_TO_NAME = {"tomato": "Pomodoro", "wheat": "Grano", "lettuce": "Insalata"}
+
+from seeds import CROPS_INFO, CROP_KEY_TO_NAME
+
 
 st.set_page_config(
     page_title="Controllo Smart Farm", layout="wide", page_icon="🌱"
@@ -69,6 +58,9 @@ def get_mqtt_service():
             client.subscribe("camp/+/terrain/telemetry")
             client.subscribe("camp/+/plantation/status")
             client.subscribe("camp/+/camp_manager/#")
+            client.subscribe("camp/manager/#")
+            client.subscribe("harvest/#")
+            client.subscribe("activity/#")
 
     def on_message(client, userdata, msg):
         try:
@@ -200,6 +192,18 @@ def process_mqtt_queue():
         target = st.session_state.campi_data[camp_id]
         topic_lower = topic.lower()
         event_name = topic.split("/")[-1]
+        
+        if "harvest" in topic_lower:
+            if isinstance(payload, dict) and "Coltivazione" in payload:
+                if payload not in st.session_state.harvest_deposit:
+                    st.session_state.harvest_deposit.append(payload)
+            return
+
+        if "logs" in topic_lower or "activity" in topic_lower:
+            if isinstance(payload, dict) and "Campo" in payload:
+                if payload not in st.session_state.logs:
+                    st.session_state.logs.append(payload)
+            return
 
         is_ambient = "ambient" in topic_lower or "environment" in topic_lower or "weather" in topic_lower or ("temperature" in payload and "soil_moisture" not in payload)
         if is_ambient:

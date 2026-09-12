@@ -1,13 +1,13 @@
 import random
 
-from common.constants import WEATHER_PROBS
+from common.constants import SEASONS_WEATHER_PROBABILITY
 
 
 def get_weather_condition(season: str) -> str:
-    if season not in WEATHER_PROBS:
+    if season not in SEASONS_WEATHER_PROBABILITY:
         raise ValueError(f"Invalid season: {season}.")
 
-    probs = WEATHER_PROBS[season]
+    probs = SEASONS_WEATHER_PROBABILITY[season]
     r = random.random()
 
     if r < probs["rain"]:

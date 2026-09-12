@@ -1,1 +1,2 @@
-aiomqtt>=2.0.0
+aiomqtt==2.5.1
+orjson==3.12.0

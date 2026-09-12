@@ -17,7 +17,6 @@ RUN groupadd --system appgroup \
 
 
 COPY requirements.txt ./
-COPY data ./
 
 RUN python -m pip install --upgrade pip \
     && python -m pip install -r requirements.txt

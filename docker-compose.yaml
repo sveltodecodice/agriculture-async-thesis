@@ -1,6 +1,3 @@
-networks:
-  farm_network:
-    driver: bridge
 
 services:
   mqtt-broker:
@@ -97,8 +94,11 @@ services:
       - MQTT_BROKER_PASS=secure_farm
     volumes:
       - ./certs:/app/certs:ro
-      - ./camp_manager/core/seeds.py:/app/seeds.py
     depends_on:
       - mqtt-broker
     networks:
       - farm_network
+
+networks:
+  farm_network:
+    driver: bridge
