@@ -4,7 +4,7 @@ networks:
 
 services:
   mqtt-broker:
-    image: eclipse-mosquitto:latest
+    image: eclipse-mosquitto:2.1.2-alpine
     container_name: mqtt-broker
     ports:
       - "8883:8883"
@@ -102,14 +102,3 @@ services:
       - mqtt-broker
     networks:
       - farm_network
-#docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/plant" -m "tomato"    plant a seed
-#docker exec -it <mqtt_broker_container> mosquitto_pub -t "environment/skip_day" -m "5"   skip days
-#docker exec -it <mqtt_broker_container> mosquitto_pub -t "camp_manager/cmd/irrigate" -m "trigger"  force irrigation
-
-#python camp_manager/cmd.py plant tomato
-#python camp_manager/cmd.py irrigate
-#python camp_manager/cmd.py clear
-#python camp_manager/cmd.py skip 5
-
-#http://localhost:15672/#/queues
-#http://127.0.0.1:1880/#flow/f6f2187d.f17ca8

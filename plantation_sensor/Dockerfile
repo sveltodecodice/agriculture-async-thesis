@@ -1,15 +1,33 @@
 FROM python:3.14-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
 WORKDIR /app
 
-# Copy dependencies first for Docker layer caching
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Create non-root application user -> Security before execution -> Docker security + TLS 
 
-# Copy source code
-COPY . .
+RUN groupadd --system appgroup \
+    && useradd --system \
+        --gid appgroup \
+        --create-home \
+        appuser
 
-# Ensure core module imports resolve properly
-ENV PYTHONPATH=/app
+
+COPY requirements.txt ./
+
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r requirements.txt
+
+
+COPY --chown=appuser:appgroup . .
+
+# Run the application as not root user
+
+USER appuser
+
+STOPSIGNAL SIGTERM
 
 CMD ["python", "src/main.py"]

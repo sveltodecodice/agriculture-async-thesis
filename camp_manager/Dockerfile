@@ -1,15 +1,34 @@
-# Use an official lightweight Python image
 FROM python:3.14-slim
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Create non-root application user -> Security before execution -> Docker security + TLS 
 
-# Copy the rest of the application code
-COPY . .
+RUN groupadd --system appgroup \
+    && useradd --system \
+        --gid appgroup \
+        --create-home \
+        appuser
 
-# Command to run the application (pointing to your main.py inside core)
+
+COPY requirements.txt ./
+COPY data ./
+
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r requirements.txt
+
+
+COPY --chown=appuser:appgroup . .
+
+# Run the application as not root user
+
+USER appuser
+
+STOPSIGNAL SIGTERM
+
 CMD ["python", "src/main.py"]
