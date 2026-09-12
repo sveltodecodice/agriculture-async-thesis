@@ -221,7 +221,7 @@ SEEDS_DATA = [
     },
 ]
 
-# ALIAS PER RETROCOMPATIBILITÀ CON SEED_MATCHER
+# Alias per retrocompatibilità con core/seed_matcher.py
 list_seeds = [
     {
         "name": seed["key"],

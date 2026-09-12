@@ -3,7 +3,6 @@ networks:
     driver: bridge
 
 services:
-  # 1. MQTT Broker (Mosquitto SSL)
   mqtt-broker:
     image: eclipse-mosquitto:latest
     container_name: mqtt-broker
@@ -15,7 +14,6 @@ services:
     networks:
       - farm_network
 
-  # 2. Ambient Sensor
   ambient_sensor:
     build:
       context: ./ambient_sensor
@@ -33,7 +31,6 @@ services:
     networks:
       - farm_network
 
-  # 3. Terrain Sensor
   terrain_sensor:
     build:
       context: ./terrain_sensor
@@ -51,7 +48,6 @@ services:
     networks:
       - farm_network
 
-  # 4. Plantation Sensor
   plantation_sensor:
     build:
       context: ./plantation_sensor
@@ -69,7 +65,6 @@ services:
     networks:
       - farm_network
 
-  # 5. Camp Manager
   camp_manager:
     build:
       context: ./camp_manager
@@ -88,7 +83,6 @@ services:
     networks:
       - farm_network
 
-  # 6. Streamlit Reactive Dashboard
   dashboard_app:
     build:
       context: ./dashboard
@@ -103,6 +97,7 @@ services:
       - MQTT_BROKER_PASS=secure_farm
     volumes:
       - ./certs:/app/certs:ro
+      - ./camp_manager/core/seeds.py:/app/seeds.py
     depends_on:
       - mqtt-broker
     networks:

@@ -1,19 +1,17 @@
 import random
 
-
 def get_radiation(season: str, weather: str) -> float:
-    base_rad = {
-        "spring": 600.0,
-        "summer": 900.0,
-        "autumn": 400.0,
-        "winter": 250.0,
-    }.get(season.lower(), 500.0)
-
-    if weather == "rain":
-        multiplier = random.uniform(0.1, 0.3)
-    elif weather == "Cloudy":
-        multiplier = random.uniform(0.3, 0.6)
-    else:
-        multiplier = random.uniform(0.8, 1.1)
-
-    return round(base_rad * multiplier, 0)
+    w = str(weather).lower()
+    if w in ("rain", "rainy", "pioggia"):
+        return round(random.uniform(50.0, 150.0), 1)
+    elif w in ("cloudy", "nuvoloso"):
+        return round(random.uniform(150.0, 350.0), 1)
+    else:  # sun / sunny
+        season_base = {
+            "summer": (600.0, 850.0),
+            "spring": (450.0, 650.0),
+            "autumn": (300.0, 500.0),
+            "winter": (150.0, 300.0),
+        }
+        low, high = season_base.get(season.lower(), (300.0, 500.0))
+        return round(random.uniform(low, high), 1)

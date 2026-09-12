@@ -1,11 +1,17 @@
 import random
 
 def get_humidity_air(weather: str) -> float:
-    if weather == "rain":
-        return round(random.uniform(75.0, 95.0), 1)
-    elif weather == "Cloudy":
-        return round(random.uniform(60.0, 75.0), 1)
-    return round(random.uniform(40.0, 60.0), 1)
+    w = str(weather).lower()
+    if w in ("rain", "rainy", "pioggia"):
+        return round(random.uniform(80.0, 95.0), 1)
+    elif w in ("cloudy", "nuvoloso"):
+        return round(random.uniform(65.0, 80.0), 1)
+    else:  # sun / sunny
+        return round(random.uniform(40.0, 60.0), 1)
+
 
 def get_rain_mm(weather: str) -> float:
-    return round(random.uniform(2.0, 18.0), 1) if weather == "rain" else 0.0
+    w = str(weather).lower()
+    if w in ("rain", "rainy", "pioggia"):
+        return round(random.uniform(2.0, 15.0), 1)
+    return 0.0  # Sia sun che cloudy non producono pioggia

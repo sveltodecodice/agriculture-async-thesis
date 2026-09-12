@@ -1,19 +1,10 @@
 import random
 
-
 def get_wind_speed(season: str, weather: str) -> float:
-    base_speed = {
-        "spring": 12.0,
-        "summer": 6.0,
-        "autumn": 15.0,
-        "winter": 10.0,
-    }.get(season.lower(), 10.0)
-
-    if weather == "rain":
-        multiplier = random.uniform(1.5, 2.5)
-    elif weather == "Cloudy":
-        multiplier = random.uniform(1.0, 1.5)
+    w = str(weather).lower()
+    if w in ("rain", "rainy"):
+        return round(random.uniform(15.0, 30.0), 1)
+    elif w in ("cloudy", "nuvoloso"):
+        return round(random.uniform(8.0, 18.0), 1)
     else:
-        multiplier = random.uniform(0.5, 1.2)
-
-    return round(base_speed * multiplier, 1)
+        return round(random.uniform(3.0, 12.0), 1)

@@ -2,7 +2,7 @@ from datetime import date, timedelta
 
 from core.season import get_season
 from core.temperature import get_temperature
-from core.weather import get_weather_condition
+from ambient_sensor.src.core.weatherold import get_weather_condition
 
 
 class SensorManager:

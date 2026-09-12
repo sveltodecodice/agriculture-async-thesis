@@ -5,6 +5,7 @@ import queue
 import pandas as pd
 import paho.mqtt.client as mqtt
 import streamlit as st
+import ssl
 
 # Importazione centralizzata dei semi da seeds.py
 try:
@@ -47,6 +48,14 @@ if "harvest_deposit" not in st.session_state:
 
 if "logs" not in st.session_state:
     st.session_state.logs = []
+    
+    
+def get_ssl_context():
+    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context.check_hostname = True
+    ssl_context.verify_mode = ssl.CERT_REQUIRED
+    
+    return ssl_context
 
 
 @st.cache_resource
@@ -55,8 +64,11 @@ def get_mqtt_service():
 
     def on_connect(client, userdata, flags, rc, properties=None):
         if rc == 0:
-            client.subscribe("camp/#")
-            client.subscribe("#")
+            # Sottoscrizioni mirate ed efficienti senza wildcard globale
+            client.subscribe("camp/+/environment/telemetry")
+            client.subscribe("camp/+/terrain/telemetry")
+            client.subscribe("camp/+/plantation/status")
+            client.subscribe("camp/+/camp_manager/#")
 
     def on_message(client, userdata, msg):
         try:
@@ -68,18 +80,19 @@ def get_mqtt_service():
                 msg_queue.put((msg.topic, {"value": val}))
             except Exception:
                 pass
+            
+    ssl_client = get_ssl_context()
 
     client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
     client.username_pw_set(MQTT_USER, MQTT_PASS)
-    client.tls_set(ca_certs="/app/certs/ca.crt")
-    client.tls_insecure_set(True)
+    client.tls_set_context(context=ssl_client)
+    
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(MQTT_HOST, MQTT_PORT, 60)
     client.loop_start()
 
     return client, msg_queue
-
 
 mqtt_client, MQTT_QUEUE = get_mqtt_service()
 
@@ -140,7 +153,6 @@ if "campi_data" not in st.session_state:
 
 
 def normalize_payload_keys(d):
-    if not isinstance(d, dict): return d
     norm = {}
     for k, v in d.items():
         k_low = str(k).lower()
@@ -175,10 +187,7 @@ def process_mqtt_queue():
         
         parts = topic.split("/")
         camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else payload.get("camp_id")
-
-        if camp_id == "fortnite":
-            camp_id = "campo_1"
-
+        
         if not camp_id or camp_id not in st.session_state.campi_data:
             for possible_camp in ["campo_1", "campo_2", "campo_3"]:
                 if possible_camp in topic:
@@ -231,6 +240,9 @@ def process_mqtt_queue():
                                 "Stato Finale": "🌾 Raccolto con Successo"
                             })
 
+                            sm_val = target["terrain"].get("soil_moisture", 0.28)
+                            sm_str = f"{sm_val:.3f}" if isinstance(sm_val, (int, float)) else "-"
+
                             st.session_state.logs.append({
                                 "Campo": camp_id,
                                 "Coltivazione": crop_name,
@@ -241,7 +253,7 @@ def process_mqtt_queue():
                                 "Stato": "Raccolto",
                                 "Temp.": f"{target['ambient'].get('temperature', '-')} °C",
                                 "Umidità aria": f"{target['ambient'].get('humidity_air', '-')} %",
-                                "Umidità suolo": target["terrain"].get("soil_moisture", "-"),
+                                "Umidità suolo": sm_str,
                                 "Erogata": f"{target['terrain'].get('water_dispensed_mm', 0.0)} mm",
                                 "Risparmiata": "0.0 mm"
                             })
@@ -304,17 +316,40 @@ def process_mqtt_queue():
                     th = target["plantation"].get("soil_threshold", 0.25)
                     real_status = "Troppo Secco" if sm < th else ("Troppo Umido" if sm > (th + 0.05) else "In Salute")
 
+                # Determinazione dinamica dell'evento
+                rain_val = float(target["ambient"].get("rain_mm", 0.0))
+                water_val = float(payload.get("water_dispensed_mm", target["terrain"].get("water_dispensed_mm", 0.0)))
+                ev_upper = event_name.upper()
+
+                if "RACCOLTO" in ev_upper:
+                    display_event = "RACCOLTO"
+                elif "IRRIGAT" in ev_upper or water_val > 0.0:
+                    display_event = "IRRIGAZIONE"
+                elif "OXYGEN" in ev_upper or "RIOSSIGENAZ" in ev_upper:
+                    display_event = "RIOSSIGENAZIONE"
+                elif "PLANT" in ev_upper or "SEMINA" in ev_upper:
+                    display_event = "SEMINA"
+                elif rain_val > 0.0 or str(target["ambient"].get("weather", "")).lower() in ["rain", "pioggia"]:
+                    display_event = "PIOGGIA"
+                elif ev_upper not in ["TELEMETRY", "TELEMETRIA", "AMBIENT", "TERRAIN", "PLANTATION", "STATUS_DETAIL", "STATUS", "HEALTH", "LOG"]:
+                    display_event = ev_upper
+                else:
+                    display_event = "-"  # Vuoto se non è accaduto nulla
+
+                sm_val = target["terrain"].get("soil_moisture", 0.28)
+                sm_str = f"{sm_val:.3f}" if isinstance(sm_val, (int, float)) else "-"
+
                 st.session_state.logs.append({
                     "Campo": camp_id, 
                     "Coltivazione": target["plantation"].get("crop", "N/D"),
                     "Terreno": st.session_state.terrain_types.get(camp_id, "Franco"),
                     "Data": curr_full_date, 
                     "Ora": payload.get("time", "06:00:00"),
-                    "Evento": event_name.upper() if event_name not in NOISY_TOPICS else "TELEMETRIA", 
+                    "Evento": display_event, 
                     "Stato": str(real_status).capitalize(),
                     "Temp.": f"{target['ambient'].get('temperature', '-')} °C",
                     "Umidità aria": f"{target['ambient'].get('humidity_air', '-')} %",
-                    "Umidità suolo": f"{target['terrain'].get('soil_moisture', 0.28):.3f}",
+                    "Umidità suolo": sm_str,
                     "Erogata": f"{payload.get('water_dispensed_mm', 0.0)} mm", 
                     "Risparmiata": f"{payload.get('water_saved_mm', 0.0)} mm"
                 })
@@ -356,13 +391,11 @@ with tab_mon:
 
         with c_irr:
             if st.button("💧 Forza irrigazione", use_container_width=True):
-                # Invia unicamente al camp_manager che gestisce l'istruzione verso il terreno
                 mqtt_client.publish(f"camp/{selected_camp}/camp_manager/cmd/irrigate", "trigger")
                 st.toast(f"Comando irrigazione inviato a {selected_camp.upper()}")
 
         with c_reox:
             if st.button("💨 Riossigenazione", use_container_width=True):
-                # Invia unicamente al camp_manager
                 mqtt_client.publish(f"camp/{selected_camp}/camp_manager/cmd/reoxygenate", "trigger")
                 st.toast(f"Riossigenazione inviata a {selected_camp.upper()}!")
 
@@ -534,7 +567,6 @@ with tab_mon:
         st.dataframe(df_irr, use_container_width=True, hide_index=True)
 
         st.markdown("### 📋 Parametri d'Intervento Giornalieri")
-        # COLONNA RINOMINATA IN "Irrigazione" E PIOGGIA CONFLUITA IN "Risparmiata"
         df_param = pd.DataFrame([{
             "Campo": selected_camp, 
             "Coltivazione": crop.capitalize() if not is_empty else "Nessuna", 

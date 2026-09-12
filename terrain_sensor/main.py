@@ -12,23 +12,22 @@ from core.communication_par_ter import (
 from core.mqtt_utils import Deduper, publish_json
 from core.terrain_condition import create_terrain_state, process_terrain_update
 
-KNOWN_CAMPS = ["fortnite", "campo_2", "campo_3"]
+KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 
 async def listen_mqtt_telemetry(client, camp_states, dedup):
-    # Iscrizione ai topic specifici per campo e ai topic generali di fallback
     await client.subscribe("camp/+/environment/telemetry")
     await client.subscribe("camp/+/terrain/cmd/#")
-    await client.subscribe("environment/telemetry")
-    await client.subscribe("terrain/cmd/#")
 
     async for msg in client.messages:
         top = str(msg.topic)
         raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
 
-        # Estrazione automatica del camp_id dal topic 'camp/<camp_id>/...'
         parts = top.split("/")
-        camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else "fortnite"
+        if len(parts) >= 2 and parts[0] == "camp":
+            camp_id = parts[1]
+        else:
+            continue
 
         if camp_id not in camp_states:
             camp_states[camp_id] = create_terrain_state(initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco")
@@ -96,8 +95,8 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
 
 async def worker(camp_states, dedup):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = True
-    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
         MQTT_HOST,

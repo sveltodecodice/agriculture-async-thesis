@@ -11,7 +11,7 @@ from core.communication_par_amb import (
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
 
-KNOWN_CAMPS = ["fortnite", "campo_2", "campo_3"]
+KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 
 async def publish_loop(client, managers):
@@ -27,15 +27,16 @@ async def publish_loop(client, managers):
 
 async def listen_mqtt_commands(client, managers):
     await client.subscribe("camp/+/environment/cmd/#")
-    await client.subscribe("environment/cmd/#")
 
     async for msg in client.messages:
         top = str(msg.topic)
         raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
 
-        # Estrae il camp_id dal topic "camp/<camp_id>/environment/cmd/..."
         parts = top.split("/")
-        camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else "fortnite"
+        if len(parts) >= 2 and parts[0] == "camp":
+            camp_id = parts[1]
+        else:
+            continue
 
         if camp_id not in managers:
             managers[camp_id] = SensorManager(d=1, m=1, y=2026)
@@ -70,10 +71,8 @@ async def listen_mqtt_commands(client, managers):
 
 async def worker(managers):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = True
-    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
-    
-    
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
         MQTT_HOST,

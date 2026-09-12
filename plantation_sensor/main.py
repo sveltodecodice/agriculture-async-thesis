@@ -19,7 +19,7 @@ from core.plant_conditions import (
     seed_planted,
 )
 
-KNOWN_CAMPS = ["fortnite", "campo_2", "campo_3"]
+KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 
 def create_camp_context():
@@ -48,16 +48,16 @@ async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
     await mqtt.subscribe("camp/+/terrain/telemetry")
     await mqtt.subscribe("camp/+/environment/telemetry")
     await mqtt.subscribe("camp/+/plantation/cmd/#")
-    await mqtt.subscribe("camp/terrain_telemetry")
-    await mqtt.subscribe("environment/telemetry")
-    await mqtt.subscribe("plantation/cmd/#")
 
     async for msg in mqtt.messages:
         top = str(msg.topic)
         raw = msg.payload.decode("utf-8") if isinstance(msg.payload, bytes) else str(msg.payload)
 
         parts = top.split("/")
-        camp_id = parts[1] if (len(parts) >= 2 and parts[0] == "camp") else "fortnite"
+        if len(parts) >= 2 and parts[0] == "camp":
+            camp_id = parts[1]
+        else:
+            continue
 
         if camp_id not in camp_contexts:
             camp_contexts[camp_id] = create_camp_context()
@@ -100,8 +100,8 @@ async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
 
 async def worker(camp_contexts, dedup):
     ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = True
-    ssl_ctx.verify_mode = ssl.CERT_REQUIRED
+    ssl_ctx.check_hostname = False
+    ssl_ctx.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
         MQTT_HOST,
