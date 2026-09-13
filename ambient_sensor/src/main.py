@@ -1,8 +1,10 @@
 import asyncio
-import ssl
-import aiomqtt
 import logging
+import ssl
+from typing import Any, Dict
 
+import aiomqtt
+from common.constants import KNOWN_CAMPS
 from common.parameters import (
     MQTT_HOST,
     MQTT_PASS,
@@ -11,17 +13,20 @@ from common.parameters import (
 )
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
-from common.constants import KNOWN_CAMPS
 from utils.logger_utils import LoggingUtils
 
-LoggingUtils.configure(
-    console_level=logging.INFO,
-)
-
+LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
-async def publish_loop(client, managers):
+async def publish_loop(client: aiomqtt.Client, managers: dict) -> None:
+    """Periodically publishes environmental state metrics for all active camps.
+
+    Args:
+        client (aiomqtt.Client): Active MQTT client instance.
+        managers (dict): Dictionary mapping camp IDs to
+            their respective SensorManager instances.
+    """
     while True:
         for camp_id, manager in managers.items():
             state = manager.get_state()
@@ -32,78 +37,103 @@ async def publish_loop(client, managers):
         await asyncio.sleep(10)
 
 
-async def listen_mqtt_commands(client, managers):
+async def listen_mqtt_commands(client: aiomqtt.Client, managers: dict) -> None:
+    """Listens for administrative commands on environment MQTT command topics.
+
+    Supported commands:
+        - .../cmd/skip: Advances environmental state by N days (default 1).
+        - .../cmd/reset: Resets environmental state back to 01/01/2026.
+
+    Args:
+        client (aiomqtt.Client): Active MQTT client instance.
+        managers (dict): Dictionary mapping camp IDs to
+            their respective SensorManager instances.
+    """
     await client.subscribe("camp/+/environment/cmd/#")
 
-    async for msg in client.messages:
-        top = str(msg.topic)
-        raw = (
-            msg.payload.decode("utf-8")
-            if isinstance(msg.payload, bytes)
-            else str(msg.payload)
+    async for message in client.messages:
+        topic = str(message.topic)
+        payload_text = (
+            message.payload.decode("utf-8")
+            if isinstance(message.payload, bytes)
+            else str(message.payload)
         )
 
-        parts = top.split("/")
-        if len(parts) >= 2 and parts[0] == "camp":
-            camp_id = parts[1]
+        topic_parts = topic.split("/")
+        if len(topic_parts) >= 2 and topic_parts[0] == "camp":
+            camp_id = topic_parts[1]
         else:
             continue
 
         if camp_id not in managers:
-            managers[camp_id] = SensorManager(d=1, m=1, y=2026)
+            managers[camp_id] = SensorManager(day=1, month=1, year=2026)
 
         manager = managers[camp_id]
 
-        if top.endswith("/skip"):
+        if topic.endswith("/skip"):
             try:
-                days = int(raw.strip())
+                days = int(payload_text.strip())
             except ValueError:
                 days = 1
 
-            st = manager.get_state()
+            current_state = manager.get_state()
             for _ in range(days):
                 manager.update_environment()
-                st = manager.get_state()
-                topic = f"camp/{camp_id}/environment/telemetry"
-                await publish_data(client, topic, st)
+                current_state = manager.get_state()
+                telemetry_topic = f"camp/{camp_id}/environment/telemetry"
+                await publish_data(client, telemetry_topic, current_state)
                 await asyncio.sleep(0.1)
 
             logger.info(
-                f"[{camp_id.upper()}] Skipped {days} days. Current date: {st['day']:02d}/{st['month']:02d}/{st['year']}",
+                "[%s] Skipped %d days. Current date: %02d/%02d/%d",
+                camp_id.upper(),
+                days,
+                current_state["day"],
+                current_state["month"],
+                current_state["year"],
             )
 
-        elif top.endswith("/reset"):
-            manager._create_timer_state(d=1, m=1, y=2026)
+        elif topic.endswith("/reset"):
+            manager._create_timer_state(day=1, month=1, year=2026)
             logger.info(
-                f"[{camp_id.upper()}] Environment state reset to 01/01/2026.",
+                "[%s] Environment state reset to 01/01/2026.",
+                camp_id.upper(),
             )
-            topic = f"camp/{camp_id}/environment/telemetry"
-            await publish_data(client, topic, manager.get_state())
+            telemetry_topic = f"camp/{camp_id}/environment/telemetry"
+            await publish_data(client, telemetry_topic, manager.get_state())
 
 
-async def worker(managers):
-    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+async def worker(managers: dict) -> None:
+    """Manages the MQTT connection lifecycle and supervises background tasks.
+
+    Args:
+        managers (dict): Map of camp IDs to SensorManager
+            instances.
+
+    Raises:
+        Exception: Re-raises exceptions caught from background tasks to signal
+            reconnection handling in the main loop.
+    """
+    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
         password=MQTT_PASS,
-        tls_context=ssl_ctx,
+        tls_context=ssl_context,
         identifier="ambient-sensor-app",
     )
     async with client:
-        logger.info(
-            "Multi-camp service online. Starting tasks...",
-        )
+        logger.info("Multi-camp service online. Starting tasks...")
 
-        t1 = asyncio.create_task(publish_loop(client, managers))
-        t2 = asyncio.create_task(listen_mqtt_commands(client, managers))
+        publish_task = asyncio.create_task(publish_loop(client, managers))
+        listener_task = asyncio.create_task(listen_mqtt_commands(client, managers))
 
         done, pending = await asyncio.wait(
-            [t1, t2], return_when=asyncio.FIRST_EXCEPTION
+            [publish_task, listener_task], return_when=asyncio.FIRST_EXCEPTION
         )
 
         for task in pending:
@@ -116,19 +146,18 @@ async def worker(managers):
                 raise task.exception()
 
 
-async def main():
-    managers = {cid: SensorManager(d=1, m=1, y=2026) for cid in KNOWN_CAMPS}
-    logger.info(
-        "Starting multi-camp ambient node...",
-    )
+async def main() -> None:
+    """Service entry point initializing camp managers and handling reconnects."""
+    managers = {
+        camp_id: SensorManager(day=1, month=1, year=2026) for camp_id in KNOWN_CAMPS
+    }
+    logger.info("Starting multi-camp ambient node...")
 
     while True:
         try:
             await worker(managers)
-        except Exception as err:
-            logger.error(
-                f"Connection dropped ({err}). Reconnecting in 5s...",
-            )
+        except Exception as error:
+            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
             await asyncio.sleep(5)
 
 

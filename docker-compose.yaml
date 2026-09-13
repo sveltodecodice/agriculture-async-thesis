@@ -94,10 +94,14 @@ services:
       - MQTT_BROKER_PASS=secure_farm
     volumes:
       - ./certs:/app/certs:ro
+      - dashboard_data:/app/data
     depends_on:
       - mqtt-broker
     networks:
       - farm_network
+
+volumes:
+  dashboard_data:
 
 networks:
   farm_network:

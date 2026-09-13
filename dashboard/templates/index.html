@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Farm</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="site-header">
+      <div class="brand">
+        <div class="brand-mark">SF</div>
+        <div>
+          <p class="kicker" id="pageKicker">SMART FARM</p>
+          <h1 id="pageTitle">Farm overview</h1>
+          <p class="page-subtitle" id="pageSubtitle">Stato corrente dei campi e delle colture.</p>
+        </div>
+      </div>
+
+      <div class="header-tools">
+        <div class="date-card">
+          <span>Data corrente</span>
+          <strong id="currentDate">—</strong>
+        </div>
+        <div class="connection-stack">
+          <div class="connection-row" id="mqttStatus">
+            <span class="status-dot"></span>
+            <span>MQTT</span>
+            <strong>—</strong>
+          </div>
+          <div class="connection-row" id="managerStatus">
+            <span class="status-dot"></span>
+            <span>Camp Manager</span>
+            <strong>—</strong>
+          </div>
+        </div>
+        <button class="nav-button diagnostic-button" id="diagnosticButton" type="button">
+          <span class="nav-icon">◌</span>
+          <span>Diagnostica sistema</span>
+        </button>
+        <button class="nav-button home-button hidden" id="homeButton" type="button">
+          <span class="nav-icon">←</span>
+          <span>Torna alla panoramica</span>
+        </button>
+      </div>
+    </header>
+
+    <section id="homeView" class="view">
+      <section class="hero-grid">
+        <article class="review-panel">
+          <p class="kicker">PANORAMICA</p>
+          <h2 id="reviewTitle">Caricamento stato azienda…</h2>
+          <p class="review-copy" id="reviewCopy">Sto raccogliendo le informazioni correnti dai campi.</p>
+          <div class="review-stats">
+            <div>
+              <span>Campi attivi</span>
+              <strong id="activeFields">—</strong>
+            </div>
+            <div>
+              <span>Da monitorare</span>
+              <strong id="attentionFields">—</strong>
+            </div>
+            <div>
+              <span>Pronti al raccolto</span>
+              <strong id="readyFields">—</strong>
+            </div>
+          </div>
+        </article>
+
+        <aside class="today-panel">
+          <p class="kicker">OGGI</p>
+          <div class="today-line">
+            <span>Stagione</span>
+            <strong id="currentSeason">—</strong>
+          </div>
+          <div class="today-line">
+            <span>Meteo</span>
+            <strong id="currentWeather">—</strong>
+          </div>
+          <div class="today-line">
+            <span>Ultimo aggiornamento</span>
+            <strong id="lastUpdate">—</strong>
+          </div>
+        </aside>
+      </section>
+
+      <section class="fields-section">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">CAMPI</p>
+            <h2>Stato delle colture</h2>
+          </div>
+          <p>Coltura corrente, stato, crescita e condizioni principali in una vista leggibile.</p>
+        </div>
+        <div class="fields-grid" id="fieldsGrid"></div>
+      </section>
+    </section>
+
+    <section id="diagnosticsView" class="view hidden">
+      <section class="diagnostic-intro">
+        <div>
+          <p class="kicker">DIAGNOSTICA</p>
+          <h2>Salute del sistema</h2>
+          <p>Stato in tempo reale di Camp Manager, MQTT e dei sensori environment, terrain e plantation di ogni campo.</p>
+        </div>
+        <div class="diagnostic-updated">
+          <span>Ultimo stato diagnostico</span>
+          <strong id="diagnosticLastUpdate">—</strong>
+        </div>
+      </section>
+
+      <section class="diagnostic-summary" id="diagnosticSummary"></section>
+
+      <section class="diagnostic-fields-section">
+        <div class="section-heading">
+          <div>
+            <p class="kicker">SENSORI PER CAMPO</p>
+            <h2>Stato dei servizi</h2>
+          </div>
+          <p>Un sensore è considerato offline dal Camp Manager se non invia dati per più di 30 secondi.</p>
+        </div>
+        <div class="diagnostic-fields-grid" id="diagnosticFieldsGrid"></div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

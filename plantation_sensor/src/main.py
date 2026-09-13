@@ -31,11 +31,13 @@ def create_camp_context() -> Dict[str, Any]:
     """Initializes a new context dictionary for a specific camp.
 
     Returns:
-        Dict[str, Any]: Context object containing moisture level, last recorded
-        date, and default plantation state.
+        Dict[str, Any]: Context object containing moisture, temperature, season,
+        last recorded date, and default plantation state.
     """
     return {
         "moisture": None,
+        "temperature": None,
+        "season": None,
         "last_date": None,
         "plantation": create_default_plantation_state(),
     }
@@ -54,7 +56,12 @@ async def monitor_loop(
     while True:
         await asyncio.sleep(3)
         for camp_id, context in camp_contexts.items():
-            status = get_status(context["plantation"], context["moisture"])
+            status = get_status(
+                context["plantation"],
+                context["moisture"],
+                context["temperature"],
+                context["season"],
+            )
             status_topic = f"camp/{camp_id}/plantation/status"
             await publish_json(mqtt, status_topic, status)
 
@@ -66,6 +73,10 @@ async def monitor_loop(
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/time_left",
                 str(status_detail["time_left"]),
+            )
+            await mqtt.publish(
+                f"camp/{camp_id}/plantation/growth_stage",
+                str(status_detail["growth_stage"]),
             )
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/health",
@@ -119,6 +130,11 @@ async def listen_mqtt_telemetry(
             payload_data = json.loads(payload_text)
             if dedup.is_duplicate_or_stale(topic, payload_data.get("ts")):
                 continue
+
+            if "temperature" in payload_data:
+                context["temperature"] = float(payload_data["temperature"])
+            if "season" in payload_data:
+                context["season"] = str(payload_data["season"])
 
             new_date = payload_data.get("date")
             if new_date and new_date != context.get("last_date"):

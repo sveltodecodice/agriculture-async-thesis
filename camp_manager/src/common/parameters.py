@@ -16,6 +16,7 @@ NOTIFICATIONS_TOPIC = "camp/notifications"
 ACTIVITY_LOGS_TOPIC = "camp/activity_logs"
 HARVEST_DEPOSIT_TOPIC = "camp/harvest_deposit"
 TOP_SEEDS_TOPIC = "camp/top_seeds"
+CAMP_MANAGER_STATUS_TOPIC = "camp/manager/status"
 
 # Topic Comandi (Manager -> Sensori)
 CMD_ENV_TOPIC = "environment/cmd/#"

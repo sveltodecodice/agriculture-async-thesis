@@ -1,3 +1,5 @@
+from pathlib import Path
+
 KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
 
 SEED_TARGETS = {
@@ -39,12 +41,12 @@ DEFAULT_STATE = {
     "water_dispensed_mm": 0.0,
 }
 
-OUTPUT_DIRECTORY = "data/"
-DATA_OUTPUT_FILENAME = "harvest_deposit.json"
-DATA_OUTPUT_PATH = OUTPUT_DIRECTORY + DATA_OUTPUT_FILENAME
+# Fix per Permission Error 13
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-DAILY_FARM_REPORT_FILENAME = "daily_farm_log.json"
-DAILY_FARM_REPORT_PATH = OUTPUT_DIRECTORY + DAILY_FARM_REPORT_FILENAME
+OUTPUT_DIRECTORY = BASE_DIR / "data"
+DATA_OUTPUT_PATH = str(OUTPUT_DIRECTORY / "harvest_deposit.json")
+DAILY_FARM_REPORT_PATH = str(OUTPUT_DIRECTORY / "daily_farm_log.json")
 
 DEFAULT_FORMAT = f" %(asctime)s | " "%(levelname)s | " "%(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"

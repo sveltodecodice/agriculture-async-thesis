@@ -4,11 +4,32 @@ from common.constants import SEASONS_RAD_DEFAULT
 
 
 def get_radiation(season: str, weather: str) -> float:
-    w = str(weather).lower()
-    if w in ("rain", "rainy", "pioggia"):
-        return round(random.uniform(50.0, 150.0), 1)
-    elif w in ("cloudy", "nuvoloso"):
-        return round(random.uniform(150.0, 350.0), 1)
-    else:  # sun / sunny
-        low, high = SEASONS_RAD_DEFAULT.get(season.lower(), (300.0, 500.0))
-        return round(random.uniform(low, high), 1)
+    """
+    Calculates solar radiation using seasonal baselines and weather attenuation.
+
+    Args:
+        season (str): The current season (e.g., 'summer', 'winter').
+        weather (str): Current weather condition (e.g., 'rain', 'cloudy', 'sunny').
+
+    Returns:
+        float: Calculated solar radiation in W/m² rounded to 1 decimal place.
+    """
+    season_key = str(season).lower().strip()
+    weather_type = str(weather).lower().strip()
+
+    low, high = SEASONS_RAD_DEFAULT.get(season_key, (300.0, 500.0))
+    base_radiation = random.uniform(low, high)
+
+    if weather_type in ("rain", "rainy", "pioggia"):
+        # Molto nuvoloso -> poca luce
+        attenuation_factor = random.uniform(0.15, 0.30)
+    elif weather_type in ("cloudy", "nuvoloso"):
+        # Nuvoloso -> media luce
+        attenuation_factor = random.uniform(0.35, 0.60)
+    else:  # sun / sunny / clear
+        # Cielo sereno -> 90/100% di illuminazione
+        attenuation_factor = random.uniform(0.90, 1.0)
+
+    calculated_radiation = base_radiation * attenuation_factor
+
+    return round(calculated_radiation, 1)
