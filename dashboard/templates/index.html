@@ -1,131 +1,62 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Farm</title>
-  <link rel="stylesheet" href="/static/styles.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#183b2d" />
+  <title>Smart Farm · Control Center</title>
+  <link rel="stylesheet" href="/static/css/tokens.css" />
+  <link rel="stylesheet" href="/static/css/layout.css" />
+  <link rel="stylesheet" href="/static/css/components.css" />
 </head>
 <body>
-  <main class="shell">
-    <header class="site-header">
+  <div class="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Navigazione principale">
       <div class="brand">
         <div class="brand-mark">SF</div>
-        <div>
-          <p class="kicker" id="pageKicker">SMART FARM</p>
-          <h1 id="pageTitle">Farm overview</h1>
-          <p class="page-subtitle" id="pageSubtitle">Stato corrente dei campi e delle colture.</p>
+        <div class="brand-copy">
+          <strong>Smart Farm</strong>
+          <span>Control Center</span>
         </div>
       </div>
 
-      <div class="header-tools">
-        <div class="date-card">
-          <span>Data corrente</span>
-          <strong id="currentDate">—</strong>
-        </div>
-        <div class="connection-stack">
-          <div class="connection-row" id="mqttStatus">
-            <span class="status-dot"></span>
-            <span>MQTT</span>
-            <strong>—</strong>
-          </div>
-          <div class="connection-row" id="managerStatus">
-            <span class="status-dot"></span>
-            <span>Camp Manager</span>
-            <strong>—</strong>
-          </div>
-        </div>
-        <button class="nav-button diagnostic-button" id="diagnosticButton" type="button">
-          <span class="nav-icon">◌</span>
-          <span>Diagnostica sistema</span>
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-link" data-route="home">
+          <span class="nav-symbol">⌂</span>
+          <span>Panoramica</span>
         </button>
-        <button class="nav-button home-button hidden" id="homeButton" type="button">
-          <span class="nav-icon">←</span>
-          <span>Torna alla panoramica</span>
+        <button class="nav-link" data-route="diagnostics">
+          <span class="nav-symbol">●</span>
+          <span>Diagnostica</span>
         </button>
-      </div>
-    </header>
+      </nav>
 
-    <section id="homeView" class="view">
-      <section class="hero-grid">
-        <article class="review-panel">
-          <p class="kicker">PANORAMICA</p>
-          <h2 id="reviewTitle">Caricamento stato azienda…</h2>
-          <p class="review-copy" id="reviewCopy">Sto raccogliendo le informazioni correnti dai campi.</p>
-          <div class="review-stats">
-            <div>
-              <span>Campi attivi</span>
-              <strong id="activeFields">—</strong>
-            </div>
-            <div>
-              <span>Da monitorare</span>
-              <strong id="attentionFields">—</strong>
-            </div>
-            <div>
-              <span>Pronti al raccolto</span>
-              <strong id="readyFields">—</strong>
-            </div>
-          </div>
-        </article>
+      <div class="sidebar-label">Campi</div>
+      <div class="field-nav" id="fieldNav"></div>
+      <div class="sidebar-system" id="sidebarSystem"></div>
+    </aside>
 
-        <aside class="today-panel">
-          <p class="kicker">OGGI</p>
-          <div class="today-line">
-            <span>Stagione</span>
-            <strong id="currentSeason">—</strong>
-          </div>
-          <div class="today-line">
-            <span>Meteo</span>
-            <strong id="currentWeather">—</strong>
-          </div>
-          <div class="today-line">
-            <span>Ultimo aggiornamento</span>
-            <strong id="lastUpdate">—</strong>
-          </div>
-        </aside>
-      </section>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-      <section class="fields-section">
-        <div class="section-heading">
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-title">
+          <button class="menu-button" id="menuButton" aria-label="Apri menu">
+            <span class="menu-icon">☰</span><span class="menu-label">Menu</span>
+          </button>
           <div>
-            <p class="kicker">CAMPI</p>
-            <h2>Stato delle colture</h2>
+            <span class="page-kicker" id="pageKicker">Smart Farm</span>
+            <h1 id="pageTitle">Panoramica azienda</h1>
           </div>
-          <p>Coltura corrente, stato, crescita e condizioni principali in una vista leggibile.</p>
         </div>
-        <div class="fields-grid" id="fieldsGrid"></div>
-      </section>
-    </section>
+        <div class="topbar-tools" id="topbarTools"></div>
+      </header>
 
-    <section id="diagnosticsView" class="view hidden">
-      <section class="diagnostic-intro">
-        <div>
-          <p class="kicker">DIAGNOSTICA</p>
-          <h2>Salute del sistema</h2>
-          <p>Stato in tempo reale di Camp Manager, MQTT e dei sensori environment, terrain e plantation di ogni campo.</p>
-        </div>
-        <div class="diagnostic-updated">
-          <span>Ultimo stato diagnostico</span>
-          <strong id="diagnosticLastUpdate">—</strong>
-        </div>
-      </section>
-
-      <section class="diagnostic-summary" id="diagnosticSummary"></section>
-
-      <section class="diagnostic-fields-section">
-        <div class="section-heading">
-          <div>
-            <p class="kicker">SENSORI PER CAMPO</p>
-            <h2>Stato dei servizi</h2>
-          </div>
-          <p>Un sensore è considerato offline dal Camp Manager se non invia dati per più di 30 secondi.</p>
-        </div>
-        <div class="diagnostic-fields-grid" id="diagnosticFieldsGrid"></div>
-      </section>
-    </section>
-  </main>
+      <div class="page" id="page"></div>
+    </main>
+  </div>
 
   <div class="toast" id="toast"></div>
-  <script src="/static/app.js"></script>
+  <script type="module" src="/static/js/app.js"></script>
 </body>
 </html>

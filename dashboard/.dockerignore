@@ -1,7 +1,4 @@
 __pycache__/
-*.py[cod]
-*.log
+*.pyc
 .git/
-.gitignore
 .DS_Store
-.env
