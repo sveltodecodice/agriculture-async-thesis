@@ -2,16 +2,16 @@ import asyncio
 import json
 import logging
 import ssl
-import aiomqtt
+from typing import Any, Dict
 
+import aiomqtt
+from common.constants import KNOWN_CAMPS
 from common.parameters import (
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
 )
-from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import Deduper, publish_json
 from core.plant_conditions import (
     advance_days,
     clear_field,
@@ -20,16 +20,20 @@ from core.plant_conditions import (
     reset,
     seed_planted,
 )
-from common.constants import KNOWN_CAMPS
+from utils.logger_utils import LoggingUtils
+from utils.mqtt_utils import Deduper, publish_json
 
-LoggingUtils.configure(
-    console_level=logging.INFO,
-)
-
+LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
-def create_camp_context():
+def create_camp_context() -> Dict[str, Any]:
+    """Initializes a new context dictionary for a specific camp.
+
+    Returns:
+        Dict[str, Any]: Context object containing moisture level, last recorded
+        date, and default plantation state.
+    """
     return {
         "moisture": None,
         "last_date": None,
@@ -37,108 +41,143 @@ def create_camp_context():
     }
 
 
-async def monitor_loop(mqtt, camp_contexts):
+async def monitor_loop(
+    mqtt: aiomqtt.Client, camp_contexts: Dict[str, Dict[str, Any]]
+) -> None:
+    """Periodically publishes plantation status and metadata for all active camps.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT client instance.
+        camp_contexts (Dict[str, Dict[str, Any]]): Dictionary mapping camp IDs
+            to their respective state context dictionaries.
+    """
     while True:
         await asyncio.sleep(3)
-        for camp_id, ctx in camp_contexts.items():
-            status = get_status(ctx["plantation"], ctx["moisture"])
+        for camp_id, context in camp_contexts.items():
+            status = get_status(context["plantation"], context["moisture"])
             status_topic = f"camp/{camp_id}/plantation/status"
             await publish_json(mqtt, status_topic, status)
 
-            detail = status["status_detail"]
+            status_detail = status["status_detail"]
             await mqtt.publish(
-                f"camp/{camp_id}/plantation/plant_name", str(detail["plant_name"])
+                f"camp/{camp_id}/plantation/plant_name",
+                str(status_detail["plant_name"]),
             )
             await mqtt.publish(
-                f"camp/{camp_id}/plantation/time_left", str(detail["time_left"])
+                f"camp/{camp_id}/plantation/time_left",
+                str(status_detail["time_left"]),
             )
             await mqtt.publish(
-                f"camp/{camp_id}/plantation/health", str(detail["health"])
+                f"camp/{camp_id}/plantation/health",
+                str(status_detail["health"]),
             )
 
 
-async def listen_mqtt_telemetry(mqtt, camp_contexts, dedup):
+async def listen_mqtt_telemetry(
+    mqtt: aiomqtt.Client,
+    camp_contexts: Dict[str, Dict[str, Any]],
+    dedup: Deduper,
+) -> None:
+    """Listens for incoming MQTT telemetry and commands, updating camp states.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT client instance.
+        camp_contexts (Dict[str, Dict[str, Any]]): Map of camp IDs to contexts.
+        dedup (Deduper): Deduplication handler for filtering stale messages.
+    """
     await mqtt.subscribe("camp/+/terrain/telemetry")
     await mqtt.subscribe("camp/+/environment/telemetry")
     await mqtt.subscribe("camp/+/plantation/cmd/#")
 
-    async for msg in mqtt.messages:
-        top = str(msg.topic)
-        raw = (
-            msg.payload.decode("utf-8")
-            if isinstance(msg.payload, bytes)
-            else str(msg.payload)
+    async for message in mqtt.messages:
+        topic = str(message.topic)
+        payload_text = (
+            message.payload.decode("utf-8")
+            if isinstance(message.payload, bytes)
+            else str(message.payload)
         )
 
-        parts = top.split("/")
-        if len(parts) >= 2 and parts[0] == "camp":
-            camp_id = parts[1]
+        topic_parts = topic.split("/")
+        if len(topic_parts) >= 2 and topic_parts[0] == "camp":
+            camp_id = topic_parts[1]
         else:
             continue
 
         if camp_id not in camp_contexts:
             camp_contexts[camp_id] = create_camp_context()
 
-        ctx = camp_contexts[camp_id]
+        context = camp_contexts[camp_id]
 
-        if "terrain/telemetry" in top:
-            pkt = json.loads(raw)
-            if dedup.is_duplicate_or_stale(top, pkt.get("ts")):
+        if "terrain/telemetry" in topic:
+            payload_data = json.loads(payload_text)
+            if dedup.is_duplicate_or_stale(topic, payload_data.get("ts")):
                 continue
-            if "soil_moisture" in pkt:
-                ctx["moisture"] = float(pkt["soil_moisture"])
+            if "soil_moisture" in payload_data:
+                context["moisture"] = float(payload_data["soil_moisture"])
 
-        elif "environment/telemetry" in top:
-            pkt = json.loads(raw)
-            if dedup.is_duplicate_or_stale(top, pkt.get("ts")):
+        elif "environment/telemetry" in topic:
+            payload_data = json.loads(payload_text)
+            if dedup.is_duplicate_or_stale(topic, payload_data.get("ts")):
                 continue
 
-            new_date = pkt.get("date")
-            if new_date and new_date != ctx.get("last_date"):
-                ctx["last_date"] = new_date
-                advance_days(ctx["plantation"], 1)
+            new_date = payload_data.get("date")
+            if new_date and new_date != context.get("last_date"):
+                context["last_date"] = new_date
+                advance_days(context["plantation"], 1)
 
-        elif "plantation/cmd/" in top:
-            cmd = top.split("plantation/cmd/")[-1].lower()
-            if cmd == "plant":
+        elif "plantation/cmd/" in topic:
+            command = topic.split("plantation/cmd/")[-1].lower()
+            if command == "plant":
                 try:
-                    seed_data = json.loads(raw)
+                    seed_data = json.loads(payload_text)
                 except Exception:
-                    seed_data = {"name": raw.strip()}
-                seed_planted(ctx["plantation"], seed_data)
-                logging.info(
-                    f"[{camp_id.upper()}] Planted seed: {seed_data.get('name')}",
+                    seed_data = {"name": payload_text.strip()}
+                seed_planted(context["plantation"], seed_data)
+                logger.info(
+                    "[%s] Planted seed: %s",
+                    camp_id.upper(),
+                    seed_data.get("name"),
                 )
-            elif cmd == "clear":
-                clear_field(ctx["plantation"])
-                logging.info(
-                    f"[{camp_id.upper()}] Field cleared.",
-                )
-            elif cmd in ("reset", "restart"):
-                reset(ctx["plantation"])
-                logging.info(f"[{camp_id.upper()}] State reset.")
+            elif command == "clear":
+                clear_field(context["plantation"])
+                logger.info("[%s] Field cleared.", camp_id.upper())
+            elif command in ("reset", "restart"):
+                reset(context["plantation"])
+                logger.info("[%s] State reset.", camp_id.upper())
 
 
-async def worker(camp_contexts, dedup):
-    ssl_ctx = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> None:
+    """Manages the MQTT connection life cycle and spawns async tasks.
+
+    Args:
+        camp_contexts (Dict[str, Dict[str, Any]]): Shared camp state map.
+        dedup (Deduper): Shared deduplication instance.
+
+    Raises:
+        Exception: Re-raises exceptions encountered by background tasks to
+            trigger reconnection in main loop.
+    """
+    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
         password=MQTT_PASS,
-        tls_context=ssl_ctx,
+        tls_context=ssl_context,
         identifier="plantation-sensor-app",
     )
     async with client:
-        logging.info("Multi-camp subsystem online.")
-        t1 = asyncio.create_task(monitor_loop(client, camp_contexts))
-        t2 = asyncio.create_task(listen_mqtt_telemetry(client, camp_contexts, dedup))
+        logger.info("Multi-camp subsystem online.")
+        monitor_task = asyncio.create_task(monitor_loop(client, camp_contexts))
+        listener_task = asyncio.create_task(
+            listen_mqtt_telemetry(client, camp_contexts, dedup)
+        )
 
         done, pending = await asyncio.wait(
-            [t1, t2], return_when=asyncio.FIRST_EXCEPTION
+            [monitor_task, listener_task], return_when=asyncio.FIRST_EXCEPTION
         )
 
         for task in pending:
@@ -151,17 +190,16 @@ async def worker(camp_contexts, dedup):
                 raise task.exception()
 
 
-async def main():
-    camp_contexts = {cid: create_camp_context() for cid in KNOWN_CAMPS}
+async def main() -> None:
+    """Service entry point initializing camp contexts and reconnection loop."""
+    camp_contexts = {camp_id: create_camp_context() for camp_id in KNOWN_CAMPS}
     dedup = Deduper()
 
     while True:
         try:
             await worker(camp_contexts, dedup)
-        except Exception as err:
-            logging.error(
-                f"Connection dropped ({err}). Reconnecting in 5s...",
-            )
+        except Exception as error:
+            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
             await asyncio.sleep(5)
 
 
