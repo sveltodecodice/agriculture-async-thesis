@@ -94,5 +94,65 @@
   {
     "seed": "Spinach",
     "harvested_on": "12/06/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "09/07/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "17/07/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "22/07/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "16/08/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "24/08/2027"
+  },
+  {
+    "seed": "Lettuce",
+    "harvested_on": "03/09/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "24/09/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "01/10/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "11/10/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "01/11/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "08/11/2027"
+  },
+  {
+    "seed": "Spinach",
+    "harvested_on": "18/11/2027"
+  },
+  {
+    "seed": "Lettuce",
+    "harvested_on": "21/03/2026"
+  },
+  {
+    "seed": "Lettuce",
+    "harvested_on": "21/03/2026"
+  },
+  {
+    "seed": "Lettuce",
+    "harvested_on": "23/03/2026"
   }
 ]

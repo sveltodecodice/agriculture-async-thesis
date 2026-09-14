@@ -2,6 +2,7 @@ import asyncio
 import copy
 import json
 import logging
+import os
 import ssl
 import time
 from datetime import datetime, timezone
@@ -28,6 +29,21 @@ from utils.logger_utils import LoggingUtils
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
+
+
+def configured_camps() -> list[str]:
+    """Return camp IDs managed by this service.
+
+    CAMP_IDS can be supplied as a comma-separated environment variable.
+    Falls back to KNOWN_CAMPS for backward compatibility.
+    """
+    raw = os.getenv("CAMP_IDS", "").strip()
+    if raw:
+        return [camp.strip() for camp in raw.split(",") if camp.strip()]
+    return list(KNOWN_CAMPS)
+
+
+CONFIGURED_CAMPS = configured_camps()
 
 
 def utc_now() -> str:
@@ -434,7 +450,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
             asyncio.create_task(system_health_monitor_loop(client, camp_states)),
         ]
 
-        for camp_id in KNOWN_CAMPS:
+        for camp_id in CONFIGURED_CAMPS:
             tasks.append(
                 asyncio.create_task(
                     auto_plant_monitor_loop(client, camp_id, camp_states[camp_id])
@@ -455,7 +471,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
 
 async def main() -> None:
     """Service entry point initializing camp state maps and handling reconnects."""
-    camp_states = {camp_id: copy.deepcopy(DEFAULT_STATE) for camp_id in KNOWN_CAMPS}
+    camp_states = {camp_id: copy.deepcopy(DEFAULT_STATE) for camp_id in CONFIGURED_CAMPS}
 
     while True:
         try:

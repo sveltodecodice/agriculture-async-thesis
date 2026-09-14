@@ -5,6 +5,10 @@ import ssl
 import aiomqtt
 
 from common.parameters import (
+    FIELD_INIT_MOIST,
+    FIELD_INIT_OXY,
+    FIELD_INIT_TYPE,
+    FIELD_NAME,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -13,7 +17,6 @@ from common.parameters import (
 from utils.logger_utils import LoggingUtils
 from utils.mqtt_utils import Deduper, publish_json
 from core.terrain_condition import create_terrain_state, process_terrain_update
-from common.constants import KNOWN_CAMPS
 
 LoggingUtils.configure(
     console_level=logging.INFO,
@@ -23,8 +26,8 @@ logger = LoggingUtils.get_logger(__name__)
 
 
 async def listen_mqtt_telemetry(client, camp_states, dedup):
-    await client.subscribe("camp/+/environment/telemetry")
-    await client.subscribe("camp/+/terrain/cmd/#")
+    await client.subscribe(f"camp/{FIELD_NAME}/environment/telemetry")
+    await client.subscribe(f"camp/{FIELD_NAME}/terrain/cmd/#")
 
     async for msg in client.messages:
         top = str(msg.topic)
@@ -41,9 +44,7 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
             continue
 
         if camp_id not in camp_states:
-            camp_states[camp_id] = create_terrain_state(
-                initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco"
-            )
+            raise ValueError(f"Invalid ID {camp_id}")
 
         state = camp_states[camp_id]
 
@@ -63,6 +64,7 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
                 f"Pump: {telemetry['irrigation_active']}",
             )
 
+        # todo: prendere e spostare in oxy_irr
         elif "terrain/cmd/" in top:
             cmd = top.split("terrain/cmd/")[-1].lower()
 
@@ -125,7 +127,7 @@ async def worker(camp_states, dedup):
         username=MQTT_USER,
         password=MQTT_PASS,
         tls_context=ssl_ctx,
-        identifier="terrain-sensor-app",
+        identifier=f"terrain-sensor-{FIELD_NAME}",
     )
     async with client:
         logger.info("Multi-camp service online. Starting tasks...")
@@ -141,28 +143,36 @@ async def worker(camp_states, dedup):
 
         for task in done:
             if task.exception():
+                logger.error(task.exception())
                 raise task.exception()
 
 
 async def main():
 
-    camp_states = {
-        cid: create_terrain_state(
-            initial_moisture=28.0, initial_oxygen=70.0, soil_type="Franco"
-        )
-        for cid in KNOWN_CAMPS
-    }
+    init_configuration = create_terrain_state(
+        initial_moisture=FIELD_INIT_MOIST,
+        initial_oxygen=FIELD_INIT_OXY,
+        soil_type=FIELD_INIT_TYPE,
+    )
+    camp_states = {FIELD_NAME: init_configuration}
     dedup = Deduper()
 
     while True:
         try:
             await worker(camp_states, dedup)
         except Exception as err:
-            logger.error(
-                f"Connection dropped ({err}). Reconnecting in 5s...",
-            )
+            logger.error(f"Connection dropped ({err}). Reconnecting in 5s...")
             await asyncio.sleep(5)
 
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+# env file for eaCH CONRTAINER  -> ONE ENV DEFINES THE TOPIC, RESOURCES,FIELD NAME
+# ENV FILE IS SHARED BETWEEN DOCKER COMPOSE -> DOCKER  ??
+# TODO: DEFINE DOCKER COMPOSE WITH REPLICATES OKOKOKOKOKOKOKOK
+# TODO: DEFINE ACTUATOR -> AN ACTUAR INGEST CMD FROM MANAGER AND RETURNS STATUS AFTER ACTION -> BUIDRECTIONAL COMMS MQTYTT QOS 2 -> SAME REPLICATION -> ENV FILA SHARED BETWEEN SENSOR AND ACTUATOR ? ?
+# TODO: actuator logic taken from mngr and moved into new container
+# TODO: terrain configuration w\ env for defining FIELD definition -> a static start configuration to define a realistic field
+# TODO: actuator for harvesting - how?

@@ -10,3 +10,4 @@ TELEMETRY_TERRAIN_TOPIC = "camp/terrain_telemetry"
 PLANTATION_STATUS_TOPIC = "plantation/status"
 
 CMD_PLANTATION_TOPIC = "plantation/cmd/#"
+FIELD_NAME = os.getenv("FIELD_NAME", "test")

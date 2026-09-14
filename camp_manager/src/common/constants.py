@@ -1,6 +1,6 @@
 from pathlib import Path
 
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+KNOWN_CAMPS = ["field_a", "field_b", "field_c"]
 
 SEED_TARGETS = {
     "wheat": 18.0,

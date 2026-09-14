@@ -1,11 +1,13 @@
 from core.soil_moisture import get_soil_moisture
 from core.oxygenation import calculate_oxygenation, apply_reoxygenation
+from common.parameters import FIELD_NAME
 
 
 def create_terrain_state(
     initial_moisture=30.0, initial_oxygen=70.0, soil_type="Franco"
 ) -> dict:
     return {
+        "camp_id": FIELD_NAME,
         "soil_moisture": initial_moisture,
         "oxygenation": initial_oxygen,
         "soil_type": soil_type,

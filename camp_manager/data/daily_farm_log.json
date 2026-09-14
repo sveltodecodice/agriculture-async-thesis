@@ -1168,5 +1168,1560 @@
     "date": "19/06/2027",
     "event": "AUTO_IRRIGATE",
     "details": "[campo_3] Irrigato +9.0% | Temp: 35°C | Weather: cloudy | Moist: 56.0% | Oxy: 77.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.0% | Temp: 30°C | Weather: sun | Moist: 55.0% | Oxy: 83.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.9% | Temp: 29°C | Weather: sun | Moist: 50.1% | Oxy: 72.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +17.0% | Temp: 35°C | Weather: cloudy | Moist: 48.0% | Oxy: 77.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.4% | Temp: 28°C | Weather: sun | Moist: 54.6% | Oxy: 72.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.4% | Temp: 35°C | Weather: sun | Moist: 52.6% | Oxy: 61.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.5% | Temp: 29°C | Weather: sun | Moist: 53.5% | Oxy: 55.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.5% | Temp: 31°C | Weather: sun | Moist: 54.5% | Oxy: 50.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +14.0% | Temp: 31°C | Weather: sun | Moist: 51.0% | Oxy: 58.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.7% | Temp: 28°C | Weather: sun | Moist: 56.3% | Oxy: 55.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.5% | Temp: 29°C | Weather: cloudy | Moist: 57.5% | Oxy: 44.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.1% | Temp: 30°C | Weather: sun | Moist: 53.9% | Oxy: 52.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.1% | Temp: 34°C | Weather: sun | Moist: 58.9% | Oxy: 49.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +18.4% | Temp: 34°C | Weather: sun | Moist: 46.6% | Oxy: 39.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +17.8% | Temp: 33°C | Weather: sun | Moist: 47.2% | Oxy: 47.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.2% | Temp: 30°C | Weather: sun | Moist: 56.8% | Oxy: 44.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.1% | Temp: 33°C | Weather: cloudy | Moist: 59.9% | Oxy: 33.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.3% | Temp: 32°C | Weather: sun | Moist: 58.7% | Oxy: 41.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.7% | Temp: 33°C | Weather: cloudy | Moist: 57.3% | Oxy: 38.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +13.1% | Temp: 30°C | Weather: sun | Moist: 51.9% | Oxy: 28.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 28°C | Weather: sun | Moist: 59.1% | Oxy: 33.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +9.5% | Temp: 32°C | Weather: sun | Moist: 55.5% | Oxy: 94.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.3% | Temp: 31°C | Weather: sun | Moist: 53.7% | Oxy: 30.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +13.5% | Temp: 31°C | Weather: sun | Moist: 51.5% | Oxy: 27.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/06/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +17.0% | Temp: 33°C | Weather: sun | Moist: 48.0% | Oxy: 88.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.3% | Temp: 35°C | Weather: sun | Moist: 54.7% | Oxy: 94.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.6% | Temp: 32°C | Weather: sun | Moist: 53.4% | Oxy: 83.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.5% | Temp: 31°C | Weather: cloudy | Moist: 54.5% | Oxy: 94.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.0% | Temp: 35°C | Weather: sun | Moist: 57.0% | Oxy: 88.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.2% | Temp: 35°C | Weather: sun | Moist: 53.8% | Oxy: 77.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.2% | Temp: 28°C | Weather: sun | Moist: 53.8% | Oxy: 89.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +11.9% | Temp: 30°C | Weather: sun | Moist: 53.1% | Oxy: 82.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.4% | Temp: 35°C | Weather: cloudy | Moist: 52.6% | Oxy: 71.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +16.6% | Temp: 32°C | Weather: sun | Moist: 48.4% | Oxy: 77.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.6% | Temp: 28°C | Weather: sun | Moist: 54.4% | Oxy: 66.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.6% | Temp: 34°C | Weather: cloudy | Moist: 57.4% | Oxy: 71.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.3% | Temp: 30°C | Weather: sun | Moist: 50.7% | Oxy: 60.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.2% | Temp: 32°C | Weather: sun | Moist: 56.8% | Oxy: 72.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +15.0% | Temp: 32°C | Weather: sun | Moist: 50.0% | Oxy: 65.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.3% | Temp: 34°C | Weather: sun | Moist: 52.7% | Oxy: 55.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.8% | Temp: 29°C | Weather: sun | Moist: 58.2% | Oxy: 66.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.3% | Temp: 29°C | Weather: cloudy | Moist: 56.7% | Oxy: 60.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.9% | Temp: 32°C | Weather: sun | Moist: 52.1% | Oxy: 49.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +5.1% | Temp: 28°C | Weather: sun | Moist: 59.9% | Oxy: 61.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.7% | Temp: 29°C | Weather: cloudy | Moist: 54.3% | Oxy: 55.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +16.8% | Temp: 34°C | Weather: sun | Moist: 48.2% | Oxy: 43.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.3% | Temp: 33°C | Weather: sun | Moist: 58.7% | Oxy: 55.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +12.8% | Temp: 30°C | Weather: sun | Moist: 52.2% | Oxy: 49.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.2% | Temp: 31°C | Weather: sun | Moist: 50.8% | Oxy: 38.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/07/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_3] Raccolto Spinach | Temp: 31°C | Weather: sun | Moist: 65.0% | Oxy: 38.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +13.1% | Temp: 28°C | Weather: sun | Moist: 51.9% | Oxy: 50.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 28°C | Weather: sun | Moist: 59.1% | Oxy: 44.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +7.9% | Temp: 29°C | Weather: sun | Moist: 57.1% | Oxy: 45.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.3% | Temp: 30°C | Weather: sun | Moist: 58.7% | Oxy: 38.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +12.5% | Temp: 34°C | Weather: sun | Moist: 52.5% | Oxy: 39.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +12.5% | Temp: 29°C | Weather: cloudy | Moist: 52.5% | Oxy: 33.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/07/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato spinach | Temp: 33°C | Weather: sun | Moist: 37.4% | Oxy: 94.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "17/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.1% | Temp: 32°C | Weather: sun | Moist: 54.9% | Oxy: 33.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.5% | Temp: 28°C | Weather: sun | Moist: 54.5% | Oxy: 28.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +37.4% | Temp: 28°C | Weather: sun | Moist: 27.6% | Oxy: 89.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.0% | Temp: 33°C | Weather: sun | Moist: 54.0% | Oxy: 28.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +11.2% | Temp: 32°C | Weather: cloudy | Moist: 53.8% | Oxy: 94.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.1% | Temp: 35°C | Weather: sun | Moist: 52.9% | Oxy: 83.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "19/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.7% | Temp: 29°C | Weather: sun | Moist: 56.3% | Oxy: 94.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.2% | Temp: 32°C | Weather: cloudy | Moist: 55.8% | Oxy: 88.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.9% | Temp: 32°C | Weather: sun | Moist: 52.1% | Oxy: 78.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.1% | Temp: 28°C | Weather: sun | Moist: 54.9% | Oxy: 83.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.5% | Temp: 28°C | Weather: sun | Moist: 53.5% | Oxy: 73.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.2% | Temp: 33°C | Weather: sun | Moist: 54.8% | Oxy: 83.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "17/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.6% | Temp: 30°C | Weather: sun | Moist: 57.4% | Oxy: 78.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "17/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.8% | Temp: 28°C | Weather: sun | Moist: 54.2% | Oxy: 67.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "17/07/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_2] Raccolto Spinach | Temp: 30°C | Weather: sun | Moist: 65.0% | Oxy: 78.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.2% | Temp: 30°C | Weather: sun | Moist: 56.8% | Oxy: 78.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +15.2% | Temp: 29°C | Weather: sun | Moist: 49.8% | Oxy: 62.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/07/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_1] Raccolto Spinach | Temp: 30°C | Weather: sun | Moist: 65.0% | Oxy: 78.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "19/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.6% | Temp: 34°C | Weather: sun | Moist: 52.4% | Oxy: 56.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.5% | Temp: 32°C | Weather: sun | Moist: 54.5% | Oxy: 51.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/07/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato spinach | Temp: 34°C | Weather: sun | Moist: 38.6% | Oxy: 61.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +31.2% | Temp: 29°C | Weather: sun | Moist: 33.8% | Oxy: 56.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.2% | Temp: 28°C | Weather: sun | Moist: 57.8% | Oxy: 46.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/07/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 33°C | Weather: cloudy | Moist: 28.2% | Oxy: 61.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "26/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +27.0% | Temp: 33°C | Weather: rain | Moist: 38.0% | Oxy: 56.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: PLANTED | Health: TOO_DRY, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.4% | Temp: 32°C | Weather: sun | Moist: 55.6% | Oxy: 50.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +8.6% | Temp: 30°C | Weather: sun | Moist: 56.4% | Oxy: 40.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.9% | Temp: 29°C | Weather: sun | Moist: 53.1% | Oxy: 51.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.5% | Temp: 28°C | Weather: sun | Moist: 59.5% | Oxy: 45.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +9.4% | Temp: 28°C | Weather: sun | Moist: 55.6% | Oxy: 35.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.8% | Temp: 28°C | Weather: sun | Moist: 58.2% | Oxy: 45.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.6% | Temp: 34°C | Weather: sun | Moist: 54.4% | Oxy: 39.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.7% | Temp: 35°C | Weather: sun | Moist: 50.3% | Oxy: 29.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.0% | Temp: 31°C | Weather: sun | Moist: 59.0% | Oxy: 40.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.0% | Temp: 32°C | Weather: sun | Moist: 57.0% | Oxy: 34.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +13.2% | Temp: 33°C | Weather: cloudy | Moist: 51.8% | Oxy: 94.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +7.9% | Temp: 28°C | Weather: sun | Moist: 57.1% | Oxy: 34.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +13.4% | Temp: 28°C | Weather: sun | Moist: 51.6% | Oxy: 28.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "31/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +15.0% | Temp: 32°C | Weather: sun | Moist: 50.0% | Oxy: 29.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.6% | Temp: 29°C | Weather: cloudy | Moist: 58.4% | Oxy: 94.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +19.7% | Temp: 30°C | Weather: sun | Moist: 45.3% | Oxy: 83.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.4% | Temp: 30°C | Weather: cloudy | Moist: 56.6% | Oxy: 94.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.3% | Temp: 35°C | Weather: sun | Moist: 56.7% | Oxy: 88.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.3% | Temp: 35°C | Weather: sun | Moist: 54.7% | Oxy: 77.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +11.0% | Temp: 35°C | Weather: cloudy | Moist: 54.0% | Oxy: 82.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.1% | Temp: 29°C | Weather: sun | Moist: 52.9% | Oxy: 72.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.8% | Temp: 32°C | Weather: sun | Moist: 55.2% | Oxy: 77.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.7% | Temp: 34°C | Weather: cloudy | Moist: 57.3% | Oxy: 66.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "31/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.2% | Temp: 28°C | Weather: cloudy | Moist: 58.8% | Oxy: 71.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "31/07/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +13.3% | Temp: 28°C | Weather: sun | Moist: 51.7% | Oxy: 61.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.3% | Temp: 32°C | Weather: sun | Moist: 58.7% | Oxy: 72.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.4% | Temp: 28°C | Weather: sun | Moist: 50.6% | Oxy: 56.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +17.2% | Temp: 30°C | Weather: sun | Moist: 47.8% | Oxy: 66.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.9% | Temp: 32°C | Weather: sun | Moist: 56.1% | Oxy: 60.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.1% | Temp: 29°C | Weather: sun | Moist: 58.9% | Oxy: 50.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +12.4% | Temp: 35°C | Weather: cloudy | Moist: 52.6% | Oxy: 61.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.7% | Temp: 29°C | Weather: cloudy | Moist: 59.3% | Oxy: 55.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.0% | Temp: 32°C | Weather: cloudy | Moist: 59.0% | Oxy: 45.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.9% | Temp: 30°C | Weather: sun | Moist: 54.1% | Oxy: 55.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.3% | Temp: 33°C | Weather: sun | Moist: 59.7% | Oxy: 49.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.8% | Temp: 29°C | Weather: sun | Moist: 52.2% | Oxy: 39.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +14.8% | Temp: 34°C | Weather: sun | Moist: 50.2% | Oxy: 43.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.8% | Temp: 32°C | Weather: sun | Moist: 59.2% | Oxy: 34.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.4% | Temp: 31°C | Weather: sun | Moist: 58.6% | Oxy: 28.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +18.6% | Temp: 33°C | Weather: cloudy | Moist: 46.4% | Oxy: 38.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +13.0% | Temp: 32°C | Weather: cloudy | Moist: 52.0% | Oxy: 32.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.9% | Temp: 29°C | Weather: sun | Moist: 57.1% | Oxy: 94.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +5.3% | Temp: 35°C | Weather: sun | Moist: 59.7% | Oxy: 32.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.7% | Temp: 34°C | Weather: cloudy | Moist: 54.3% | Oxy: 26.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.1% | Temp: 34°C | Weather: cloudy | Moist: 50.9% | Oxy: 88.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.4% | Temp: 31°C | Weather: sun | Moist: 56.6% | Oxy: 26.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.7% | Temp: 35°C | Weather: sun | Moist: 56.3% | Oxy: 94.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +8.8% | Temp: 35°C | Weather: cloudy | Moist: 56.2% | Oxy: 82.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +16.8% | Temp: 34°C | Weather: sun | Moist: 48.2% | Oxy: 88.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.3% | Temp: 31°C | Weather: cloudy | Moist: 57.7% | Oxy: 77.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +15.2% | Temp: 35°C | Weather: sun | Moist: 49.8% | Oxy: 88.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.0% | Temp: 32°C | Weather: cloudy | Moist: 57.0% | Oxy: 82.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +5.5% | Temp: 30°C | Weather: sun | Moist: 59.5% | Oxy: 83.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +15.0% | Temp: 35°C | Weather: sun | Moist: 50.0% | Oxy: 76.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +15.5% | Temp: 32°C | Weather: sun | Moist: 49.5% | Oxy: 66.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +15.7% | Temp: 28°C | Weather: sun | Moist: 49.3% | Oxy: 71.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +9.0% | Temp: 31°C | Weather: sun | Moist: 56.0% | Oxy: 60.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.8% | Temp: 30°C | Weather: cloudy | Moist: 54.2% | Oxy: 66.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.6% | Temp: 33°C | Weather: sun | Moist: 59.4% | Oxy: 54.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +11.1% | Temp: 29°C | Weather: sun | Moist: 53.9% | Oxy: 61.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.7% | Temp: 34°C | Weather: sun | Moist: 50.3% | Oxy: 48.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.8% | Temp: 31°C | Weather: sun | Moist: 56.2% | Oxy: 60.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +12.9% | Temp: 30°C | Weather: sun | Moist: 52.1% | Oxy: 55.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.3% | Temp: 28°C | Weather: sun | Moist: 53.7% | Oxy: 43.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/08/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_3] Raccolto Spinach | Temp: 28°C | Weather: sun | Moist: 65.0% | Oxy: 43.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.3% | Temp: 30°C | Weather: sun | Moist: 54.7% | Oxy: 55.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "17/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +15.1% | Temp: 35°C | Weather: sun | Moist: 49.9% | Oxy: 49.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +13.8% | Temp: 30°C | Weather: sun | Moist: 51.2% | Oxy: 49.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +11.5% | Temp: 31°C | Weather: cloudy | Moist: 53.5% | Oxy: 44.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "19/08/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato spinach | Temp: 35°C | Weather: cloudy | Moist: 52.2% | Oxy: 100.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.8% | Temp: 34°C | Weather: cloudy | Moist: 56.2% | Oxy: 38.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.8% | Temp: 28°C | Weather: sun | Moist: 55.2% | Oxy: 33.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +22.3% | Temp: 34°C | Weather: cloudy | Moist: 42.7% | Oxy: 94.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +10.9% | Temp: 28°C | Weather: sun | Moist: 54.1% | Oxy: 33.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 33°C | Weather: sun | Moist: 59.1% | Oxy: 27.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +11.7% | Temp: 29°C | Weather: sun | Moist: 53.3% | Oxy: 89.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +9.4% | Temp: 34°C | Weather: cloudy | Moist: 55.6% | Oxy: 27.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.1% | Temp: 33°C | Weather: sun | Moist: 55.9% | Oxy: 94.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "22/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.7% | Temp: 31°C | Weather: sun | Moist: 54.3% | Oxy: 83.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +8.9% | Temp: 34°C | Weather: sun | Moist: 56.1% | Oxy: 94.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +11.7% | Temp: 33°C | Weather: sun | Moist: 53.3% | Oxy: 88.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +12.8% | Temp: 29°C | Weather: sun | Moist: 52.2% | Oxy: 78.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +14.0% | Temp: 35°C | Weather: sun | Moist: 51.0% | Oxy: 88.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +7.9% | Temp: 30°C | Weather: sun | Moist: 57.1% | Oxy: 83.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.8% | Temp: 32°C | Weather: cloudy | Moist: 58.2% | Oxy: 72.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/08/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_2] Raccolto Spinach | Temp: 30°C | Weather: sun | Moist: 65.0% | Oxy: 83.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +6.2% | Temp: 28°C | Weather: sun | Moist: 58.8% | Oxy: 82.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.1% | Temp: 34°C | Weather: sun | Moist: 57.9% | Oxy: 66.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +8.4% | Temp: 30°C | Weather: sun | Moist: 56.6% | Oxy: 61.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.5% | Temp: 28°C | Weather: cloudy | Moist: 58.5% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/08/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato spinach | Temp: 35°C | Weather: rain | Moist: 44.1% | Oxy: 66.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +27.2% | Temp: 35°C | Weather: sun | Moist: 37.8% | Oxy: 60.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +14.2% | Temp: 30°C | Weather: sun | Moist: 50.8% | Oxy: 50.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.8% | Temp: 28°C | Weather: sun | Moist: 59.2% | Oxy: 55.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +10.7% | Temp: 31°C | Weather: sun | Moist: 54.3% | Oxy: 50.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +10.5% | Temp: 30°C | Weather: sun | Moist: 54.5% | Oxy: 39.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/09/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_1] Raccolto Lettuce | Temp: 18°C | Weather: cloudy | Moist: 79.8% | Oxy: 57.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: READY_FOR_HARVEST | Health: HEALTHY"
+  },
+  {
+    "date": "31/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +12.9% | Temp: 33°C | Weather: sun | Moist: 52.1% | Oxy: 44.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "31/08/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.8% | Temp: 32°C | Weather: sun | Moist: 57.2% | Oxy: 33.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/09/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.5% | Temp: 22°C | Weather: sun | Moist: 59.5% | Oxy: 29.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "06/09/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato spinach | Temp: 18°C | Weather: sun | Moist: 66.4% | Oxy: 43.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "03/09/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.1% | Temp: 20°C | Weather: cloudy | Moist: 58.9% | Oxy: 91.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "08/09/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_1] Irrigato +7.4% | Temp: 19°C | Weather: sun | Moist: 57.6% | Oxy: 35.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "20/09/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.0% | Temp: 20°C | Weather: cloudy | Moist: 56.0% | Oxy: 95.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "24/09/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_3] Raccolto Spinach | Temp: 22°C | Weather: cloudy | Moist: 74.2% | Oxy: 61.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "24/09/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.6% | Temp: 18°C | Weather: sun | Moist: 59.4% | Oxy: 78.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "27/09/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato spinach | Temp: 16°C | Weather: sun | Moist: 71.5% | Oxy: 48.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/10/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_2] Raccolto Spinach | Temp: 19°C | Weather: cloudy | Moist: 77.4% | Oxy: 44.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "04/10/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato spinach | Temp: 19°C | Weather: rain | Moist: 80.2% | Oxy: 30.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "11/10/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_1] Raccolto Spinach | Temp: 21°C | Weather: sun | Moist: 94.1% | Oxy: 94.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_WET, TOO_HOT"
+  },
+  {
+    "date": "14/10/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato spinach | Temp: 20°C | Weather: cloudy | Moist: 94.7% | Oxy: 79.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/10/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.9% | Temp: 19°C | Weather: cloudy | Moist: 58.1% | Oxy: 67.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "01/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +5.1% | Temp: 16°C | Weather: cloudy | Moist: 59.9% | Oxy: 27.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "01/11/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_3] Raccolto Spinach | Temp: 16°C | Weather: cloudy | Moist: 65.0% | Oxy: 100.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: HEALTHY"
+  },
+  {
+    "date": "01/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.3% | Temp: 19°C | Weather: sun | Moist: 59.7% | Oxy: 49.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT"
+  },
+  {
+    "date": "04/11/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato spinach | Temp: 22°C | Weather: cloudy | Moist: 65.9% | Oxy: 85.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "09/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +6.6% | Temp: 20°C | Weather: cloudy | Moist: 58.4% | Oxy: 63.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "08/11/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_2] Raccolto Spinach | Temp: 21°C | Weather: sun | Moist: 65.7% | Oxy: 90.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "12/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +8.3% | Temp: 21°C | Weather: sun | Moist: 56.7% | Oxy: 49.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "11/11/2027",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato spinach | Temp: 16°C | Weather: sun | Moist: 64.4% | Oxy: 77.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "13/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +6.3% | Temp: 22°C | Weather: sun | Moist: 58.7% | Oxy: 68.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "14/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.3% | Temp: 21°C | Weather: sun | Moist: 59.7% | Oxy: 63.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "15/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_3] Irrigato +7.2% | Temp: 16°C | Weather: cloudy | Moist: 57.8% | Oxy: 36.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "18/11/2027",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_1] Raccolto Spinach | Temp: 18°C | Weather: cloudy | Moist: 93.4% | Oxy: 44.8% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_WET"
+  },
+  {
+    "date": "16/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.6% | Temp: 17°C | Weather: cloudy | Moist: 59.4% | Oxy: 55.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "20/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.5% | Temp: 18°C | Weather: sun | Moist: 59.5% | Oxy: 37.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "22/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +9.6% | Temp: 21°C | Weather: cloudy | Moist: 55.4% | Oxy: 28.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "24/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +8.2% | Temp: 19°C | Weather: sun | Moist: 56.8% | Oxy: 91.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "26/11/2027",
+    "event": "AUTO_IRRIGATE",
+    "details": "[campo_2] Irrigato +5.9% | Temp: 16°C | Weather: cloudy | Moist: 59.1% | Oxy: 82.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 14°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato lettuce | Temp: 16°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato lettuce | Temp: 14°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 13°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato lettuce | Temp: 12°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 12°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato lettuce | Temp: 13°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_2] Raccolto Lettuce | Temp: 23°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_3] Raccolto Lettuce | Temp: 24°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "23/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[campo_1] Raccolto Lettuce | Temp: 20°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: READY_FOR_HARVEST | Health: HEALTHY"
+  },
+  {
+    "date": "24/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_2] Autoseminato lettuce | Temp: 22°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_3] Autoseminato lettuce | Temp: 25°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[campo_1] Autoseminato lettuce | Temp: 22°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 14°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 13°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 14°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 16°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "07/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "08/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "08/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 13°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "11/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 12°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "12/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 13°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "15/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 14°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "16/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "19/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "20/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 16°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "23/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 16°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 13°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "27/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 12°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 12°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "31/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 16°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "08/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "09/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "12/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 12°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "13/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 13°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "13/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "16/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "17/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "17/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "20/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 12°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 16°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 14°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "25/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "25/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 12°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 13°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 24°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 24°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 23°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 20°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 21°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "08/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 23°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 25°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 24°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "12/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 22°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 21°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 20°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "16/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 20°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 23°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 21°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "20/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 22°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 25°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 23°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "24/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 21°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 21°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 20°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 25°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 20°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 21°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 24°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 25°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 21°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/04/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 25°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato lettuce | Temp: 12°C | Weather: rain | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato lettuce | Temp: 16°C | Weather: cloudy | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato lettuce | Temp: 15°C | Weather: sun | Moist: 28.0% | Oxy: 70.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "03/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Irrigato +38.7% | Temp: 15°C | Weather: cloudy | Moist: 26.3% | Oxy: 66.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Autoseminato spinach | Temp: 13°C | Weather: rain | Moist: 44.3% | Oxy: 59.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Autoseminato corn | Temp: 13°C | Weather: sun | Moist: 21.1% | Oxy: 56.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Corn | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Autoseminato spinach | Temp: 13°C | Weather: rain | Moist: 45.6% | Oxy: 55.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Irrigato +23.1% | Temp: 16°C | Weather: sun | Moist: 41.9% | Oxy: 55.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Irrigato +20.1% | Temp: 13°C | Weather: sun | Moist: 44.9% | Oxy: 51.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Irrigato +27.9% | Temp: 15°C | Weather: rain | Moist: 32.1% | Oxy: 52.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: PLANTED | Health: TOO_DRY, TOO_COLD, UNFAVORABLE_SEASON"
   }
 ]

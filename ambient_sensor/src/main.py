@@ -1,11 +1,10 @@
 import asyncio
 import logging
 import ssl
-from typing import Any, Dict
 
 import aiomqtt
-from common.constants import KNOWN_CAMPS
 from common.parameters import (
+    FIELD_NAME,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -49,7 +48,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client, managers: dict) -> None:
         managers (dict): Dictionary mapping camp IDs to
             their respective SensorManager instances.
     """
-    await client.subscribe("camp/+/environment/cmd/#")
+    await client.subscribe(f"camp/{FIELD_NAME}/environment/cmd/#")
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -124,7 +123,7 @@ async def worker(managers: dict) -> None:
         username=MQTT_USER,
         password=MQTT_PASS,
         tls_context=ssl_context,
-        identifier="ambient-sensor-app",
+        identifier=f"ambient-sensor-{FIELD_NAME}",
     )
     async with client:
         logger.info("Multi-camp service online. Starting tasks...")
@@ -143,15 +142,14 @@ async def worker(managers: dict) -> None:
 
         for task in done:
             if task.exception():
+                logger.error(task.exception())
                 raise task.exception()
 
 
 async def main() -> None:
     """Service entry point initializing camp managers and handling reconnects."""
-    managers = {
-        camp_id: SensorManager(day=1, month=1, year=2026) for camp_id in KNOWN_CAMPS
-    }
-    logger.info("Starting multi-camp ambient node...")
+    managers = {FIELD_NAME: SensorManager(day=1, month=1, year=2026)}
+    logger.info("Starting Ambient Sensor")
 
     while True:
         try:

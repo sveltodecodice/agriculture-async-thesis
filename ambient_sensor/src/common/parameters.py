@@ -11,3 +11,5 @@ TELEMETRY_ENV_TOPIC = "environment/telemetry"
 
 # Topic Comandi Ricevuti (Camp Manager -> Ambiente)
 CMD_ENV_TOPIC = "environment/cmd/#"
+
+FIELD_NAME = os.getenv("FIELD_NAME", "test")

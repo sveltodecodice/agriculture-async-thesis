@@ -1,4 +1,3 @@
-
 services:
   mqtt-broker:
     image: eclipse-mosquitto:2.1.2-alpine
@@ -11,16 +10,19 @@ services:
     networks:
       - farm_network
 
-  ambient_sensor:
+  ## TERRENO A
+
+  ambient_sensor_a: 
     build:
       context: ./ambient_sensor
       dockerfile: Dockerfile
-    container_name: ambient_sensor_app
+    container_name: ambient_sensor_a
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
     volumes:
       - ./certs:/app/certs:ro
     depends_on:
@@ -28,16 +30,20 @@ services:
     networks:
       - farm_network
 
-  terrain_sensor:
+  terrain_sensor_a:
     build:
       context: ./terrain_sensor
       dockerfile: Dockerfile
-    container_name: terrain_sensor_app
+    container_name: terrain_sensor_a
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
+      - FIELD_INIT_TYPE=Franco
+      - FIELD_INIT_OXY=70.0
+      - FIELD_INIT_MOIST=28.0
     volumes:
       - ./certs:/app/certs:ro
     depends_on:
@@ -45,33 +51,154 @@ services:
     networks:
       - farm_network
 
-  plantation_sensor:
+  plantation_sensor_a:
     build:
       context: ./plantation_sensor
       dockerfile: Dockerfile
-    container_name: plantation_sensor_app
+    container_name: plantation_sensor_a
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
     volumes:
       - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
     networks:
       - farm_network
+
+  ## TERRENO B
+
+  ambient_sensor_b: 
+    build:
+      context: ./ambient_sensor
+      dockerfile: Dockerfile
+    container_name: ambient_sensor_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  terrain_sensor_b:
+    build:
+      context: ./terrain_sensor
+      dockerfile: Dockerfile
+    container_name: terrain_sensor_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+      - FIELD_INIT_TYPE=Franco
+      - FIELD_INIT_OXY=70.0
+      - FIELD_INIT_MOIST=28.0
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  plantation_sensor_b:
+    build:
+      context: ./plantation_sensor
+      dockerfile: Dockerfile
+    container_name: plantation_sensor_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  ## TERRENO C
+
+  ambient_sensor_c: 
+    build:
+      context: ./ambient_sensor
+      dockerfile: Dockerfile
+    container_name: ambient_sensor_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  terrain_sensor_c:
+    build:
+      context: ./terrain_sensor
+      dockerfile: Dockerfile
+    container_name: terrain_sensor_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+      - FIELD_INIT_TYPE=Franco
+      - FIELD_INIT_OXY=70.0
+      - FIELD_INIT_MOIST=28.0
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  plantation_sensor_c:
+    build:
+      context: ./plantation_sensor
+      dockerfile: Dockerfile
+    container_name: plantation_sensor_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
 
   camp_manager:
     build:
       context: ./camp_manager
       dockerfile: Dockerfile
-    container_name: camp_manager_app
+    container_name: camp_manager
     environment:
       - MQTT_BROKER_HOST=mqtt-broker
       - MQTT_BROKER_PORT=8883
       - MQTT_BROKER_USER=farm_admin
       - MQTT_BROKER_PASS=secure_farm
+      - CAMP_IDS=field_a,field_b,field_c
     volumes:
       - ./certs:/app/certs:ro
       - ./camp_manager/data:/app/data
@@ -80,11 +207,11 @@ services:
     networks:
       - farm_network
 
-  dashboard_app:
+  dashboard:
     build:
       context: ./dashboard
       dockerfile: Dockerfile
-    container_name: dashboard_app
+    container_name: dashboard
     ports:
       - "8501:8501"
     environment:

@@ -7,6 +7,7 @@ from typing import Any, Dict
 import aiomqtt
 from common.constants import KNOWN_CAMPS
 from common.parameters import (
+    FIELD_NAME,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -27,7 +28,7 @@ LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
-def create_camp_context() -> Dict[str, Any]:
+def create_camp_context(camp_id: str = FIELD_NAME) -> Dict[str, Any]:
     """Initializes a new context dictionary for a specific camp.
 
     Returns:
@@ -35,6 +36,7 @@ def create_camp_context() -> Dict[str, Any]:
         last recorded date, and default plantation state.
     """
     return {
+        "camp_id": camp_id,
         "moisture": None,
         "temperature": None,
         "season": None,
@@ -96,9 +98,9 @@ async def listen_mqtt_telemetry(
         camp_contexts (Dict[str, Dict[str, Any]]): Map of camp IDs to contexts.
         dedup (Deduper): Deduplication handler for filtering stale messages.
     """
-    await mqtt.subscribe("camp/+/terrain/telemetry")
-    await mqtt.subscribe("camp/+/environment/telemetry")
-    await mqtt.subscribe("camp/+/plantation/cmd/#")
+    await mqtt.subscribe(f"camp/{FIELD_NAME}/terrain/telemetry")
+    await mqtt.subscribe(f"camp/{FIELD_NAME}/environment/telemetry")
+    await mqtt.subscribe(f"camp/{FIELD_NAME}/plantation/cmd/#")
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -115,7 +117,7 @@ async def listen_mqtt_telemetry(
             continue
 
         if camp_id not in camp_contexts:
-            camp_contexts[camp_id] = create_camp_context()
+            camp_contexts[camp_id] = create_camp_context(camp_id)
 
         context = camp_contexts[camp_id]
 
@@ -183,7 +185,7 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
         username=MQTT_USER,
         password=MQTT_PASS,
         tls_context=ssl_context,
-        identifier="plantation-sensor-app",
+        identifier=f"plantation-sensor-{FIELD_NAME}",
     )
     async with client:
         logger.info("Multi-camp subsystem online.")
@@ -203,17 +205,18 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
 
         for task in done:
             if task.exception():
+                logger.error(task.exception())
                 raise task.exception()
 
 
 async def main() -> None:
     """Service entry point initializing camp contexts and reconnection loop."""
-    camp_contexts = {camp_id: create_camp_context() for camp_id in KNOWN_CAMPS}
+    field_ctx = {FIELD_NAME: create_camp_context(FIELD_NAME)}
     dedup = Deduper()
 
     while True:
         try:
-            await worker(camp_contexts, dedup)
+            await worker(field_ctx, dedup)
         except Exception as error:
             logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
             await asyncio.sleep(5)
