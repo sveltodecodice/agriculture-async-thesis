@@ -51,6 +51,25 @@ services:
     networks:
       - farm_network
 
+  harvester_actuator_a:
+    build:
+      context: ./harvester
+      dockerfile: Dockerfile
+    container_name: harvester_a
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
   plantation_sensor_a:
     build:
       context: ./plantation_sensor
@@ -110,6 +129,25 @@ services:
     networks:
       - farm_network
 
+  harvester_actuator_b:
+    build:
+      context: ./harvester
+      dockerfile: Dockerfile
+    container_name: harvester_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
   plantation_sensor_b:
     build:
       context: ./plantation_sensor
@@ -164,6 +202,25 @@ services:
       - FIELD_INIT_MOIST=28.0
     volumes:
       - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  harvester_actuator_c:
+    build:
+      context: ./harvester
+      dockerfile: Dockerfile
+    container_name: harvester_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
     depends_on:
       - mqtt-broker
     networks:

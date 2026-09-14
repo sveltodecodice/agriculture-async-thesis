@@ -100,7 +100,7 @@ async def listen_mqtt_telemetry(
     """
     await mqtt.subscribe(f"camp/{FIELD_NAME}/terrain/telemetry")
     await mqtt.subscribe(f"camp/{FIELD_NAME}/environment/telemetry")
-    await mqtt.subscribe(f"camp/{FIELD_NAME}/plantation/cmd/#")
+    await mqtt.subscribe(f"camp/{FIELD_NAME}/plantation/event/#")
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -143,25 +143,29 @@ async def listen_mqtt_telemetry(
                 context["last_date"] = new_date
                 advance_days(context["plantation"], 1)
 
-        elif "plantation/cmd/" in topic:
-            command = topic.split("plantation/cmd/")[-1].lower()
-            if command == "plant":
-                try:
-                    seed_data = json.loads(payload_text)
-                except Exception:
-                    seed_data = {"name": payload_text.strip()}
+        elif "plantation/event/" in topic:
+            event = topic.split("plantation/event/")[-1].lower()
+
+            if event == "seeded":
+                seed_data = json.loads(payload_text)
                 seed_planted(context["plantation"], seed_data)
                 logger.info(
-                    "[%s] Planted seed: %s",
+                    "[%s] Observed seeded event: %s",
                     camp_id.upper(),
                     seed_data.get("name"),
                 )
-            elif command == "clear":
+
+            elif event == "harvested":
                 clear_field(context["plantation"])
-                logger.info("[%s] Field cleared.", camp_id.upper())
-            elif command in ("reset", "restart"):
+                logger.info("[%s] Observed harvested event.", camp_id.upper())
+
+            elif event == "cleared":
+                clear_field(context["plantation"])
+                logger.info("[%s] Observed field cleared event.", camp_id.upper())
+
+            elif event == "reset":
                 reset(context["plantation"])
-                logger.info("[%s] State reset.", camp_id.upper())
+                logger.info("[%s] Observed plantation reset event.", camp_id.upper())
 
 
 async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> None:

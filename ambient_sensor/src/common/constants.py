@@ -39,7 +39,3 @@ SEASONS_RAD_DEFAULT = {
 
 DEFAULT_FORMAT = f" %(asctime)s | " "%(levelname)s | " "%(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-
-PUBLISH_INTERVAL_SECONDS = 10
-RECONNECT_DELAY_SECONDS = 5
-MAX_SKIP_DAYS = 365

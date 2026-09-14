@@ -13,7 +13,6 @@ from common.constants import DEFAULT_STATE, KNOWN_CAMPS, SEED_TARGETS
 from common.parameters import (
     ACTIVITY_LOGS_TOPIC,
     CAMP_MANAGER_STATUS_TOPIC,
-    HARVEST_DEPOSIT_TOPIC,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -22,8 +21,6 @@ from common.parameters import (
 )
 from common.seeds import SEEDS_LST
 from core.daily_report_producer import add_to_daily_report
-from core.harvest_deposit import save_harvest
-from core.plantation_control import clear_camp, plant_seed
 from core.seed_matcher import find_top_3_seeds
 from utils.logger_utils import LoggingUtils
 
@@ -147,32 +144,94 @@ async def system_health_monitor_loop(
             await mqtt.publish(topic, json.dumps(system_payload))
 
 
+async def request_seeding(mqtt: aiomqtt.Client, camp_id: str, seed: dict) -> None:
+    """Send a planting command to the seeder actuator."""
+    topic = f"camp/{camp_id}/seeder/cmd/plant"
+    await mqtt.publish(topic, json.dumps(seed), qos=1)
+    logger.info(
+        "Seeding requested | field=%s | seed=%s",
+        camp_id,
+        seed.get("name"),
+    )
+
+
+async def request_harvest(
+    mqtt: aiomqtt.Client, camp_id: str, seed_name: str, harvest_date: str
+) -> None:
+    """Send a harvest command to the harvester actuator."""
+    topic = f"camp/{camp_id}/harvester/cmd/harvest"
+    payload = {
+        "seed": seed_name,
+        "date": harvest_date,
+    }
+    await mqtt.publish(topic, json.dumps(payload), qos=1)
+    logger.info(
+        "Harvest requested | field=%s | seed=%s",
+        camp_id,
+        seed_name,
+    )
+
+
+async def request_irrigation(
+    mqtt: aiomqtt.Client, camp_id: str, amount: float
+) -> None:
+    """Send an irrigation command to the irrigator actuator."""
+    topic = f"camp/{camp_id}/irrigator/cmd/irrigate"
+    payload = {"amount": amount}
+    await mqtt.publish(topic, json.dumps(payload), qos=1)
+    logger.info(
+        "Irrigation requested | field=%s | amount=%.1f",
+        camp_id,
+        amount,
+    )
+
+
+async def request_reoxygenation(mqtt: aiomqtt.Client, camp_id: str) -> None:
+    """Send a soil reoxygenation command to the irrigator actuator."""
+    topic = f"camp/{camp_id}/irrigator/cmd/reoxygenate"
+    await mqtt.publish(topic, "trigger", qos=1)
+    logger.info("Reoxygenation requested | field=%s", camp_id)
+
+
+async def publish_field_cleared_event(
+    mqtt: aiomqtt.Client, camp_id: str, reason: str
+) -> None:
+    """Publish the fact that the simulated field has been cleared."""
+    topic = f"camp/{camp_id}/plantation/event/cleared"
+    payload = {"reason": reason}
+    await mqtt.publish(topic, json.dumps(payload), qos=1)
+    logger.info("Field cleared event | field=%s | reason=%s", camp_id, reason)
+
+
 async def auto_plant_monitor_loop(
     mqtt: aiomqtt.Client, camp_id: str, state: Dict[str, Any]
 ) -> None:
     """Monitors empty camp fields and triggers automatic seed planting."""
     while True:
         await asyncio.sleep(4)
-        if state["occupied"] or state.get("empty_days", 0) < 3:
+        if (
+            state["occupied"]
+            or state.get("seeding_pending", False)
+            or state.get("empty_days", 0) < 3
+        ):
             continue
 
         season = state.get("season", "spring")
         top_seeds = find_top_3_seeds(state["moisture"], season)
         target = top_seeds[0] if top_seeds else SEEDS_LST[0]
 
-        msg = f"[{camp_id.upper()}] Campo libero. Autosemina avviata: {target['name'].capitalize()}."
+        msg = f"[{camp_id.upper()}] Campo libero. Richiesta autosemina: {target['name'].capitalize()}."
 
         logger.info(msg)
         await mqtt.publish(NOTIFICATIONS_TOPIC, msg)
 
-        await plant_seed(mqtt, user_selected_seed=target, camp_id=camp_id)
+        await request_seeding(mqtt, camp_id, target)
+        state["seeding_pending"] = True
         state["empty_days"] = 0
-        state["occupied"] = True
-        state["seed_name"] = target["name"].capitalize()
 
         logs = add_to_daily_report(
             "AUTO_PLANT",
-            f"[{camp_id}] Autoseminato {target['name']}",
+            f"[{camp_id}] Richiesta autosemina {target['name']}",
             state.get("date"),
             stats=state,
         )
@@ -205,6 +264,7 @@ async def process_plantation_status(
             return
 
         state["occupied"] = True
+        state["seeding_pending"] = False
         state["empty_days"] = 0
         state["seed_name"] = plant_name
         state["time_left"] = detail.get("time_left", 0)
@@ -229,25 +289,20 @@ async def process_plantation_status(
         logger.info("%s", log_msg)
         await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg)
 
-        history = save_harvest(state["seed_name"], state.get("date"))
-        await mqtt.publish(HARVEST_DEPOSIT_TOPIC, json.dumps(history))
+        await request_harvest(
+            mqtt,
+            camp_id,
+            state["seed_name"],
+            state.get("date"),
+        )
 
         logs = add_to_daily_report(
             "AUTO_HARVEST",
-            f"[{camp_id}] Raccolto {state['seed_name']}",
+            f"[{camp_id}] Richiesto raccolto {state['seed_name']}",
             state.get("date"),
             stats=state,
         )
         await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
-
-        await clear_camp(mqtt, camp_id=camp_id)
-
-        state["occupied"] = False
-        state["seed_name"] = None
-        state["harvest_pending"] = False
-        state["growth_percentage"] = 0.0
-        state["growth_stage"] = "EMPTY"
-        state["health"] = "FIELD IS EMPTY"
     except Exception as err:
         logger.error("Plantation error on %s: %s", camp_id, err)
 
@@ -302,23 +357,21 @@ async def handle_terrain_telemetry(
             state["irrigation_active"] = True
             needed_water = round(max(2.0, target_max - state["moisture"]), 1)
 
-            await mqtt.publish(
-                f"camp/{camp_id}/terrain/cmd/irrigate", str(needed_water)
-            )
-            notif = f"[{camp_id.upper()}] Sotto soglia ({state['moisture']:.1f}% < {target_min}%). Irrigato +{needed_water}%."
+            await request_irrigation(mqtt, camp_id, needed_water)
+            notif = f"[{camp_id.upper()}] Sotto soglia ({state['moisture']:.1f}% < {target_min}%). Richiesta irrigazione +{needed_water}%."
             logger.info("%s", notif)
             await mqtt.publish(NOTIFICATIONS_TOPIC, notif)
 
             logs = add_to_daily_report(
                 "AUTO_IRRIGATE",
-                f"[{camp_id}] Irrigato +{needed_water}%",
+                f"[{camp_id}] Richiesta irrigazione +{needed_water}%",
                 state.get("date"),
                 stats=state,
             )
             await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
         if state["oxygenation"] < 30.0:
-            await mqtt.publish(f"camp/{camp_id}/terrain/cmd/reoxygenate", "trigger")
+            await request_reoxygenation(mqtt, camp_id)
     except Exception as err:
         logger.error("Terrain telemetry error on %s: %s", camp_id, err)
 
@@ -348,20 +401,21 @@ async def handle_dashboard_command(
             (s for s in SEEDS_LST if s["name"].lower() == str(seed_name).lower()), None
         )
         selected = target if target else {"name": seed_name}
-        await plant_seed(mqtt, user_selected_seed=selected, camp_id=camp_id)
+        await request_seeding(mqtt, camp_id, selected)
+        state["seeding_pending"] = True
         state["empty_days"] = 0
-        state["occupied"] = True
 
     elif cmd == "irrigate":
         target_min = state.get("min_moisture", 18.0) if state["occupied"] else 15.0
         target_max = target_min + 5.0
         needed_water = round(max(2.0, target_max - state["moisture"]), 1)
         state["irrigation_active"] = True
-        await mqtt.publish(f"camp/{camp_id}/terrain/cmd/irrigate", str(needed_water))
+        await request_irrigation(mqtt, camp_id, needed_water)
 
     elif cmd == "clear":
-        await clear_camp(mqtt, camp_id=camp_id)
+        await publish_field_cleared_event(mqtt, camp_id, reason="dashboard")
         state["occupied"] = False
+        state["seeding_pending"] = False
         state["seed_name"] = None
         state["harvest_pending"] = False
         state["growth_percentage"] = 0.0
@@ -378,7 +432,7 @@ async def handle_dashboard_command(
             state["empty_days"] += days
 
     elif cmd == "reoxygenate":
-        await mqtt.publish(f"camp/{camp_id}/terrain/cmd/reoxygenate", "trigger")
+        await request_reoxygenation(mqtt, camp_id)
 
     elif cmd in ("reset", "restart"):
         state.clear()

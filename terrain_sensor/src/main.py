@@ -27,6 +27,7 @@ logger = LoggingUtils.get_logger(__name__)
 
 async def listen_mqtt_telemetry(client, camp_states, dedup):
     await client.subscribe(f"camp/{FIELD_NAME}/environment/telemetry")
+    await client.subscribe(f"camp/{FIELD_NAME}/terrain/event/#")
     await client.subscribe(f"camp/{FIELD_NAME}/terrain/cmd/#")
 
     async for msg in client.messages:
@@ -64,32 +65,42 @@ async def listen_mqtt_telemetry(client, camp_states, dedup):
                 f"Pump: {telemetry['irrigation_active']}",
             )
 
-        # todo: prendere e spostare in oxy_irr
-        elif "terrain/cmd/" in top:
-            cmd = top.split("terrain/cmd/")[-1].lower()
+        elif "terrain/event/" in top:
+            event = top.split("terrain/event/")[-1].lower()
+            event_data = json.loads(raw) if raw else {}
 
-            if cmd in ("irrigate", "force_irrigate", "force_irrigation"):
-                amount = 15.0
-                try:
-                    if raw and not raw.startswith("{"):
-                        amount = float(raw)
-                except ValueError:
-                    pass
-
+            if event == "irrigated":
+                amount = float(event_data.get("amount", 15.0))
                 state["soil_moisture"] = min(100.0, state["soil_moisture"] + amount)
                 state["water_dispensed_mm"] = amount
                 state["irrigation_active"] = False
                 logger.info(
-                    f"[{camp_id.upper()}] Irrigated (+{amount:.1f}%)! New moisture: {state['soil_moisture']:.1f}%.",
+                    f"[{camp_id.upper()}] Observed irrigation (+{amount:.1f}%). New moisture: {state['soil_moisture']:.1f}%.",
                 )
 
-            elif cmd in ("reoxygenate", "oxygen"):
-                state["oxygenation"] = 100.0
+            elif event == "reoxygenated":
+                state["oxygenation"] = float(event_data.get("oxygenation", 100.0))
                 logger.info(
-                    f"[{camp_id.upper()}] Soil reoxygenated to 100.0%.",
+                    f"[{camp_id.upper()}] Observed soil reoxygenation to {state['oxygenation']:.1f}%.",
                 )
+            else:
+                continue
 
-            elif cmd in ("set_soil_type", "set_type"):
+            telemetry = {
+                "soil_moisture": state["soil_moisture"],
+                "oxygenation": state["oxygenation"],
+                "soil_type": state.get("soil_type", "Franco"),
+                "irrigation_active": state["irrigation_active"],
+                "water_dispensed_mm": state.get("water_dispensed_mm", 0.0),
+                "date": state.get("date", "01/01/2026"),
+            }
+            out_topic = f"camp/{camp_id}/terrain/telemetry"
+            await publish_json(client, out_topic, telemetry, qos=1)
+
+        elif "terrain/cmd/" in top:
+            cmd = top.split("terrain/cmd/")[-1].lower()
+
+            if cmd in ("set_soil_type", "set_type"):
                 state["soil_type"] = raw.strip()
                 logger.info(
                     f"[{camp_id.upper()}] Soil type set to: {state['soil_type']}",
@@ -161,18 +172,11 @@ async def main():
         try:
             await worker(camp_states, dedup)
         except Exception as err:
-            logger.error(f"Connection dropped ({err}). Reconnecting in 5s...")
+            logger.error(
+                f"Connection dropped ({err}). Reconnecting in 5s...", stack_info=True
+            )
             await asyncio.sleep(5)
 
 
 if __name__ == "__main__":
     asyncio.run(main())
-
-
-# env file for eaCH CONRTAINER  -> ONE ENV DEFINES THE TOPIC, RESOURCES,FIELD NAME
-# ENV FILE IS SHARED BETWEEN DOCKER COMPOSE -> DOCKER  ??
-# TODO: DEFINE DOCKER COMPOSE WITH REPLICATES OKOKOKOKOKOKOKOK
-# TODO: DEFINE ACTUATOR -> AN ACTUAR INGEST CMD FROM MANAGER AND RETURNS STATUS AFTER ACTION -> BUIDRECTIONAL COMMS MQTYTT QOS 2 -> SAME REPLICATION -> ENV FILA SHARED BETWEEN SENSOR AND ACTUATOR ? ?
-# TODO: actuator logic taken from mngr and moved into new container
-# TODO: terrain configuration w\ env for defining FIELD definition -> a static start configuration to define a realistic field
-# TODO: actuator for harvesting - how?
