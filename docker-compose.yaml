@@ -70,6 +70,42 @@ services:
     networks:
       - farm_network
 
+  seeder_actuator_a:
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    container_name: seeder_a
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  irrigator_actuator_a:
+    build:
+      context: ./irrigator
+      dockerfile: Dockerfile
+    container_name: irrigator_a
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_a
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
   plantation_sensor_a:
     build:
       context: ./plantation_sensor
@@ -148,6 +184,42 @@ services:
     networks:
       - farm_network
 
+  seeder_actuator_b:
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    container_name: seeder_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  irrigator_actuator_b:
+    build:
+      context: ./irrigator
+      dockerfile: Dockerfile
+    container_name: irrigator_b
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_b
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
   plantation_sensor_b:
     build:
       context: ./plantation_sensor
@@ -221,6 +293,42 @@ services:
     volumes:
       - ./certs:/app/certs:ro
       - ./harvester/data:/app/data
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  seeder_actuator_c:
+    build:
+      context: ./seeder
+      dockerfile: Dockerfile
+    container_name: seeder_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+    volumes:
+      - ./certs:/app/certs:ro
+    depends_on:
+      - mqtt-broker
+    networks:
+      - farm_network
+
+  irrigator_actuator_c:
+    build:
+      context: ./irrigator
+      dockerfile: Dockerfile
+    container_name: irrigator_c
+    environment:
+      - MQTT_BROKER_HOST=mqtt-broker
+      - MQTT_BROKER_PORT=8883
+      - MQTT_BROKER_USER=farm_admin
+      - MQTT_BROKER_PASS=secure_farm
+      - FIELD_NAME=field_c
+    volumes:
+      - ./certs:/app/certs:ro
     depends_on:
       - mqtt-broker
     networks:

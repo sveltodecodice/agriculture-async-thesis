@@ -3533,5 +3533,355 @@
     "date": "28/03/2026",
     "event": "AUTO_IRRIGATE",
     "details": "[field_a] Richiesta irrigazione +5.8% | Temp: 24°C | Weather: sun | Moist: 14.2% | Oxy: 28.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "28/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 23°C | Weather: sun | Moist: 0.0% | Oxy: 74.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +12.1% | Temp: 20°C | Weather: cloudy | Moist: 7.9% | Oxy: 25.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 21°C | Weather: cloudy | Moist: 0.0% | Oxy: 71.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "30/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +16.4% | Temp: 24°C | Weather: sun | Moist: 3.6% | Oxy: 21.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "30/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 21°C | Weather: sun | Moist: 0.0% | Oxy: 67.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +20.0% | Temp: 20°C | Weather: sun | Moist: 0.0% | Oxy: 77.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 25°C | Weather: cloudy | Moist: 0.0% | Oxy: 63.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +11.8% | Temp: 20°C | Weather: rain | Moist: 8.2% | Oxy: 74.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 24°C | Weather: sun | Moist: 0.0% | Oxy: 59.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.7% | Temp: 20°C | Weather: sun | Moist: 11.3% | Oxy: 25.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 20°C | Weather: sun | Moist: 0.0% | Oxy: 56.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +13.8% | Temp: 24°C | Weather: cloudy | Moist: 6.2% | Oxy: 21.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.1% | Temp: 22°C | Weather: sun | Moist: 12.9% | Oxy: 66.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 20°C | Weather: cloudy | Moist: 0.0% | Oxy: 52.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +20.0% | Temp: 22°C | Weather: sun | Moist: 0.0% | Oxy: 78.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +11.9% | Temp: 21°C | Weather: cloudy | Moist: 8.1% | Oxy: 62.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +20.0% | Temp: 23°C | Weather: sun | Moist: 0.0% | Oxy: 48.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +20.0% | Temp: 25°C | Weather: sun | Moist: 0.0% | Oxy: 74.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina spinach | Temp: 16°C | Weather: cloudy | Moist: 30.1% | Oxy: 59.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina lettuce | Temp: 14°C | Weather: cloudy | Moist: 29.0% | Oxy: 59.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina spinach | Temp: 14°C | Weather: cloudy | Moist: 30.3% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina spinach | Temp: 13°C | Weather: sun | Moist: 33.0% | Oxy: 59.2% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina spinach | Temp: 16°C | Weather: cloudy | Moist: 40.9% | Oxy: 55.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina corn | Temp: 15°C | Weather: cloudy | Moist: 22.4% | Oxy: 56.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina corn | Temp: 13°C | Weather: cloudy | Moist: 22.0% | Oxy: 56.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina lettuce | Temp: 15°C | Weather: cloudy | Moist: 28.8% | Oxy: 56.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Temp: 13°C | Weather: sun | Moist: 26.7% | Oxy: 59.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +40.3% | Temp: 12°C | Weather: sun | Moist: 24.7% | Oxy: 56.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Cabbage | Stage: PLANTED | Health: TOO_DRY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +26.9% | Temp: 14°C | Weather: rain | Moist: 38.1% | Oxy: 52.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Lettuce | Stage: PLANTED | Health: TOO_DRY, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +30.1% | Temp: 14°C | Weather: rain | Moist: 29.9% | Oxy: 52.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: PLANTED | Health: TOO_DRY, TOO_COLD, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/02/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_b] Richiesto raccolto Lettuce | Temp: 14°C | Weather: sun | Moist: 98.5% | Oxy: 90.6% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Lettuce | Stage: READY_FOR_HARVEST | Health: TOO_WET, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/02/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina spinach | Temp: 16°C | Weather: rain | Moist: 100.0% | Oxy: 76.4% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "08/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.6% | Temp: 21°C | Weather: cloudy | Moist: 59.4% | Oxy: 54.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Cabbage | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.2% | Temp: 24°C | Weather: sun | Moist: 59.8% | Oxy: 49.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Cabbage | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +10.5% | Temp: 23°C | Weather: sun | Moist: 54.5% | Oxy: 50.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "10/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.3% | Temp: 24°C | Weather: sun | Moist: 59.7% | Oxy: 45.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "11/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +9.3% | Temp: 22°C | Weather: sun | Moist: 55.7% | Oxy: 41.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "12/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +9.8% | Temp: 25°C | Weather: cloudy | Moist: 55.2% | Oxy: 34.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Cabbage | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +9.1% | Temp: 23°C | Weather: cloudy | Moist: 50.9% | Oxy: 39.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "14/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.3% | Temp: 22°C | Weather: cloudy | Moist: 58.7% | Oxy: 27.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_c] Richiesto raccolto Cabbage | Temp: 22°C | Weather: sun | Moist: 63.7% | Oxy: 90.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: READY_FOR_HARVEST | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.0% | Temp: 23°C | Weather: cloudy | Moist: 58.0% | Oxy: 95.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.9% | Temp: 23°C | Weather: sun | Moist: 52.1% | Oxy: 30.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "17/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +11.6% | Temp: 25°C | Weather: sun | Moist: 53.4% | Oxy: 85.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT"
+  },
+  {
+    "date": "18/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina spinach | Temp: 24°C | Weather: sun | Moist: 63.5% | Oxy: 76.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +7.0% | Temp: 20°C | Weather: cloudy | Moist: 58.0% | Oxy: 71.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_HOT"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.1% | Temp: 20°C | Weather: cloudy | Moist: 56.9% | Oxy: 76.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT"
+  },
+  {
+    "date": "19/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.3% | Temp: 22°C | Weather: cloudy | Moist: 54.7% | Oxy: 86.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "20/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.0% | Temp: 21°C | Weather: sun | Moist: 59.0% | Oxy: 67.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "20/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.2% | Temp: 25°C | Weather: sun | Moist: 59.8% | Oxy: 71.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: MATURING | Health: TOO_HOT"
+  },
+  {
+    "date": "20/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.8% | Temp: 22°C | Weather: sun | Moist: 52.2% | Oxy: 81.6% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +7.1% | Temp: 25°C | Weather: cloudy | Moist: 57.9% | Oxy: 62.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "21/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.5% | Temp: 24°C | Weather: sun | Moist: 52.5% | Oxy: 76.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "22/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +8.0% | Temp: 21°C | Weather: sun | Moist: 52.0% | Oxy: 72.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "23/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_b] Richiesto raccolto Spinach | Temp: 23°C | Weather: sun | Moist: 65.2% | Oxy: 56.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Spinach | Stage: READY_FOR_HARVEST | Health: TOO_HOT"
+  },
+  {
+    "date": "23/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +9.9% | Temp: 24°C | Weather: sun | Moist: 50.1% | Oxy: 67.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +12.0% | Temp: 23°C | Weather: sun | Moist: 48.0% | Oxy: 58.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Corn | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_a] Richiesto raccolto Corn | Temp: 23°C | Weather: sun | Moist: 60.0% | Oxy: 58.3% | Soil: Franco | Water: 12.0mm | Pump: OFF | Plant: Corn | Stage: READY_FOR_HARVEST | Health: HEALTHY"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina spinach | Temp: 22°C | Weather: cloudy | Moist: 47.9% | Oxy: 42.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "27/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.8% | Temp: 24°C | Weather: rain | Moist: 56.2% | Oxy: 37.8% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: TOO_DRY, TOO_HOT"
+  },
+  {
+    "date": "28/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina spinach | Temp: 21°C | Weather: rain | Moist: 75.7% | Oxy: 44.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +9.5% | Temp: 22°C | Weather: cloudy | Moist: 55.5% | Oxy: 28.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +8.9% | Temp: 25°C | Weather: sun | Moist: 56.1% | Oxy: 29.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +8.8% | Temp: 24°C | Weather: sun | Moist: 56.2% | Oxy: 70.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "03/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.3% | Temp: 21°C | Weather: sun | Moist: 57.7% | Oxy: 76.9% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: GERMINATION | Health: TOO_HOT"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.9% | Temp: 22°C | Weather: sun | Moist: 58.1% | Oxy: 65.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "07/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +8.6% | Temp: 23°C | Weather: sun | Moist: 56.4% | Oxy: 51.1% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "07/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.9% | Temp: 23°C | Weather: cloudy | Moist: 59.1% | Oxy: 57.5% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "08/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.7% | Temp: 20°C | Weather: sun | Moist: 59.3% | Oxy: 53.0% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
+  },
+  {
+    "date": "08/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.3% | Temp: 22°C | Weather: sun | Moist: 57.7% | Oxy: 60.7% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: VEGETATIVE | Health: TOO_HOT"
   }
 ]
