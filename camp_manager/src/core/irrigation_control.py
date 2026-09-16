@@ -1,34 +1,34 @@
-import json
+import logging
+import aiomqtt
+from common.constants import TOPIC_IRRIGATOR_IRRIGATE, TOPIC_IRRIGATOR_REOXYGENATE
+from utils.mqtt_utils import publish_json
+
+logger = logging.getLogger(__name__)
 
 
-async def force_irrigation(
-    mqtt_client,
-    current_moisture: float = 0.0,
-    irrigation_amount: float = 25.0,
-    camp_id: str = "campo_1",
-):
-    print(
-        f"[{camp_id.upper()}] Publishing FORCE irrigate. (Current moisture: {current_moisture}%)",
-        flush=True,
-    )
-    payload = str(irrigation_amount)
-    topic = f"camp/{camp_id}/terrain/cmd/irrigate"
-    await mqtt_client.publish(topic, payload)
+async def request_irrigation(
+    mqtt_client: aiomqtt.Client, camp_id: str, amount: float
+) -> None:
+    """Publish an MQTT command to request irrigation for a target field.
+
+    Args:
+        mqtt_client (aiomqtt.Client): Active MQTT client connection.
+        camp_id (str): Unique identifier of the field camp.
+        amount (float): Required water amount percentage increase.
+    """
+    topic = TOPIC_IRRIGATOR_IRRIGATE.format(camp_id=camp_id)
+    payload = {"amount": amount}
+    await publish_json(mqtt_client, topic, payload, qos=1)
+    logger.info("Irrigation requested | field=%s | amount=%.1f", camp_id, amount)
 
 
-async def auto_irrigate(
-    mqtt_client,
-    current_moisture: float,
-    min_moisture: float = 20.0,
-    irrigation_amount: float = 13.0,
-    camp_id: str = "campo_1",
-):
-    minimal_moisture = max(min_moisture, 20.0)
-    if current_moisture <= minimal_moisture:
-        print(
-            f"[{camp_id.upper()}] Moisture level ({current_moisture}%) fell below minimum ({minimal_moisture}%). Auto-irrigating!",
-            flush=True,
-        )
-        await force_irrigation(
-            mqtt_client, current_moisture, irrigation_amount, camp_id=camp_id
-        )
+async def request_reoxygenation(mqtt_client: aiomqtt.Client, camp_id: str) -> None:
+    """Publish an MQTT command to trigger soil reoxygenation.
+
+    Args:
+        mqtt_client (aiomqtt.Client): Active MQTT client connection.
+        camp_id (str): Unique identifier of the target field camp.
+    """
+    topic = TOPIC_IRRIGATOR_REOXYGENATE.format(camp_id=camp_id)
+    await mqtt_client.publish(topic, "trigger", qos=1)
+    logger.info("Reoxygenation requested | field=%s", camp_id)

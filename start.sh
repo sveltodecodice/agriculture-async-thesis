@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-echo "==> Stopping and removing previous Docker Compose resources"
-docker compose down \
-  --volumes \
-  --remove-orphans \
-  --rmi local
+# Trap errors so the terminal window stays open for inspection
+trap 'echo ""; read -p "An error occurred. Press [Enter] to exit..."' ERR
 
-echo "==> Cleaning Docker build cache."
-docker builder prune --all --force
+echo "==> Stopping and removing container state (preserving base images)"
+docker compose down --volumes --remove-orphans
 
-echo "==> Cleaning unused Docker resources, including volumes"
-docker system prune --all --force --volumes
+echo "==> Clearing build cache"
+docker builder prune --force
+
+echo "==> Purging dangling resources & volumes (preserving pulled images)"
+docker system prune --force --volumes
 
 echo "==> Rebuilding images"
 docker compose build
 
 echo "==> Starting Docker Compose"
-docker compose up 
+docker compose up

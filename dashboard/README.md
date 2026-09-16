@@ -1,83 +1,122 @@
-# Smart Farm Dashboard — student-friendly edition
+# Smart Farm Dashboard
 
-A lightweight dashboard written with **Python standard library + paho-mqtt + HTML/CSS/vanilla JS**.
-There is no frontend framework and no Flask/FastAPI dependency.
+Lightweight dashboard implemented with Python standard library, `paho-mqtt`, HTML, CSS, and vanilla JavaScript.
 
-## Why the code is split this way
+The dashboard has been aligned with the current distributed Smart Farm architecture:
 
-Each module has one job:
+- fields: `field_a`, `field_b`, `field_c` by default;
+- one Camp Manager orchestrates all fields;
+- Ambient, Terrain, and Plantation services are sensors;
+- Seeder, Harvester, and Irrigator are actuators;
+- the dashboard sends normal operator actions to Camp Manager rather than bypassing orchestration;
+- actuator effects are confirmed through subsequent sensor telemetry.
+
+## Module responsibilities
 
 | File | Responsibility |
 |---|---|
-| `app.py` | starts the application |
-| `config.py` | ports, broker settings, topics, camp IDs |
-| `state_store.py` | shared thread-safe state |
-| `normalizers.py` | converts MQTT payloads into one predictable schema |
-| `message_handlers.py` | routes incoming MQTT messages into state |
-| `mqtt_contract.py` | maps UI actions to MQTT commands |
-| `mqtt_service.py` | connects/subscribes/publishes to MQTT |
-| `http_server.py` | HTTP API, static files, live SSE stream |
-| `static/js/pages/*` | one frontend module per page |
-| `static/css/*` | design tokens, layout, reusable components |
+| `app.py` | Starts MQTT and HTTP services |
+| `config.py` | Broker configuration, configured fields, subscribed topics |
+| `state_store.py` | Thread-safe dashboard state |
+| `normalizers.py` | Converts sensor payloads into one UI schema |
+| `message_handlers.py` | Applies incoming sensor/manager messages to dashboard state |
+| `mqtt_contract.py` | Maps operator actions to the system MQTT contract |
+| `mqtt_service.py` | MQTT connection, subscriptions, message decoding and publication |
+| `http_server.py` | HTTP API, static assets and SSE live state |
+| `static/js/pages/home.js` | Farm overview |
+| `static/js/pages/field.js` | Field telemetry and operator controls |
+| `static/js/pages/diagnostics.js` | MQTT, Camp Manager, sensor health and operator command routing |
 
-The intended data flow is:
+## Dashboard data flow
 
 ```text
-Sensors -> MQTT -> Camp Manager -> MQTT
-                      |             |
-                      +-- health ---+
-                                    v
-                              mqtt_service.py
-                                    v
-                           message_handlers.py
-                                    v
-                             state_store.py
-                                    v
-                         HTTP/SSE -> Browser UI
+Sensors -> MQTT -> Dashboard MQTT consumer -> normalized state -> HTTP/SSE -> Browser
+                  |
+                  +-> Camp Manager health
+
+Browser -> HTTP command -> Dashboard MQTT publisher -> Camp Manager -> Actuator
+                                                        |
+                                                        v
+                                                      Sensor
+                                                        |
+                                                        v
+                                                     Telemetry
 ```
 
-## Pages
+The browser never treats an actuator command as confirmation. The resulting field state remains driven by sensor telemetry.
 
-- **Panoramica**: current date, MQTT/manager connectivity, fields, short review.
-- **Field detail**: crop state, telemetry and supported commands.
-- **Diagnostica**: Camp Manager sensor health (`environment`, `terrain`, `plantation`).
+## Fields
 
-## Supported UI commands
+The backend reads the field list from `CAMP_IDS`:
 
-- irrigate
-- reoxygenate
-- plant
-- clear
-- restart
-- skip days
+```text
+CAMP_IDS=field_a,field_b,field_c
+```
 
-The action-to-topic mapping is isolated in `mqtt_contract.py`.
+If omitted, those three fields are used by default.
+
+The frontend derives its field navigation from the backend snapshot, so field identifiers are not duplicated in JavaScript.
+
+## Operator commands
+
+| UI action | MQTT destination | Logical execution |
+|---|---|---|
+| Plant | `camp/{field}/camp_manager/cmd/plant` | Camp Manager -> Seeder |
+| Irrigate | `camp/{field}/camp_manager/cmd/irrigate` | Camp Manager -> Irrigator |
+| Reoxygenate | `camp/{field}/camp_manager/cmd/reoxygenate` | Camp Manager -> Irrigator |
+| Clear | `camp/{field}/camp_manager/cmd/clear` | Camp Manager administrative clear event |
+| Restart | `camp/{field}/camp_manager/cmd/restart` | Camp Manager state reset |
+| Skip days | `camp/{field}/environment/cmd/skip` | Ambient Sensor simulation clock |
+
+`skip` is intentionally an administrative simulation exception: the Ambient Sensor owns the simulated clock.
+
+Harvest is not exposed as a manual dashboard command. When the Plantation Sensor reports `READY_FOR_HARVEST`, Camp Manager automatically commands the Harvester.
+
+## Diagnostics
+
+Camp Manager currently reports health for three sensors per field:
+
+- environment;
+- terrain;
+- plantation.
+
+Seeder, Harvester, and Irrigator do not currently expose dedicated heartbeat topics, so the dashboard does not invent actuator health. Their successful effects are verified indirectly through Plantation or Terrain telemetry.
 
 ## Run
 
-The existing compose file can keep the dashboard service on port `8501`.
+The dashboard service should receive the same MQTT settings used by the rest of the project and the same field list used by Camp Manager.
 
-```bash
-docker compose up -d --build --force-recreate dashboard_app
+Example environment:
+
+```yaml
+environment:
+  - MQTT_BROKER_HOST=mqtt-broker
+  - MQTT_BROKER_PORT=8883
+  - MQTT_BROKER_USER=farm_admin
+  - MQTT_BROKER_PASS=secure_farm
+  - CAMP_IDS=field_a,field_b,field_c
 ```
 
-Health check:
+Rebuild the dashboard from the main project compose file:
 
 ```bash
-curl http://localhost:8501/healthz
+docker compose up -d --build --force-recreate dashboard
 ```
 
-## Run the small parser test
+Open:
 
-From the dashboard directory:
+```text
+http://<docker-host>:8501/
+```
+
+Health endpoint:
+
+```text
+http://<docker-host>:8501/healthz
+```
+
+## Tests
 
 ```bash
 python -m unittest discover -s tests
 ```
-
-## Good first student extensions
-
-1. Add a chart page without changing MQTT handling.
-2. Add a crop attribute in `seeds.py` and display it in `pages/field.js`.
-3. Add a new command only in `mqtt_contract.py`, then expose one button.
-4. Add an archive persistence module without touching the live MQTT service.

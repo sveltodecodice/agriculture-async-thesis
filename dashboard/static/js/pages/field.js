@@ -1,4 +1,4 @@
-import { store } from '../store.js';
+import { campState, store } from '../store.js';
 import {
   checkLabel,
   checkTone,
@@ -78,7 +78,7 @@ function infoMetric(label, value, support) {
 
 export function renderField(page, campId, toast) {
   page.className = 'page page-field';
-  const camp = store.snapshot.camps[campId];
+  const camp = campState(campId);
   if (!camp) { page.innerHTML = '<div class="card"><h3>Campo non trovato.</h3></div>'; return; }
 
   const env = camp.environment || {};
@@ -167,11 +167,11 @@ export function renderField(page, campId, toast) {
             <div>
               <p class="card-kicker">Azioni</p>
               <h3>Controlli del campo</h3>
-              <p class="body-copy">Comandi manuali effettivamente supportati dal sistema.</p>
+              <p class="body-copy">Le azioni operative passano dal Camp Manager, che le inoltra agli attuatori dedicati.</p>
             </div>
 
             <div class="action-section">
-              <h4>Intervento rapido</h4>
+              <h4>Intervento rapido · Irrigator</h4>
               <div class="actions-grid">
                 <button class="action-button ${recommendation.command === 'irrigate' ? 'recommended' : ''}" data-command="irrigate">Irriga</button>
                 <button class="action-button sand ${recommendation.command === 'reoxygenate' ? 'recommended' : ''}" data-command="reoxygenate">Riossigena</button>
@@ -188,8 +188,8 @@ export function renderField(page, campId, toast) {
             </div>
 
             <div class="action-section">
-              <h4>Semina</h4>
-              <p>${plant.occupied ? 'Il campo è occupato: la semina sarà disponibile dopo lo svuotamento.' : 'Seleziona la nuova coltura.'}</p>
+              <h4>Semina · Seeder</h4>
+              <p>${plant.occupied ? 'Il campo è occupato: la semina sarà disponibile dopo lo svuotamento.' : 'Seleziona la coltura. Il Camp Manager invierà la richiesta al Seeder.'}</p>
               <div class="form-group">
                 <label for="cropSelect">Coltura</label>
                 <select id="cropSelect">${cropOptions(plant.crop)}</select>

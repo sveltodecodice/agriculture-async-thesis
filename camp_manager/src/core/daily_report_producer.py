@@ -1,8 +1,3 @@
-"""Daily farm log producer module.
-
-Appends event records and environmental statistics to a persistent JSON log file.
-"""
-
 import logging
 import os
 from typing import Any, Dict, List, Optional

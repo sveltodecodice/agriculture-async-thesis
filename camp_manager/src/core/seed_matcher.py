@@ -2,35 +2,36 @@ from common.seeds import SEEDS_LST
 
 
 def evaluate_season_ok(seed: dict, season: str) -> bool:
+    """Check if a crop is suitable for planting in the given season.
+
+    Args:
+        seed (dict): Dictionary containing seed metadata and supported seasons.
+        season (str): Name of the current season (e.g., "spring", "estate").
+
+    Returns:
+        bool: True if the crop can be grown in the target season, False otherwise.
+    """
     if not season:
         return False
     return season.lower() in [s.lower() for s in seed.get("seasons", [])]
 
 
-def evaluate_moisture_ok(seed: dict, moisture: float) -> bool:
-    return seed["min_soilmoisture"] <= moisture <= seed["max_soilmoisture"]
+def find_top_3_seeds(moisture: float, season: str) -> list[dict]:
+    """Find the top 3 best matching seeds for the current soil moisture and season.
 
+    The algorithm first filters crops that match the current season. Then it sorts
+    them based on how close their minimum required moisture is to the actual soil moisture.
 
-def evaluate_seed(seed: dict, moisture: float, season: str) -> dict:
-    if evaluate_season_ok(seed, season) and evaluate_moisture_ok(seed, moisture):
-        return {
-            "name": seed["name"],
-            "min_soilmoisture": seed["min_soilmoisture"],
-            "max_soilmoisture": seed["max_soilmoisture"],
-            "time_harvest": seed["time_harvest"],
-        }
-    return None
+    Args:
+        moisture (float): Current soil moisture percentage.
+        season (str): Current active season.
 
-
-def find_top_3_seeds(moisture, season):
-    # Filter by season first
+    Returns:
+        list[dict]: A list containing up to 3 best-matching seed dictionaries.
+    """
     seasonal_matches = [s for s in SEEDS_LST if evaluate_season_ok(s, season)]
-
-    # Fall back to full database if fewer than 3 strict season matches are found
     candidate_list = seasonal_matches if len(seasonal_matches) >= 3 else SEEDS_LST
 
-    # Sort candidates by soil moisture proximity
-    sorted_seeds = sorted(
+    return sorted(
         candidate_list, key=lambda s: abs(s.get("min_soilmoisture", 20.0) - moisture)
-    )
-    return sorted_seeds[:3]
+    )[:3]

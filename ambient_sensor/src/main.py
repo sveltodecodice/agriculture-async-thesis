@@ -114,7 +114,7 @@ async def worker(managers: dict) -> None:
             reconnection handling in the main loop.
     """
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_context.check_hostname = False
+    ssl_context.check_hostname = False                              #DA SISTEMARE PER LA SICUREZZA SU TTI E 4/5 SERVIZI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     ssl_context.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(

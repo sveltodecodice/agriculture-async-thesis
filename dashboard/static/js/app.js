@@ -24,11 +24,16 @@ function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('
 
 function render() {
   if (!store.snapshot) return;
-  store.route = parseRoute();
-  renderSidebar();
-  if (store.route.page === 'diagnostics') renderDiagnostics(page);
-  else if (store.route.page === 'field') renderField(page, store.route.campId, toast);
-  else renderHome(page);
+  try {
+    store.route = parseRoute();
+    renderSidebar();
+    if (store.route.page === 'diagnostics') renderDiagnostics(page);
+    else if (store.route.page === 'field') renderField(page, store.route.campId, toast);
+    else renderHome(page);
+  } catch (error) {
+    console.error('Dashboard render failed', error);
+    page.innerHTML = `<div class="card"><h3>Dati temporaneamente non disponibili</h3><p>Il dashboard attende un nuovo aggiornamento di telemetria.</p></div>`;
+  }
 }
 
 async function start() {

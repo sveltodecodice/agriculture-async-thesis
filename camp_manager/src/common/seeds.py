@@ -1,3 +1,4 @@
+# Base list of raw crop specifications
 SEEDS_DATA = [
     {
         "key": "tomato",
@@ -8,7 +9,7 @@ SEEDS_DATA = [
         "max_temperature": 27,
         "ideal_soil": "Franco",
         "days": 60,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "zucchini",
@@ -19,7 +20,7 @@ SEEDS_DATA = [
         "max_temperature": 28,
         "ideal_soil": "Franco",
         "days": 50,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "lettuce",
@@ -30,7 +31,7 @@ SEEDS_DATA = [
         "max_temperature": 20,
         "ideal_soil": "Sabbioso",
         "days": 30,
-        "seasons": ["Primavera", "Autunno"],
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
     },
     {
         "key": "carrot",
@@ -41,7 +42,7 @@ SEEDS_DATA = [
         "max_temperature": 22,
         "ideal_soil": "Franco-Sabbioso",
         "days": 70,
-        "seasons": ["Primavera", "Autunno"],
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
     },
     {
         "key": "bean",
@@ -52,7 +53,7 @@ SEEDS_DATA = [
         "max_temperature": 26,
         "ideal_soil": "Franco",
         "days": 60,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "pea",
@@ -63,7 +64,15 @@ SEEDS_DATA = [
         "max_temperature": 18,
         "ideal_soil": "Franco-Sabbioso",
         "days": 65,
-        "seasons": ["Primavera", "Autunno", "Inverno"],
+        "seasons": [
+            "spring",
+            "autumn",
+            "fall",
+            "winter",
+            "primavera",
+            "autunno",
+            "inverno",
+        ],
     },
     {
         "key": "spinach",
@@ -74,7 +83,15 @@ SEEDS_DATA = [
         "max_temperature": 18,
         "ideal_soil": "Franco",
         "days": 40,
-        "seasons": ["Autunno", "Inverno", "Primavera"],
+        "seasons": [
+            "autumn",
+            "fall",
+            "winter",
+            "spring",
+            "autunno",
+            "inverno",
+            "primavera",
+        ],
     },
     {
         "key": "eggplant",
@@ -85,7 +102,7 @@ SEEDS_DATA = [
         "max_temperature": 30,
         "ideal_soil": "Franco-Argilloso",
         "days": 80,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "bell_pepper",
@@ -96,7 +113,7 @@ SEEDS_DATA = [
         "max_temperature": 30,
         "ideal_soil": "Franco-Argilloso",
         "days": 75,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "cucumber",
@@ -107,7 +124,7 @@ SEEDS_DATA = [
         "max_temperature": 28,
         "ideal_soil": "Franco",
         "days": 55,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "corn",
@@ -118,7 +135,7 @@ SEEDS_DATA = [
         "max_temperature": 30,
         "ideal_soil": "Franco",
         "days": 75,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "wheat",
@@ -129,7 +146,7 @@ SEEDS_DATA = [
         "max_temperature": 24,
         "ideal_soil": "Argilloso",
         "days": 90,
-        "seasons": ["Autunno", "Inverno"],
+        "seasons": ["autumn", "fall", "winter", "autunno", "inverno"],
     },
     {
         "key": "basil",
@@ -140,7 +157,7 @@ SEEDS_DATA = [
         "max_temperature": 28,
         "ideal_soil": "Franco-Sabbioso",
         "days": 40,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "pumpkin",
@@ -151,7 +168,7 @@ SEEDS_DATA = [
         "max_temperature": 27,
         "ideal_soil": "Franco",
         "days": 100,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "cabbage",
@@ -162,7 +179,7 @@ SEEDS_DATA = [
         "max_temperature": 20,
         "ideal_soil": "Franco-Argilloso",
         "days": 85,
-        "seasons": ["Autunno", "Inverno"],
+        "seasons": ["autumn", "fall", "winter", "autunno", "inverno"],
     },
     {
         "key": "garlic",
@@ -173,7 +190,7 @@ SEEDS_DATA = [
         "max_temperature": 18,
         "ideal_soil": "Sabbioso",
         "days": 180,
-        "seasons": ["Autunno", "Inverno"],
+        "seasons": ["autumn", "fall", "winter", "autunno", "inverno"],
     },
     {
         "key": "onion",
@@ -184,7 +201,7 @@ SEEDS_DATA = [
         "max_temperature": 24,
         "ideal_soil": "Franco-Sabbioso",
         "days": 120,
-        "seasons": ["Primavera", "Autunno"],
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
     },
     {
         "key": "strawberry",
@@ -195,7 +212,7 @@ SEEDS_DATA = [
         "max_temperature": 25,
         "ideal_soil": "Sabbioso",
         "days": 90,
-        "seasons": ["Primavera", "Autunno"],
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
     },
     {
         "key": "sunflower",
@@ -206,7 +223,7 @@ SEEDS_DATA = [
         "max_temperature": 28,
         "ideal_soil": "Argilloso",
         "days": 90,
-        "seasons": ["Primavera", "Estate"],
+        "seasons": ["spring", "summer", "primavera", "estate"],
     },
     {
         "key": "arugula",
@@ -217,11 +234,22 @@ SEEDS_DATA = [
         "max_temperature": 22,
         "ideal_soil": "Franco-Sabbioso",
         "days": 30,
-        "seasons": ["Primavera", "Autunno"],
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
+    },
+    {
+        "key": "olive",
+        "name_it": "Oliva",
+        "min_soilmoisture": 0.350,
+        "max_soilmoisture": 0.400,
+        "min_temperature": 12,
+        "max_temperature": 32,
+        "ideal_soil": "Franco-sabbioso",
+        "days": 60,
+        "seasons": ["spring", "autumn", "fall", "primavera", "autunno"],
     },
 ]
 
-# Alias per retrocompatibilità con core/seed_matcher.py
+# Processed seed dictionaries converted into percentage values for runtime lookup
 SEEDS_LST = [
     {
         "name": seed["key"],
@@ -236,27 +264,3 @@ SEEDS_LST = [
     }
     for seed in SEEDS_DATA
 ]
-
-CROPS_INFO = {
-    seed["name_it"]: {
-        "key": seed["key"],
-        "threshold": seed["min_soilmoisture"],
-        "max_threshold": seed["max_soilmoisture"],
-        "ideal_soil": seed["ideal_soil"],
-        "days": seed["days"],
-        "min_temp": seed["min_temperature"],
-        "max_temp": seed["max_temperature"],
-        "seasons": seed["seasons"],
-    }
-    for seed in SEEDS_DATA
-}
-
-CROP_KEY_TO_NAME = {}
-for seed in SEEDS_DATA:
-    key_eng = seed["key"].lower()
-    name_it = seed["name_it"]
-    CROP_KEY_TO_NAME[key_eng] = name_it
-    CROP_KEY_TO_NAME[name_it.lower()] = name_it
-    if key_eng == "bell_pepper":
-        CROP_KEY_TO_NAME["bell pepper"] = name_it
-        CROP_KEY_TO_NAME["peperoni"] = name_it

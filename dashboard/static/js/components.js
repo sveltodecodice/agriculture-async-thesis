@@ -1,4 +1,4 @@
-import { CAMPS, store } from './store.js';
+import { campIds, campState, store } from './store.js';
 import { fieldPresentation, safe } from './format.js';
 import { go } from './router.js';
 
@@ -10,8 +10,9 @@ export function renderSidebar() {
   document.querySelectorAll('[data-route]').forEach((button) => {
     button.classList.toggle('active', button.dataset.route === store.route.page);
   });
-  document.getElementById('fieldNav').innerHTML = CAMPS.map((campId) => {
-    const camp = store.snapshot?.camps?.[campId] || {};
+  const camps = campIds();
+  document.getElementById('fieldNav').innerHTML = camps.map((campId) => {
+    const camp = campState(campId) || {};
     const view = fieldPresentation(camp);
     const active = store.route.page === 'field' && store.route.campId === campId;
     return `

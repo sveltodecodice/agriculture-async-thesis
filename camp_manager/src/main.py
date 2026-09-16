@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict
 
 import aiomqtt
-from common.constants import DEFAULT_STATE, KNOWN_CAMPS, SEED_TARGETS
+from common.constants import DEFAULT_STATE, SEED_TARGETS, TOPIC_SYSTEM_STATUS
 from common.parameters import (
     ACTIVITY_LOGS_TOPIC,
     CAMP_MANAGER_STATUS_TOPIC,
@@ -21,42 +21,57 @@ from common.parameters import (
 )
 from common.seeds import SEEDS_LST
 from core.daily_report_producer import add_to_daily_report
+from core.harvest_deposit import save_harvest
+from core.irrigation_control import request_irrigation, request_reoxygenation
+from core.plantation_control import (
+    publish_field_cleared_event,
+    request_harvest,
+    request_seeding,
+)
 from core.seed_matcher import find_top_3_seeds
 from utils.logger_utils import LoggingUtils
+from utils.mqtt_utils import Deduper, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
 def configured_camps() -> list[str]:
-    """Return camp IDs managed by this service.
+    """Parse configured camp IDs from environment variables.
 
-    CAMP_IDS can be supplied as a comma-separated environment variable.
-    Falls back to KNOWN_CAMPS for backward compatibility.
+    Returns:
+        list[str]: Clean list of camp identifiers.
+
+    Raises:
+        EnvironmentError: If the CAMP_IDS environment variable is missing.
     """
     raw = os.getenv("CAMP_IDS", "").strip()
     if raw:
         return [camp.strip() for camp in raw.split(",") if camp.strip()]
-    return list(KNOWN_CAMPS)
+    raise EnvironmentError("Missing env variable CAMP_IDS, check docker compose")
 
 
 CONFIGURED_CAMPS = configured_camps()
 
 
 def utc_now() -> str:
-    """Returns the current UTC timestamp formatted in ISO 8601 format."""
+    """Get the current UTC timestamp formatted as ISO-8601 string.
+
+    Returns:
+        str: ISO-formatted timestamp string.
+    """
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
 def record_sensor_heartbeat(
     state: Dict[str, Any], sensor_type: str, payload_data: Dict[str, Any]
 ) -> None:
-    """Records the arrival timestamp and latency of incoming sensor telemetry.
+    """Track last seen timestamp and estimated latency for a given sensor module.
 
     Args:
-        state (Dict[str, Any]): Target camp state dictionary.
-        sensor_type (str): Identifier of the sensor ('environment', 'terrain', or 'plantation').
-        payload_data (Dict[str, Any]): Decoded JSON payload from the sensor.
+        state (Dict[str, Any]): In-memory state dictionary for a specific camp.
+        sensor_type (str): Type of sensor ('environment', 'terrain', or 'plantation').
+        payload_data (Dict[str, Any]): Decoded payload dictionary containing timestamp.
     """
     now = time.time()
     payload_ts = payload_data.get("ts") if isinstance(payload_data, dict) else None
@@ -80,7 +95,12 @@ def record_sensor_heartbeat(
 async def manager_heartbeat_loop(
     mqtt: aiomqtt.Client, camp_states: Dict[str, Dict[str, Any]]
 ) -> None:
-    """Publishes periodic service presence heartbeat messages for camp manager."""
+    """Periodically publish manager status to confirm service operation.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT connection client.
+        camp_states (Dict[str, Dict[str, Any]]): Global state tracking dictionary.
+    """
     while True:
         payload = {
             "service": "camp_manager",
@@ -88,26 +108,26 @@ async def manager_heartbeat_loop(
             "observed_at": utc_now(),
             "camps": sorted(camp_states.keys()),
         }
-        await mqtt.publish(
-            CAMP_MANAGER_STATUS_TOPIC,
-            json.dumps(payload),
-            qos=1,
-            retain=True,
-        )
+        await publish_json(mqtt, CAMP_MANAGER_STATUS_TOPIC, payload, qos=1, retain=True)
         await asyncio.sleep(5)
 
 
 async def system_health_monitor_loop(
     mqtt: aiomqtt.Client, camp_states: Dict[str, Dict[str, Any]]
 ) -> None:
-    """Periodically evaluates sensor heartbeats and publishes system health status."""
+    """Monitor sensor health and flag camps as DEGRADED if sensors miss heartbeats.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT client connection.
+        camp_states (Dict[str, Dict[str, Any]]): Global state tracking dictionary.
+    """
     offline_threshold_seconds = 30.0
 
     while True:
         await asyncio.sleep(5)
         now = time.time()
 
-        for camp_id, state in camp_states.items():
+        for camp_id, state in list(camp_states.items()):
             sensor_health = state.get("sensor_health", {})
             sensors_status = {}
             all_online = True
@@ -140,73 +160,20 @@ async def system_health_monitor_loop(
                 "updated_at": utc_now(),
             }
 
-            topic = f"camp/{camp_id}/system/status"
-            await mqtt.publish(topic, json.dumps(system_payload))
-
-
-async def request_seeding(mqtt: aiomqtt.Client, camp_id: str, seed: dict) -> None:
-    """Send a planting command to the seeder actuator."""
-    topic = f"camp/{camp_id}/seeder/cmd/plant"
-    await mqtt.publish(topic, json.dumps(seed), qos=1)
-    logger.info(
-        "Seeding requested | field=%s | seed=%s",
-        camp_id,
-        seed.get("name"),
-    )
-
-
-async def request_harvest(
-    mqtt: aiomqtt.Client, camp_id: str, seed_name: str, harvest_date: str
-) -> None:
-    """Send a harvest command to the harvester actuator."""
-    topic = f"camp/{camp_id}/harvester/cmd/harvest"
-    payload = {
-        "seed": seed_name,
-        "date": harvest_date,
-    }
-    await mqtt.publish(topic, json.dumps(payload), qos=1)
-    logger.info(
-        "Harvest requested | field=%s | seed=%s",
-        camp_id,
-        seed_name,
-    )
-
-
-async def request_irrigation(
-    mqtt: aiomqtt.Client, camp_id: str, amount: float
-) -> None:
-    """Send an irrigation command to the irrigator actuator."""
-    topic = f"camp/{camp_id}/irrigator/cmd/irrigate"
-    payload = {"amount": amount}
-    await mqtt.publish(topic, json.dumps(payload), qos=1)
-    logger.info(
-        "Irrigation requested | field=%s | amount=%.1f",
-        camp_id,
-        amount,
-    )
-
-
-async def request_reoxygenation(mqtt: aiomqtt.Client, camp_id: str) -> None:
-    """Send a soil reoxygenation command to the irrigator actuator."""
-    topic = f"camp/{camp_id}/irrigator/cmd/reoxygenate"
-    await mqtt.publish(topic, "trigger", qos=1)
-    logger.info("Reoxygenation requested | field=%s", camp_id)
-
-
-async def publish_field_cleared_event(
-    mqtt: aiomqtt.Client, camp_id: str, reason: str
-) -> None:
-    """Publish the fact that the simulated field has been cleared."""
-    topic = f"camp/{camp_id}/plantation/event/cleared"
-    payload = {"reason": reason}
-    await mqtt.publish(topic, json.dumps(payload), qos=1)
-    logger.info("Field cleared event | field=%s | reason=%s", camp_id, reason)
+            topic = TOPIC_SYSTEM_STATUS.format(camp_id=camp_id)
+            await publish_json(mqtt, topic, system_payload)
 
 
 async def auto_plant_monitor_loop(
     mqtt: aiomqtt.Client, camp_id: str, state: Dict[str, Any]
 ) -> None:
-    """Monitors empty camp fields and triggers automatic seed planting."""
+    """Check empty field status and trigger automatic planting after 3 empty days.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT client connection.
+        camp_id (str): Identifier of the monitored field camp.
+        state (Dict[str, Any]): Field state record dictionary.
+    """
     while True:
         await asyncio.sleep(4)
         if (
@@ -221,7 +188,6 @@ async def auto_plant_monitor_loop(
         target = top_seeds[0] if top_seeds else SEEDS_LST[0]
 
         msg = f"[{camp_id.upper()}] Campo libero. Richiesta autosemina: {target['name'].capitalize()}."
-
         logger.info(msg)
         await mqtt.publish(NOTIFICATIONS_TOPIC, msg)
 
@@ -241,7 +207,14 @@ async def auto_plant_monitor_loop(
 async def process_plantation_status(
     mqtt: aiomqtt.Client, camp_id: str, payload_bytes: bytes, state: Dict[str, Any]
 ) -> None:
-    """Processes plantation status telemetry, growth progress, and auto-harvesting."""
+    """Process crop telemetry updates and trigger automated harvesting on maturity.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT connection client.
+        camp_id (str): Field camp identifier.
+        payload_bytes (bytes): Raw JSON message bytes received from MQTT topic.
+        state (Dict[str, Any]): Camp state dictionary to update.
+    """
     try:
         data = json.loads(payload_bytes.decode("utf-8"))
         record_sensor_heartbeat(state, "plantation", data)
@@ -289,12 +262,8 @@ async def process_plantation_status(
         logger.info("%s", log_msg)
         await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg)
 
-        await request_harvest(
-            mqtt,
-            camp_id,
-            state["seed_name"],
-            state.get("date"),
-        )
+        await request_harvest(mqtt, camp_id, state["seed_name"], state.get("date"))
+        save_harvest(state["seed_name"], state.get("date"))
 
         logs = add_to_daily_report(
             "AUTO_HARVEST",
@@ -304,11 +273,16 @@ async def process_plantation_status(
         )
         await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
     except Exception as err:
-        logger.error("Plantation error on %s: %s", camp_id, err)
+        logger.error("Plantation error on %s: %s", camp_id, err, exc_info=True)
 
 
 async def handle_env_telemetry(raw_data: str, state: Dict[str, Any]) -> None:
-    """Updates camp state with environment telemetry readings."""
+    """Parse environmental weather telemetry and update local state variables.
+
+    Args:
+        raw_data (str): Unparsed JSON string received from environment sensor.
+        state (Dict[str, Any]): Camp state dictionary to update.
+    """
     try:
         data = json.loads(raw_data)
         if isinstance(data, dict):
@@ -329,13 +303,20 @@ async def handle_env_telemetry(raw_data: str, state: Dict[str, Any]) -> None:
             elif new_date:
                 state["date"] = new_date
     except Exception as e:
-        logger.error("Environment telemetry error: %s", e)
+        logger.error("Environment telemetry error: %s", e, exc_info=True)
 
 
 async def handle_terrain_telemetry(
     mqtt: aiomqtt.Client, camp_id: str, raw_data: str, state: Dict[str, Any]
 ) -> None:
-    """Processes terrain soil moisture/oxygenation readings and handles auto-irrigation."""
+    """Process terrain sensor telemetry and request auto-irrigation when dry.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT connection client.
+        camp_id (str): Field camp identifier.
+        raw_data (str): Unparsed JSON string from terrain sensor.
+        state (Dict[str, Any]): Local state tracking dictionary.
+    """
     try:
         data = json.loads(raw_data)
         if not isinstance(data, dict):
@@ -373,7 +354,7 @@ async def handle_terrain_telemetry(
         if state["oxygenation"] < 30.0:
             await request_reoxygenation(mqtt, camp_id)
     except Exception as err:
-        logger.error("Terrain telemetry error on %s: %s", camp_id, err)
+        logger.error("Terrain telemetry error on %s: %s", camp_id, err, exc_info=True)
 
 
 async def handle_dashboard_command(
@@ -383,7 +364,15 @@ async def handle_dashboard_command(
     raw_data: str,
     state: Dict[str, Any],
 ) -> None:
-    """Executes administrative dashboard commands for a target camp."""
+    """Handle incoming control commands sent from the dashboard UI.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT connection client.
+        camp_id (str): Target field camp identifier.
+        cmd (str): Specific action string ('plant', 'irrigate', 'clear', etc.).
+        raw_data (str): Command payload parameters.
+        state (Dict[str, Any]): Field state record dictionary.
+    """
     clean_raw_data = raw_data.strip()
     parsed_json = None
     try:
@@ -440,9 +429,19 @@ async def handle_dashboard_command(
 
 
 async def listen_telemetry(
-    mqtt: aiomqtt.Client, camp_states: Dict[str, Dict[str, Any]]
+    mqtt: aiomqtt.Client,
+    camp_states: Dict[str, Dict[str, Any]],
+    auto_plant_tasks: Dict[str, asyncio.Task],
 ) -> None:
-    """Listens to all camp telemetry and command topics."""
+    """Subscribe to telemetry topics and route received messages to their respective handlers.
+
+    Args:
+        mqtt (aiomqtt.Client): Active MQTT subscriber client.
+        camp_states (Dict[str, Dict[str, Any]]): Global state tracking map.
+        auto_plant_tasks (Dict[str, asyncio.Task]): Tracking map for auto-planting background loops.
+    """
+    deduper = Deduper()
+
     await mqtt.subscribe("camp/+/environment/telemetry")
     await mqtt.subscribe("camp/+/plantation/status")
     await mqtt.subscribe("camp/+/terrain/telemetry")
@@ -456,6 +455,15 @@ async def listen_telemetry(
             else str(message.payload)
         )
 
+        try:
+            payload_obj = json.loads(raw_data)
+            if isinstance(payload_obj, dict) and deduper.is_duplicate_or_stale(
+                topic, payload_obj.get("ts")
+            ):
+                continue
+        except Exception:
+            pass
+
         topic_parts = topic.split("/")
         if len(topic_parts) >= 2 and topic_parts[0] == "camp":
             camp_id = topic_parts[1]
@@ -464,6 +472,10 @@ async def listen_telemetry(
 
         if camp_id not in camp_states:
             camp_states[camp_id] = copy.deepcopy(DEFAULT_STATE)
+            if camp_id not in auto_plant_tasks:
+                auto_plant_tasks[camp_id] = asyncio.create_task(
+                    auto_plant_monitor_loop(mqtt, camp_id, camp_states[camp_id])
+                )
 
         state = camp_states[camp_id]
 
@@ -477,12 +489,21 @@ async def listen_telemetry(
             elif "camp_manager/cmd/" in topic:
                 command = topic.split("camp_manager/cmd/")[-1].lower()
                 await handle_dashboard_command(mqtt, camp_id, command, raw_data, state)
-        except Exception:
-            pass
+        except Exception as err:
+            logger.error(
+                "Error processing topic %s: %s", topic, err, exc_info=True
+            )
 
 
 async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
-    """Manages the MQTT client life cycle and supervises async worker loops."""
+    """Initialize secure MQTT connection and manage concurrent background tasks.
+
+    Args:
+        camp_states (Dict[str, Dict[str, Any]]): Global dictionary holding camp states.
+
+    Raises:
+        Exception: Re-raises any unhandled task exception to prompt connection retry.
+    """
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
@@ -498,18 +519,19 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
     async with client:
         logger.info("Multi-camp service online.")
 
+        auto_plant_tasks: Dict[str, asyncio.Task] = {}
+        for camp_id in CONFIGURED_CAMPS:
+            auto_plant_tasks[camp_id] = asyncio.create_task(
+                auto_plant_monitor_loop(client, camp_id, camp_states[camp_id])
+            )
+
         tasks = [
-            asyncio.create_task(listen_telemetry(client, camp_states)),
+            asyncio.create_task(
+                listen_telemetry(client, camp_states, auto_plant_tasks)
+            ),
             asyncio.create_task(manager_heartbeat_loop(client, camp_states)),
             asyncio.create_task(system_health_monitor_loop(client, camp_states)),
-        ]
-
-        for camp_id in CONFIGURED_CAMPS:
-            tasks.append(
-                asyncio.create_task(
-                    auto_plant_monitor_loop(client, camp_id, camp_states[camp_id])
-                )
-            )
+        ] + list(auto_plant_tasks.values())
 
         done, pending = await asyncio.wait(tasks, return_when=asyncio.FIRST_EXCEPTION)
 
@@ -524,18 +546,14 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
 
 
 async def main() -> None:
-    """Service entry point initializing camp state maps and handling reconnects."""
+    """Main function initializing states and managing reconnection loop."""
     camp_states = {camp_id: copy.deepcopy(DEFAULT_STATE) for camp_id in CONFIGURED_CAMPS}
 
     while True:
         try:
             await worker(camp_states)
         except Exception as error:
-            logger.error(
-                "Connection dropped (%s). Reconnecting in 5s...",
-                error,
-                exc_info=True,
-            )
+            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
             await asyncio.sleep(5)
 
 

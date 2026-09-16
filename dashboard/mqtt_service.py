@@ -73,6 +73,7 @@ class MqttService:
             "action": action,
             "params": params,
             "topic": command.topic,
+            "target_service": command.target_service,
             "status": "published" if ok else "error",
             "requested_at": utc_now(),
         }

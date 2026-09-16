@@ -1,4 +1,4 @@
-import { CAMPS, store } from '../store.js';
+import { campIds, campState, store } from '../store.js';
 import { clamp, farmDate, fieldPresentation, percentFraction, safe, stageLabel, suggestedAction } from '../format.js';
 import { statusPill } from '../components.js';
 
@@ -10,7 +10,7 @@ function timeLeft(plant) {
 }
 
 function fieldCard(campId, index) {
-  const camp = store.snapshot.camps[campId];
+  const camp = campState(campId) || {};
   const plant = camp.plantation || {};
   const terrain = camp.terrain || {};
   const presentation = fieldPresentation(camp);
@@ -59,10 +59,11 @@ export function renderHome(page) {
   page.className = 'page page-home';
   const mqtt = Boolean(store.snapshot.mqtt?.connected);
   const manager = Boolean(store.snapshot.camp_manager?.connected);
-  const views = CAMPS.map((id) => fieldPresentation(store.snapshot.camps[id]));
+  const camps = campIds();
+  const views = camps.map((id) => fieldPresentation(campState(id) || {}));
   const healthy = views.filter((item) => item.tone === 'good').length;
-  const attention = CAMPS.length - healthy;
-  const ready = CAMPS.filter((id) => String(store.snapshot.camps[id]?.plantation?.growth_stage || '').toUpperCase() === 'READY_FOR_HARVEST').length;
+  const attention = camps.length - healthy;
+  const ready = camps.filter((id) => String(campState(id)?.plantation?.growth_stage || '').toUpperCase() === 'READY_FOR_HARVEST').length;
 
   document.getElementById('pageKicker').textContent = 'Smart Farm';
   document.getElementById('pageTitle').textContent = 'Panoramica azienda';
@@ -79,7 +80,7 @@ export function renderHome(page) {
           <h2>${attention ? `${attention} ${attention === 1 ? 'campo richiede' : 'campi richiedono'} attenzione` : 'Tutti i campi sono regolari'}</h2>
           <p class="body-copy">Una lettura sintetica dello stato delle colture e dei servizi. Apri un campo solo quando servono dettagli o comandi.</p>
         </div>
-        <div class="summary-stat"><span>Campi regolari</span><strong>${healthy}/${CAMPS.length}</strong></div>
+        <div class="summary-stat"><span>Campi regolari</span><strong>${healthy}/${camps.length}</strong></div>
         <div class="summary-stat"><span>Da controllare</span><strong>${attention}</strong></div>
         <div class="summary-stat"><span>Pronti al raccolto</span><strong>${ready}</strong></div>
       </article>
@@ -92,7 +93,7 @@ export function renderHome(page) {
       </div>
 
       <section class="home-fields">
-        ${CAMPS.map(fieldCard).join('')}
+        ${camps.map(fieldCard).join('')}
       </section>
 
       <article class="card sand">

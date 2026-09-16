@@ -123,7 +123,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         parts = [p for p in urlparse(self.path).path.split("/") if p]
-        # POST /api/camps/campo_1/commands/irrigate
+        # POST /api/camps/field_a/commands/irrigate
         if len(parts) == 5 and parts[:2] == ["api", "camps"] and parts[3] == "commands":
             camp_id, action = parts[2], parts[4]
             if camp_id not in CAMPS or action not in SUPPORTED_ACTIONS:

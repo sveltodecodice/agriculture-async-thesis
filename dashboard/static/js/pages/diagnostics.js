@@ -1,4 +1,4 @@
-import { CAMPS, store } from '../store.js';
+import { campIds, campState, store } from '../store.js';
 import { safe, valueWithUnit } from '../format.js';
 import { statusPill } from '../components.js';
 
@@ -15,8 +15,22 @@ function sensorRow(name, info = {}) {
     </div>`;
 }
 
+
+
+function recentCommands() {
+  const commands = [...(store.snapshot.commands || [])].reverse().slice(0, 6);
+  if (!commands.length) {
+    return '<p class="body-copy">Nessun comando operatore inviato in questa sessione.</p>';
+  }
+  return commands.map((command) => `
+    <div class="system-row">
+      <span>${safe(command.camp_id)} · ${safe(command.action)}</span>
+      <strong>${safe(command.target_service || 'Camp Manager')}</strong>
+    </div>`).join('');
+}
+
 function diagnosticCard(campId, index) {
-  const camp = store.snapshot.camps[campId];
+  const camp = campState(campId) || {};
   const system = camp.system || {};
   const healthy = system.overall_health === 'HEALTHY';
   const tone = ['green','sand','orange'][index];
@@ -38,8 +52,9 @@ export function renderDiagnostics(page) {
   let onlineSensors = 0;
   let degraded = 0;
 
-  CAMPS.forEach((id) => {
-    const system = store.snapshot.camps[id]?.system || {};
+  const camps = campIds();
+  camps.forEach((id) => {
+    const system = campState(id)?.system || {};
     if (system.overall_health !== 'HEALTHY') degraded += 1;
     Object.values(system.sensors || {}).forEach((sensor) => { if (sensor.status === 'ONLINE') onlineSensors += 1; });
   });
@@ -63,7 +78,7 @@ export function renderDiagnostics(page) {
         <div class="system-overview">
           <div class="kpi-card"><span class="kpi-label">MQTT</span><strong class="kpi-value textual">${mqtt ? 'Online':'Offline'}</strong></div>
           <div class="kpi-card"><span class="kpi-label">Camp Manager</span><strong class="kpi-value textual">${manager ? 'Online':'Offline'}</strong></div>
-          <div class="kpi-card"><span class="kpi-label">Sensori online</span><strong class="kpi-value">${onlineSensors}/9</strong></div>
+          <div class="kpi-card"><span class="kpi-label">Sensori online</span><strong class="kpi-value">${onlineSensors}/${camps.length * 3}</strong></div>
           <div class="kpi-card"><span class="kpi-label">Campi degradati</span><strong class="kpi-value">${degraded}</strong></div>
         </div>
       </article>
@@ -72,6 +87,28 @@ export function renderDiagnostics(page) {
         <div><h2>Diagnostica per campo</h2><p>Disponibilità, freschezza e latenza dei tre sensori monitorati dal Camp Manager.</p></div>
       </div>
 
-      <section class="diagnostic-fields">${CAMPS.map(diagnosticCard).join('')}</section>
+      <section class="diagnostic-fields">${camps.map(diagnosticCard).join('')}</section>
+
+      <article class="card sand">
+        <div class="card-header">
+          <div>
+            <p class="card-kicker">Attuatori</p>
+            <h3>Seeder, Harvester e Irrigator</h3>
+            <p class="body-copy">Gli attuatori non pubblicano ancora heartbeat dedicati. Il dashboard verifica il risultato delle operazioni tramite la telemetria dei sensori: Plantation Sensor per semina/raccolto e Terrain Sensor per irrigazione/ossigenazione.</p>
+          </div>
+          ${statusPill('neutral', 'Verifica indiretta')}
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <p class="card-kicker">Comandi operatore</p>
+            <h3>Instradamento recente</h3>
+            <p class="body-copy">Mostra i comandi inviati da questa dashboard e il servizio logico che li gestisce. I comandi automatici generati internamente dal Camp Manager non sono inclusi.</p>
+          </div>
+        </div>
+        ${recentCommands()}
+      </article>
     </div>`;
 }
