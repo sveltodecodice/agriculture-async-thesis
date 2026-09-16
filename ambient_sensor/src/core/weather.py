@@ -1,20 +1,21 @@
+"""Weather condition determination logic."""
+
 import random
 
 from common.constants import SEASONS_WEATHER_PROBABILITY
 
 
 def get_weather_condition(season: str) -> str:
-    """
-    Determines a weather condition based on seasonal probabilities.
+    """Determines a weather condition based on seasonal probability distributions.
 
     Args:
-        season (str): Name of the target season (e.g., 'spring', 'summer').
+        season (str): Target season name.
 
     Returns:
         str: Selected weather condition ('rain', 'cloudy', or 'sun').
 
     Raises:
-        ValueError: If the provided season key is not present in the map.
+        ValueError: If season is not present in configuration.
     """
     season_key = str(season).lower().strip()
 

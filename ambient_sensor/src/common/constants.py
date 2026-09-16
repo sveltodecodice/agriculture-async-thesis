@@ -1,4 +1,4 @@
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+"""Application constants and mapping tables for environment simulation."""
 
 MONTH_NUM_SEASON_MAP = {
     1: "winter",
@@ -29,7 +29,6 @@ SEASONS_WEATHER_PROBABILITY = {
     "autumn": {"rain": 0.3, "cloudy": 0.4, "sun": 0.3},
 }
 
-
 SEASONS_RAD_DEFAULT = {
     "summer": (600.0, 850.0),
     "spring": (450.0, 650.0),
@@ -37,5 +36,5 @@ SEASONS_RAD_DEFAULT = {
     "winter": (150.0, 300.0),
 }
 
-DEFAULT_FORMAT = f" %(asctime)s | " "%(levelname)s | " "%(message)s"
+DEFAULT_FORMAT = "%(asctime)s | %(levelname)s | %(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"

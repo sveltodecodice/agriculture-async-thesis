@@ -1,15 +1,16 @@
+"""Air humidity and rainfall simulation calculations."""
+
 import random
 
 
 def get_humidity_air(weather: str) -> float:
-    """
-    Calculates outdoor air humidity using weather-based value ranges.
+    """Calculates outdoor air relative humidity percentage based on weather.
 
     Args:
-        weather (str): Current weather condition (e.g., 'rain', 'cloudy', 'sunny').
+        weather (str): Current weather condition.
 
     Returns:
-        float: Air relative humidity percentage rounded to 1 decimal place.
+        float: Relative humidity percentage rounded to 1 decimal place.
     """
     weather_type = str(weather).lower().strip()
 
@@ -17,20 +18,20 @@ def get_humidity_air(weather: str) -> float:
         humidity = random.uniform(78.0, 95.0)
     elif weather_type in ("cloudy", "nuvoloso"):
         humidity = random.uniform(58.0, 82.0)
-    else:  # sun / sunny / clear
+    else:
         humidity = random.uniform(38.0, 62.0)
 
     return round(humidity, 1)
 
 
 def get_rain_mm(weather: str) -> float:
-    """Calculates rainfall volume in millimeters based on weather conditions.
+    """Calculates rainfall volume in millimeters based on weather.
 
     Args:
-        weather (str): Current weather condition (e.g., 'rain', 'cloudy', 'sunny').
+        weather (str): Current weather condition.
 
     Returns:
-        float: Rainfall in millimeters rounded to 1 decimal place.
+        float: Rainfall volume in mm rounded to 1 decimal place.
     """
     weather_type = str(weather).lower().strip()
 

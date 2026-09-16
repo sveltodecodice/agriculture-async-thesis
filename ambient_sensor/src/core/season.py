@@ -1,22 +1,23 @@
+"""Seasonal lookup logic."""
+
 from common.constants import MONTH_NUM_SEASON_MAP
 
 
 def get_season(month: int) -> str:
-    """
-    Return the season associated with a calendar month.
+    """Determines the season associated with a calendar month number.
 
     Args:
-        month: Calendar month number, from 1 to 12.
+        month (int): Month number (1 to 12).
 
     Returns:
-        The season associated with the given month.
+        str: Associated season name.
 
     Raises:
-        ValueError: If the month is outside the range 1 through 12.
+        ValueError: If the month integer is not between 1 and 12.
     """
     if month not in MONTH_NUM_SEASON_MAP:
         raise ValueError(
-            f"Invalid month number recieved: {month}. Expected a value from 1 to 12."
+            f"Invalid month number received: {month}. Expected a value from 1 to 12."
         )
 
     return MONTH_NUM_SEASON_MAP[month]

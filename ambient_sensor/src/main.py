@@ -1,14 +1,19 @@
+"""Service entry point for ambient environment telemetry and command handlers."""
+
 import asyncio
 import logging
 import ssl
+from typing import Dict
 
 import aiomqtt
 from common.parameters import (
+    CMD_ENV_TOPIC,
     FIELD_NAME,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    TELEMETRY_ENV_TOPIC,
 )
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
@@ -18,37 +23,35 @@ LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
-async def publish_loop(client: aiomqtt.Client, managers: dict) -> None:
-    """Periodically publishes environmental state metrics for all active camps.
+async def publish_loop(
+    client: aiomqtt.Client, managers: Dict[str, SensorManager]
+) -> None:
+    """Periodically publishes environmental metrics for managed camps.
 
     Args:
-        client (aiomqtt.Client): Active MQTT client instance.
-        managers (dict): Dictionary mapping camp IDs to
-            their respective SensorManager instances.
+        client (aiomqtt.Client): Connected MQTT client.
+        managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
     """
     while True:
         for camp_id, manager in managers.items():
             state = manager.get_state()
-            topic = f"camp/{camp_id}/environment/telemetry"
+            topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
             await publish_data(client, topic, state)
             manager.update_environment()
 
         await asyncio.sleep(10)
 
 
-async def listen_mqtt_commands(client: aiomqtt.Client, managers: dict) -> None:
-    """Listens for administrative commands on environment MQTT command topics.
-
-    Supported commands:
-        - .../cmd/skip: Advances environmental state by N days (default 1).
-        - .../cmd/reset: Resets environmental state back to 01/01/2026.
+async def listen_mqtt_commands(
+    client: aiomqtt.Client, managers: Dict[str, SensorManager]
+) -> None:
+    """Listens for incoming admin commands to skip days or reset date states.
 
     Args:
-        client (aiomqtt.Client): Active MQTT client instance.
-        managers (dict): Dictionary mapping camp IDs to
-            their respective SensorManager instances.
+        client (aiomqtt.Client): Connected MQTT client.
+        managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
     """
-    await client.subscribe(f"camp/{FIELD_NAME}/environment/cmd/#")
+    await client.subscribe(CMD_ENV_TOPIC)
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -79,7 +82,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client, managers: dict) -> None:
             for _ in range(days):
                 manager.update_environment()
                 current_state = manager.get_state()
-                telemetry_topic = f"camp/{camp_id}/environment/telemetry"
+                telemetry_topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
                 await publish_data(client, telemetry_topic, current_state)
                 await asyncio.sleep(0.1)
 
@@ -93,28 +96,26 @@ async def listen_mqtt_commands(client: aiomqtt.Client, managers: dict) -> None:
             )
 
         elif topic.endswith("/reset"):
-            manager._create_timer_state(day=1, month=1, year=2026)
+            manager.reset(day=1, month=1, year=2026)
             logger.info(
                 "[%s] Environment state reset to 01/01/2026.",
                 camp_id.upper(),
             )
-            telemetry_topic = f"camp/{camp_id}/environment/telemetry"
+            telemetry_topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
             await publish_data(client, telemetry_topic, manager.get_state())
 
 
-async def worker(managers: dict) -> None:
-    """Manages the MQTT connection lifecycle and supervises background tasks.
+async def worker(managers: Dict[str, SensorManager]) -> None:
+    """Manages MQTT connection lifecycle and background task supervisor.
 
     Args:
-        managers (dict): Map of camp IDs to SensorManager
-            instances.
+        managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
 
     Raises:
-        Exception: Re-raises exceptions caught from background tasks to signal
-            reconnection handling in the main loop.
+        Exception: Propagates task exceptions to trigger connection recovery.
     """
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
-    ssl_context.check_hostname = False                              #DA SISTEMARE PER LA SICUREZZA SU TTI E 4/5 SERVIZI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
     client = aiomqtt.Client(
@@ -147,9 +148,9 @@ async def worker(managers: dict) -> None:
 
 
 async def main() -> None:
-    """Service entry point initializing camp managers and handling reconnects."""
+    """Service entry point initializing default camp state and reconnection loop."""
     managers = {FIELD_NAME: SensorManager(day=1, month=1, year=2026)}
-    logger.info("Starting Ambient Sensor")
+    logger.info("Starting Ambient Sensor service")
 
     while True:
         try:

@@ -1,18 +1,19 @@
+"""Solar radiation simulation calculations."""
+
 import random
 
 from common.constants import SEASONS_RAD_DEFAULT
 
 
 def get_radiation(season: str, weather: str) -> float:
-    """
-    Calculates solar radiation using seasonal baselines and weather attenuation.
+    """Calculates solar radiation in W/m² using seasonal ranges and weather.
 
     Args:
-        season (str): The current season (e.g., 'summer', 'winter').
-        weather (str): Current weather condition (e.g., 'rain', 'cloudy', 'sunny').
+        season (str): Current target season.
+        weather (str): Current weather condition.
 
     Returns:
-        float: Calculated solar radiation in W/m² rounded to 1 decimal place.
+        float: Solar radiation in W/m² rounded to 1 decimal place.
     """
     season_key = str(season).lower().strip()
     weather_type = str(weather).lower().strip()
@@ -21,15 +22,10 @@ def get_radiation(season: str, weather: str) -> float:
     base_radiation = random.uniform(low, high)
 
     if weather_type in ("rain", "rainy", "pioggia"):
-        # Molto nuvoloso -> poca luce
         attenuation_factor = random.uniform(0.15, 0.30)
     elif weather_type in ("cloudy", "nuvoloso"):
-        # Nuvoloso -> media luce
         attenuation_factor = random.uniform(0.35, 0.60)
-    else:  # sun / sunny / clear
-        # Cielo sereno -> 90/100% di illuminazione
+    else:
         attenuation_factor = random.uniform(0.90, 1.0)
 
-    calculated_radiation = base_radiation * attenuation_factor
-
-    return round(calculated_radiation, 1)
+    return round(base_radiation * attenuation_factor, 1)

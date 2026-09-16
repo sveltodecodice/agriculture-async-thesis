@@ -17458,5 +17458,30 @@
     "date": "06/01/2026",
     "event": "AUTO_IRRIGATE",
     "details": "[field_b] Richiesta irrigazione +5.6% | Temp: 12°C | Weather: cloudy | Moist: 23.4% | Oxy: 49.2% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Pea | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina pea | Temp: 14°C | Weather: sun | Moist: 24.7% | Oxy: 59.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina spinach | Temp: 15°C | Weather: sun | Moist: 30.4% | Oxy: 55.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina spinach | Temp: 16°C | Weather: cloudy | Moist: 37.9% | Oxy: 58.9% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.1% | Temp: 12°C | Weather: cloudy | Moist: 23.9% | Oxy: 56.3% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Pea | Stage: PLANTED | Health: HEALTHY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.6% | Temp: 15°C | Weather: sun | Moist: 29.4% | Oxy: 52.4% | Soil: Franco | Water: 0.0mm | Pump: ON | Plant: Spinach | Stage: PLANTED | Health: HEALTHY"
   }
 ]

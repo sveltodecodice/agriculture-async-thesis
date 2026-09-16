@@ -1,28 +1,23 @@
+"""Temperature simulation calculations."""
+
 import random
 
 from common.constants import SEASONS_TEMP_RANGES
 
 
 def get_temperature(season: str) -> int:
-    """
-    Generate a temperature appropriate for the given season.
+    """Generates a random temperature within configured seasonal bounds.
 
     Args:
-        season: Name of the season. Expected values are:
-                    1. autumn
-                    2. winter
-                    3. spring
-                    4. summer
+        season (str): Target season name.
 
     Returns:
-        A randomly generated temperature within the configured range
-        for the given season.
+        int: Randomly generated temperature in degrees Celsius.
 
     Raises:
-        ValueError: If the supplied season is not supported.
+        ValueError: If season is not recognized in configuration.
     """
     if season not in SEASONS_TEMP_RANGES:
-        # ! non dovrebbe mai entrare qui
         raise ValueError(
             f"Invalid season: {season}. "
             f"Expected one of: {', '.join(SEASONS_TEMP_RANGES)}."
