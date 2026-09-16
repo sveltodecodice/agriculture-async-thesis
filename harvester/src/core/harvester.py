@@ -1,8 +1,20 @@
+"""Harvest command parsing and validation logic."""
+
 from typing import Any, Dict
 
 
 def start_harvesting(request: Any) -> Dict[str, Any]:
-    """Validate and normalize a harvest command."""
+    """Validates and normalizes an incoming harvest command payload.
+
+    Args:
+        request (Any): Incoming payload data expected to be a dictionary.
+
+    Returns:
+        Dict[str, Any]: Normalized dictionary containing seed and harvest date.
+
+    Raises:
+        ValueError: If the request is not a dictionary or missing seed identification.
+    """
     if not isinstance(request, dict):
         raise ValueError("Harvest command must be a dictionary")
 

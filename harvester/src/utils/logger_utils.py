@@ -1,3 +1,5 @@
+"""Centralized logging utility for harvester service components."""
+
 import logging
 import sys
 from typing import Optional
@@ -6,21 +8,9 @@ from common.constants import DEFAULT_DATE_FORMAT, DEFAULT_FORMAT
 
 
 class LoggingUtils:
-    """
-    Centralized application logging configuration.
+    """Manages application-wide logging configuration."""
 
-    Call LoggingUtils.configure() once at application startup.
-
-    Then, from any module:
-
-        logger = LoggingUtils.get_logger(__name__)
-
-    or simply:
-
-        logger = logging.getLogger(__name__)
-    """
-
-    is_configured = False
+    is_configured: bool = False
 
     @classmethod
     def configure(
@@ -29,24 +19,13 @@ class LoggingUtils:
         log_format: Optional[str] = None,
         date_format: Optional[str] = None,
     ) -> None:
-        """
-        Configure the application's logging system.
-
-        This method should normally be called only once.
+        """Configures the root logging output stream and formatting.
 
         Args:
-
-            console_level:
-                Minimum logging level displayed in the terminal.
-
-            log_format:
-                Optional custom logging format.
-
-            date_format:
-                Optional custom datetime format.
-
+            console_level (int): Minimum logging level for console output.
+            log_format (Optional[str]): Custom format string for log messages.
+            date_format (Optional[str]): Custom date formatting string.
         """
-
         if cls.is_configured:
             return
 
@@ -60,34 +39,24 @@ class LoggingUtils:
         console_handler.setFormatter(formatter)
 
         root_logger = logging.getLogger()
-
         root_logger.setLevel(console_level)
-
         root_logger.handlers.clear()
-
         root_logger.addHandler(console_handler)
 
         cls.is_configured = True
-
-        logging.getLogger(__name__).debug(
-            "Logging configured: file=%s, console_level=%s, file_level=%s",
+        root_logger.debug(
+            "Logging configured: console_level=%s",
             logging.getLevelName(console_level),
         )
 
     @staticmethod
     def get_logger(name: str) -> logging.Logger:
-        """
-        Retrieve a logger.
+        """Retrieves a named logger instance.
 
-        Usually called with:
+        Args:
+            name (str): Module name or identifier for the logger.
 
-            logger = LoggingUtils.get_logger(__name__)
+        Returns:
+            logging.Logger: Configured logger instance.
         """
         return logging.getLogger(name)
-
-    @classmethod
-    def logger_is_configured(cls) -> bool:
-        """
-        Return whether logging has already been configured.
-        """
-        return cls.is_configured

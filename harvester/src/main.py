@@ -1,20 +1,23 @@
+"""Service entry point for harvester command processing and event dispatching."""
+
 import asyncio
 import json
 import logging
 import ssl
 
 import aiomqtt
-
 from common.parameters import (
     FIELD_NAME,
+    HARVEST_CMD_TOPIC,
     HARVEST_DEPOSIT_TOPIC,
+    HARVEST_EVENT_TOPIC,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
 )
-from core.harvester_deposit import save_harvest
 from core.harvester import start_harvesting
+from core.harvester_deposit import save_harvest
 from utils.logger_utils import LoggingUtils
 from utils.mqtt_utils import publish_json
 
@@ -23,28 +26,33 @@ logger = LoggingUtils.get_logger(__name__)
 
 
 async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
-    command_topic = f"camp/{FIELD_NAME}/harvester/cmd/harvest"
-    await client.subscribe(command_topic, qos=1)
+    """Subscribes to harvest command topics and processes harvest requests.
 
-    logger.info("Harvester ready | field=%s | topic=%s", FIELD_NAME, command_topic)
+    Args:
+        client (aiomqtt.Client): Connected MQTT client instance.
+    """
+    await client.subscribe(HARVEST_CMD_TOPIC, qos=1)
+    logger.info("Harvester ready | field=%s | topic=%s", FIELD_NAME, HARVEST_CMD_TOPIC)
 
     async for message in client.messages:
-
         try:
-            raw = (
+            raw_payload = (
                 message.payload.decode("utf-8")
                 if isinstance(message.payload, bytes)
                 else str(message.payload)
             )
 
-            harvest_request = json.loads(raw)
+            harvest_request = json.loads(raw_payload)
             harvest_data = start_harvesting(harvest_request)
 
             history = save_harvest(
                 harvest_data["seed"],
                 harvest_data.get("date"),
             )
-            await client.publish(HARVEST_DEPOSIT_TOPIC, json.dumps(history))
+
+            await publish_json(
+                client, HARVEST_DEPOSIT_TOPIC, {"history": history}, qos=1
+            )
 
             logger.info(
                 "Harvest completed | field=%s | seed=%s",
@@ -52,13 +60,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
                 harvest_data["seed"],
             )
 
-            # This is an EVENT, not a command to the sensor.
-            await publish_json(
-                client,
-                f"camp/{FIELD_NAME}/plantation/event/harvested",
-                harvest_data,
-                qos=1,
-            )
+            await publish_json(client, HARVEST_EVENT_TOPIC, harvest_data, qos=1)
 
         except Exception as error:
             logger.error(
@@ -71,6 +73,11 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
 
 
 async def worker() -> None:
+    """Manages the MQTT client lifecycle and network loop.
+
+    Raises:
+        Exception: Re-raises connection exceptions to trigger reconnection in main loop.
+    """
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
@@ -95,6 +102,7 @@ async def worker() -> None:
 
 
 async def main() -> None:
+    """Service entry point handling persistent connection retries."""
     while True:
         try:
             await worker()
