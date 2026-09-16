@@ -1,30 +1,61 @@
-import time
+"""MQTT payload serialization and message deduplication utilities."""
+
 import json
+import time
+from typing import Any, Dict, Optional
 
 
 class Deduper:
-    def __init__(self):
-        self._last_seen: dict[str, float] = {}
+    """Tracks message timestamps per topic to detect duplicate or stale data."""
 
-    def is_duplicate_or_stale(self, topic: str, ts) -> bool:
+    def __init__(self) -> None:
+        """Initializes an empty timestamp tracking dictionary."""
+        self._last_seen: Dict[str, float] = {}
+
+    def is_duplicate_or_stale(self, topic: str, timestamp: Any) -> bool:
+        """Determines if a message is duplicate or stale based on its timestamp.
+
+        Args:
+            topic (str): The MQTT topic associated with the message.
+            timestamp (Any): Payload timestamp to validate.
+
+        Returns:
+            bool: True if the timestamp is less than or equal to the last recorded timestamp.
+        """
         try:
-            ts = float(ts)
+            numeric_ts = float(timestamp)
         except (TypeError, ValueError):
             return False
 
-        prev = self._last_seen.get(topic)
-        if prev is not None and ts <= prev:
+        previous_timestamp = self._last_seen.get(topic)
+        if previous_timestamp is not None and numeric_ts <= previous_timestamp:
             return True
-        self._last_seen[topic] = ts
+
+        self._last_seen[topic] = numeric_ts
         return False
 
-    def reset(self, topic: str | None = None):
+    def reset(self, topic: Optional[str] = None) -> None:
+        """Resets tracked timestamps for a specific topic or all topics.
+
+        Args:
+            topic (Optional[str]): Target MQTT topic to clear. Clears all if None.
+        """
         if topic is None:
             self._last_seen.clear()
         else:
             self._last_seen.pop(topic, None)
 
 
-async def publish_json(client, topic, payload: dict, **kwargs):
-    stamped = {**payload, "ts": time.time()}
-    await client.publish(topic, json.dumps(stamped), **kwargs)
+async def publish_json(
+    client: Any, topic: str, payload: Dict[str, Any], **kwargs: Any
+) -> None:
+    """Publishes a dictionary payload as JSON with an attached wall-clock timestamp.
+
+    Args:
+        client (Any): Active MQTT client instance.
+        topic (str): Target MQTT topic.
+        payload (Dict[str, Any]): Dictionary payload to serialize.
+        **kwargs: Keyword arguments passed to client.publish.
+    """
+    stamped_payload = {**payload, "ts": time.time()}
+    await client.publish(topic, json.dumps(stamped_payload), **kwargs)

@@ -1,11 +1,20 @@
+"""Service entry point listening for MQTT plant commands and initiating seeding."""
+
 import asyncio
 import json
 import logging
 import ssl
 
 import aiomqtt
-
-from common.parameters import FIELD_NAME, MQTT_HOST, MQTT_PASS, MQTT_PORT, MQTT_USER
+from common.parameters import (
+    FIELD_NAME,
+    MQTT_HOST,
+    MQTT_PASS,
+    MQTT_PORT,
+    MQTT_USER,
+    PLANTATION_EVENT_SEEDED_TOPIC,
+    SEEDER_CMD_PLANT_TOPIC,
+)
 from core.seeder import start_seeding
 from utils.logger_utils import LoggingUtils
 from utils.mqtt_utils import publish_json
@@ -15,10 +24,15 @@ logger = LoggingUtils.get_logger(__name__)
 
 
 async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
-    command_topic = f"camp/{FIELD_NAME}/seeder/cmd/plant"
-    await client.subscribe(command_topic, qos=1)
+    """Subscribes to incoming seeder commands and publishes seeding events.
 
-    logger.info("Seeder ready | field=%s | topic=%s", FIELD_NAME, command_topic)
+    Args:
+        client (aiomqtt.Client): Active MQTT client instance.
+    """
+    await client.subscribe(SEEDER_CMD_PLANT_TOPIC, qos=1)
+    logger.info(
+        "Seeder ready | field=%s | topic=%s", FIELD_NAME, SEEDER_CMD_PLANT_TOPIC
+    )
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -45,7 +59,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
 
             await publish_json(
                 client,
-                f"camp/{FIELD_NAME}/plantation/event/seeded",
+                PLANTATION_EVENT_SEEDED_TOPIC,
                 seed_data,
                 qos=1,
             )
@@ -61,9 +75,10 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
 
 
 async def worker() -> None:
+    """Manages secure MQTT connection lifecycle for the seeder task."""
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
     ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context.verify_mode = ssl.CERT_REQUIRED
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -85,6 +100,7 @@ async def worker() -> None:
 
 
 async def main() -> None:
+    """Service entry point initiating persistent reconnection loop."""
     while True:
         try:
             await worker()

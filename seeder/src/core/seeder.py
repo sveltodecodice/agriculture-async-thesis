@@ -1,9 +1,19 @@
+"""Validation and normalization logic for incoming seed commands."""
+
 from typing import Any, Dict
 
 
 def start_seeding(to_plant: Any) -> Dict[str, Any]:
-    """
-    Validate and normalize a seed command.
+    """Validates and normalizes a seed command payload.
+
+    Args:
+        to_plant (Any): Raw seed command string or dictionary.
+
+    Returns:
+        Dict[str, Any]: Normalized seed data dictionary.
+
+    Raises:
+        ValueError: If input format is unsupported or seed name is missing.
     """
     if isinstance(to_plant, str):
         seed_name = to_plant.strip()
