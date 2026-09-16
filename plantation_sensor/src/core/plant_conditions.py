@@ -1,4 +1,7 @@
+"""Plantation state evaluation and crop lifecycle management."""
+
 from typing import Any, Dict, Optional
+
 from common.constants import SEEDS_LST
 
 
@@ -6,7 +9,7 @@ def create_default_plantation_state() -> Dict[str, Any]:
     """Creates a default, unoccupied plantation state dictionary.
 
     Returns:
-        Dict[str, Any]: A dictionary initialized with default state values.
+        Dict[str, Any]: Initialized default plantation state.
     """
     return {
         "occupied": False,
@@ -22,26 +25,21 @@ def create_default_plantation_state() -> Dict[str, Any]:
 
 
 def seed_planted(plantation_state: Dict[str, Any], seed: Any) -> None:
-    """Updates the plantation state with configuration for a newly planted seed.
+    """Updates the plantation state for a newly planted seed.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
-        seed (Any): Seed information provided as a dictionary or a string identifier.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
+        seed (Any): Seed specifications dictionary or name string.
     """
     if isinstance(seed, dict):
         plant_name = (
-            seed.get("name")
-            or seed.get("seed")
-            or seed.get("plant_name")
-            or "Unknown"
+            seed.get("name") or seed.get("seed") or seed.get("plant_name") or "Unknown"
         )
     else:
         plant_name = str(seed).strip()
 
     search_term = plant_name.lower()
-    full_seed = next(
-        (s for s in SEEDS_LST if s["name"].lower() == search_term), None
-    )
+    full_seed = next((s for s in SEEDS_LST if s["name"].lower() == search_term), None)
 
     plantation_state["occupied"] = True
     plantation_state["plant_name"] = (
@@ -85,12 +83,8 @@ def seed_planted(plantation_state: Dict[str, Any], seed: Any) -> None:
     plantation_state["max_moisture"] = float(
         max_moisture if max_moisture is not None else 80.0
     )
-    plantation_state["min_temp"] = float(
-        min_temp if min_temp is not None else 10.0
-    )
-    plantation_state["max_temp"] = float(
-        max_temp if max_temp is not None else 30.0
-    )
+    plantation_state["min_temp"] = float(min_temp if min_temp is not None else 10.0)
+    plantation_state["max_temp"] = float(max_temp if max_temp is not None else 30.0)
     plantation_state["seasons"] = list(seasons) if seasons else []
 
     if isinstance(harvest_time, (list, tuple)):
@@ -103,10 +97,10 @@ def seed_planted(plantation_state: Dict[str, Any], seed: Any) -> None:
 
 
 def clear_field(plantation_state: Dict[str, Any]) -> None:
-    """Clears the plantation field and resets state attributes to default.
+    """Resets the plantation state attributes back to default empty state.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
     """
     plantation_state["occupied"] = False
     plantation_state["plant_name"] = None
@@ -120,22 +114,20 @@ def clear_field(plantation_state: Dict[str, Any]) -> None:
 
 
 def reset(plantation_state: Dict[str, Any]) -> None:
-    """Resets the plantation state back to an empty field.
+    """Resets the plantation state to an empty field.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
     """
     clear_field(plantation_state)
 
 
-def advance_days(
-    plantation_state: Dict[str, Any], days_passed: int = 1
-) -> None:
-    """Advances time for the plantation, reducing the time left until harvest.
+def advance_days(plantation_state: Dict[str, Any], days_passed: int = 1) -> None:
+    """Advances time for the active crop state.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
-        days_passed (int, optional): Number of days to advance. Defaults to 1.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
+        days_passed (int): Days to advance. Defaults to 1.
     """
     if plantation_state["occupied"] and plantation_state["time_left"] > 0:
         plantation_state["time_left"] = max(
@@ -144,13 +136,13 @@ def advance_days(
 
 
 def get_growth_percentage(plantation_state: Dict[str, Any]) -> float:
-    """Calculates the current growth percentage of the crop.
+    """Calculates current growth percentage of the crop.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
 
     Returns:
-        float: Crop growth progress percentage rounded to 1 decimal place.
+        float: Crop growth progress percentage.
     """
     if not plantation_state["occupied"] or plantation_state.get("total_days", 0) <= 0:
         return 0.0
@@ -161,14 +153,13 @@ def get_growth_percentage(plantation_state: Dict[str, Any]) -> float:
 
 
 def get_growth_stage(plantation_state: Dict[str, Any]) -> str:
-    """Determines the semantic growth stage based on current growth percentage.
+    """Determines semantic growth stage based on progress percentage.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
 
     Returns:
-        str: Growth stage string ('EMPTY', 'PLANTED', 'GERMINATION',
-        'VEGETATIVE', 'MATURING', or 'READY_FOR_HARVEST').
+        str: Growth stage indicator.
     """
     if not plantation_state["occupied"]:
         return "EMPTY"
@@ -191,16 +182,16 @@ def check_health(
     current_temp: Optional[float] = None,
     current_season: Optional[str] = None,
 ) -> str:
-    """Evaluates crop health across soil moisture, ambient temperature, and season.
+    """Evaluates crop health against moisture, temperature, and seasonal bounds.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
-        current_moisture (Optional[float], optional): Current soil moisture reading.
-        current_temp (Optional[float], optional): Current ambient temperature reading.
-        current_season (Optional[str], optional): Current season identifier.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
+        current_moisture (Optional[float]): Current soil moisture reading.
+        current_temp (Optional[float]): Current ambient temperature reading.
+        current_season (Optional[str]): Current season identifier.
 
     Returns:
-        str: Comma-separated issue descriptions or 'HEALTHY' if conditions are optimal.
+        str: Comma-separated issues or 'HEALTHY'.
     """
     if not plantation_state["occupied"]:
         return "FIELD IS EMPTY"
@@ -233,16 +224,16 @@ def get_status(
     current_temp: Optional[float] = None,
     current_season: Optional[str] = None,
 ) -> Dict[str, Any]:
-    """Retrieves a summarized status report of plantation state, growth, and health.
+    """Retrieves full status report of plantation state, growth, and health.
 
     Args:
-        plantation_state (Dict[str, Any]): The current state dictionary of the plantation.
-        current_moisture (Optional[float], optional): Current soil moisture reading.
-        current_temp (Optional[float], optional): Current ambient temperature reading.
-        current_season (Optional[str], optional): Current season identifier.
+        plantation_state (Dict[str, Any]): State dictionary of the plantation.
+        current_moisture (Optional[float]): Current soil moisture reading.
+        current_temp (Optional[float]): Current ambient temperature reading.
+        current_season (Optional[str]): Current season identifier.
 
     Returns:
-        Dict[str, Any]: Nested dictionary containing field availability and detailed crop status.
+        Dict[str, Any]: Summarized status report dictionary.
     """
     ready_to_harvest = (
         plantation_state["occupied"] and plantation_state["time_left"] == 0

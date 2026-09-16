@@ -1,3 +1,5 @@
+"""Service entry point for plantation status monitoring and telemetry processing."""
+
 import asyncio
 import json
 import logging
@@ -5,13 +7,15 @@ import ssl
 from typing import Any, Dict
 
 import aiomqtt
-from common.constants import KNOWN_CAMPS
 from common.parameters import (
+    ENV_TELEMETRY_TOPIC,
     FIELD_NAME,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    PLANTATION_EVENT_TOPIC,
+    TERRAIN_TELEMETRY_TOPIC,
 )
 from core.plant_conditions import (
     advance_days,
@@ -29,11 +33,13 @@ logger = LoggingUtils.get_logger(__name__)
 
 
 def create_camp_context(camp_id: str = FIELD_NAME) -> Dict[str, Any]:
-    """Initializes a new context dictionary for a specific camp.
+    """Initializes context dictionary for a target camp.
+
+    Args:
+        camp_id (str): Target camp identifier.
 
     Returns:
-        Dict[str, Any]: Context object containing moisture, temperature, season,
-        last recorded date, and default plantation state.
+        Dict[str, Any]: Initialized context map.
     """
     return {
         "camp_id": camp_id,
@@ -48,12 +54,11 @@ def create_camp_context(camp_id: str = FIELD_NAME) -> Dict[str, Any]:
 async def monitor_loop(
     mqtt: aiomqtt.Client, camp_contexts: Dict[str, Dict[str, Any]]
 ) -> None:
-    """Periodically publishes plantation status and metadata for all active camps.
+    """Periodically publishes plantation status and metadata for active camps.
 
     Args:
         mqtt (aiomqtt.Client): Active MQTT client instance.
-        camp_contexts (Dict[str, Dict[str, Any]]): Dictionary mapping camp IDs
-            to their respective state context dictionaries.
+        camp_contexts (Dict[str, Dict[str, Any]]): Map of camp IDs to states.
     """
     while True:
         await asyncio.sleep(3)
@@ -91,16 +96,16 @@ async def listen_mqtt_telemetry(
     camp_contexts: Dict[str, Dict[str, Any]],
     dedup: Deduper,
 ) -> None:
-    """Listens for incoming MQTT telemetry and commands, updating camp states.
+    """Subscribes to telemetry topics and events, updating camp states.
 
     Args:
         mqtt (aiomqtt.Client): Active MQTT client instance.
-        camp_contexts (Dict[str, Dict[str, Any]]): Map of camp IDs to contexts.
-        dedup (Deduper): Deduplication handler for filtering stale messages.
+        camp_contexts (Dict[str, Dict[str, Any]]): Shared map of camp states.
+        dedup (Deduper): Deduplication handler instance.
     """
-    await mqtt.subscribe(f"camp/{FIELD_NAME}/terrain/telemetry")
-    await mqtt.subscribe(f"camp/{FIELD_NAME}/environment/telemetry")
-    await mqtt.subscribe(f"camp/{FIELD_NAME}/plantation/event/#")
+    await mqtt.subscribe(TERRAIN_TELEMETRY_TOPIC)
+    await mqtt.subscribe(ENV_TELEMETRY_TOPIC)
+    await mqtt.subscribe(PLANTATION_EVENT_TOPIC)
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -169,15 +174,14 @@ async def listen_mqtt_telemetry(
 
 
 async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> None:
-    """Manages the MQTT connection life cycle and spawns async tasks.
+    """Manages MQTT connection lifecycle and background execution tasks.
 
     Args:
-        camp_contexts (Dict[str, Dict[str, Any]]): Shared camp state map.
-        dedup (Deduper): Shared deduplication instance.
+        camp_contexts (Dict[str, Dict[str, Any]]): Map of camp states.
+        dedup (Deduper): Shared deduplication tracker.
 
     Raises:
-        Exception: Re-raises exceptions encountered by background tasks to
-            trigger reconnection in main loop.
+        Exception: Re-raises task failure to initiate reconnect.
     """
     ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
     ssl_context.check_hostname = False
@@ -192,7 +196,7 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
         identifier=f"plantation-sensor-{FIELD_NAME}",
     )
     async with client:
-        logger.info("Multi-camp subsystem online.")
+        logger.info("Plantation sensor online | field=%s", FIELD_NAME)
         monitor_task = asyncio.create_task(monitor_loop(client, camp_contexts))
         listener_task = asyncio.create_task(
             listen_mqtt_telemetry(client, camp_contexts, dedup)
@@ -214,7 +218,7 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
 
 
 async def main() -> None:
-    """Service entry point initializing camp contexts and reconnection loop."""
+    """Service entry point initiating persistent reconnection loop."""
     field_ctx = {FIELD_NAME: create_camp_context(FIELD_NAME)}
     dedup = Deduper()
 

@@ -1,4 +1,4 @@
-KNOWN_CAMPS = ["campo_1", "campo_2", "campo_3"]
+"""Application constants and seed parameters for plantation operations."""
 
 SEEDS_LST = [
     {
@@ -336,5 +336,5 @@ SEEDS_LST = [
     },
 ]
 
-DEFAULT_FORMAT = f" %(asctime)s | " "%(levelname)s | " "%(message)s"
+DEFAULT_FORMAT = "%(asctime)s | %(levelname)s | %(message)s"
 DEFAULT_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
