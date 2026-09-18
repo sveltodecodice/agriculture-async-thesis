@@ -6,7 +6,7 @@ Questo progetto realizza una **Smart Farm simulata e distribuita**, composta da 
 
 L'obiettivo principale del progetto è separare in modo chiaro le responsabilità dei componenti. I sensori osservano il mondo simulato, il Gestore centrale prende le decisioni, gli attuatori eseguono le azioni e la Dashboard presenta lo stato del sistema e permette all'operatore di inviare richieste manuali.
 
-Il progetto è stato sviluppato come sistema didattico a microservizi, mantenendo il codice semplice, leggibile e facilmente verificabile tramite test Pytest.
+Il progetto è stato sviluppato come a microservizi, con comportamento asincrono.
 
 ## Responsabilità architetturali
 
