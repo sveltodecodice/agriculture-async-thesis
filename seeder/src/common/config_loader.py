@@ -1,3 +1,9 @@
+"""Small YAML + environment configuration loader.
+
+Precedence: environment variable -> farm.yaml -> code default.
+
+"""
+
 import json
 import os
 from pathlib import Path

@@ -1,3 +1,5 @@
+"""Centralized logging utility for application components."""
+
 import logging
 import sys
 from typing import Optional
@@ -6,13 +8,9 @@ from common.constants import DEFAULT_DATE_FORMAT, DEFAULT_FORMAT
 
 
 class LoggingUtils:
-    """Helper class to configure and retrieve application loggers.
+    """Manages application-wide logging configuration."""
 
-    Attributes:
-        is_configured (bool): Class attribute tracking whether logging setup has run.
-    """
-
-    is_configured = False
+    is_configured: bool = False
 
     @classmethod
     def configure(
@@ -21,13 +19,12 @@ class LoggingUtils:
         log_format: Optional[str] = None,
         date_format: Optional[str] = None,
     ) -> None:
-        """Configure standard stdout logging handlers for the application.
+        """Configures the root logging output stream and format.
 
         Args:
-            console_level (int, optional): Minimum logging level (e.g. logging.INFO).
-                Defaults to logging.INFO.
-            log_format (str, optional): Custom string format for log messages.
-            date_format (str, optional): Custom string format for timestamps.
+            console_level (int): Minimum logging level for console output.
+            log_format (Optional[str]): Custom format string for log messages.
+            date_format (Optional[str]): Custom date formatting string.
         """
         if cls.is_configured:
             return
@@ -47,15 +44,19 @@ class LoggingUtils:
         root_logger.addHandler(console_handler)
 
         cls.is_configured = True
+        root_logger.debug(
+            "Logging configured: console_level=%s",
+            logging.getLevelName(console_level),
+        )
 
     @staticmethod
     def get_logger(name: str) -> logging.Logger:
-        """Create or fetch a named logger instance.
+        """Retrieves a named logger instance.
 
         Args:
-            name (str): The identifier for the logger (typically __name__).
+            name (str): Module name or identifier for the logger.
 
         Returns:
-            logging.Logger: Configured Python logger instance.
+            logging.Logger: Configured logger instance.
         """
         return logging.getLogger(name)

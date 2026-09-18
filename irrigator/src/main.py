@@ -8,7 +8,7 @@ from typing import Any, Dict
 
 import aiomqtt
 from common.parameters import (
-    ACTION_DELAY_SECONDS,
+    IRRIGATOR_ACTION_DELAY_SECONDS,
     FIELD_NAME,
     IRRIGATE_CMD_TOPIC,
     IRRIGATED_EVENT_TOPIC,
@@ -16,14 +16,14 @@ from common.parameters import (
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
-    MQTT_PASS,
+    MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
-    REOXYGENATION_TARGET,
+    IRRIGATOR_REOXYGENATION_TARGET,
     REOXYGENATE_CMD_TOPIC,
     REOXYGENATED_EVENT_TOPIC,
-    STATUS_INTERVAL_SECONDS,
+    IRRIGATOR_STATUS_INTERVAL_SECONDS,
 )
 from core.irrigator import start_irrigation, start_reoxygenation
 from utils.logger_utils import LoggingUtils
@@ -41,7 +41,7 @@ def create_status() -> Dict[str, Any]:
     return {
         "service": "irrigator",
         "field": FIELD_NAME,
-        "status": "online",
+        "status": "ONLINE",
         "operation": "idle",
         "active_request_id": None,
         "last_request_id": None,
@@ -72,7 +72,7 @@ async def status_loop(
 ) -> None:
     while True:
         await publish_status(client, status)
-        await asyncio.sleep(STATUS_INTERVAL_SECONDS)
+        await asyncio.sleep(IRRIGATOR_STATUS_INTERVAL_SECONDS)
 
 
 async def listen_mqtt_commands(
@@ -119,8 +119,8 @@ async def listen_mqtt_commands(
 
             # A very small delay makes actuator state observable in the
             # dashboard without introducing complex actuator simulation.
-            if ACTION_DELAY_SECONDS > 0:
-                await asyncio.sleep(ACTION_DELAY_SECONDS)
+            if IRRIGATOR_ACTION_DELAY_SECONDS > 0:
+                await asyncio.sleep(IRRIGATOR_ACTION_DELAY_SECONDS)
 
             if command == "irrigate":
                 result = start_irrigation(request)
@@ -144,7 +144,7 @@ async def listen_mqtt_commands(
                 )
 
             elif command == "reoxygenate":
-                result = start_reoxygenation(REOXYGENATION_TARGET)
+                result = start_reoxygenation(IRRIGATOR_REOXYGENATION_TARGET)
                 result["request_id"] = request_id
 
                 await publish_json(
@@ -193,7 +193,7 @@ async def worker() -> None:
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
-        password=MQTT_PASS,
+        password=MQTT_PASSWORD,
         tls_context=ssl_context,
         identifier=f"irrigator-{FIELD_NAME}",
         keepalive=MQTT_KEEPALIVE,

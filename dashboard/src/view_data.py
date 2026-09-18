@@ -11,7 +11,7 @@ from time import time
 from typing import Any
 
 from config import (
-    CAMPS,
+    CAMP_IDS,
     MQTT_HOST,
     MQTT_KEEPALIVE,
     MQTT_PORT,
@@ -29,7 +29,7 @@ def overview_view(snapshot: dict[str, Any]) -> dict[str, Any]:
     result = _base(snapshot)
     result["camps"] = {}
 
-    for camp_id in CAMPS:
+    for camp_id in CAMP_IDS:
         camp = snapshot.get("camps", {}).get(camp_id, {})
         terrain = camp.get("terrain", {})
         plantation = camp.get("plantation", {})
@@ -131,6 +131,8 @@ def _heartbeat_service(value: dict[str, Any]) -> dict[str, Any]:
     try:
         age = max(0.0, time() - float(observed)) if observed is not None else None
     except (TypeError, ValueError):
+        age = None
+    if age is None:
         age = _seconds_since_iso(value.get("received_at"))
 
     online = (
@@ -155,7 +157,8 @@ def _irrigator_service(value: dict[str, Any]) -> dict[str, Any]:
 
     online = (
         str(value.get("status", "")).upper() == "ONLINE"
-        and (age is None or age <= SERVICE_HEARTBEAT_MAX_AGE_SECONDS)
+        and age is not None
+        and age <= SERVICE_HEARTBEAT_MAX_AGE_SECONDS
     )
     return {
         "status": "ONLINE" if online else "OFFLINE",
@@ -191,7 +194,7 @@ def system_status_view(snapshot: dict[str, Any]) -> dict[str, Any]:
     }
     result["camps"] = {}
 
-    for camp_id in CAMPS:
+    for camp_id in CAMP_IDS:
         system = snapshot.get("camps", {}).get(camp_id, {}).get("system", {})
         heartbeats = system.get("heartbeats", {})
         irrigator = system.get("actuators", {}).get("irrigator", {})

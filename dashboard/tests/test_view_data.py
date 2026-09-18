@@ -81,3 +81,15 @@ def test_system_status_does_not_expose_credentials_topics_or_agronomic_data():
         "seeder",
         "harvester",
     }
+
+
+def test_irrigator_without_timestamp_is_not_reported_online():
+    state = FarmState()
+    state.camps["field_a"]["system"]["actuators"]["irrigator"].update({
+        "status": "ONLINE",
+        "observed_at": None,
+        "received_at": None,
+    })
+
+    payload = system_status_view(state.snapshot())
+    assert payload["camps"]["field_a"]["services"]["irrigator"]["status"] == "OFFLINE"

@@ -58,3 +58,24 @@ class ManagerLogicTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_pending_automation_suppresses_duplicate_policy_action():
+    camp = {
+        "environment": {"season": "summer"},
+        "terrain": {"soil_moisture": 0.10, "oxygenation": 20.0, "soil_type": "Franco"},
+        "plantation": {"occupied": False},
+        "system": {
+            "automation": {
+                "irrigation": {"pending": True},
+                "reoxygenation": {"pending": True},
+            }
+        },
+    }
+
+    policy = manager_policy(camp)
+
+    assert policy["irrigation"]["pending"] is True
+    assert policy["irrigation"]["automatic_required"] is False
+    assert policy["oxygenation"]["pending"] is True
+    assert policy["oxygenation"]["automatic_required"] is False

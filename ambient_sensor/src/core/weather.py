@@ -2,7 +2,7 @@
 
 import random
 
-from common.constants import SEASONS_WEATHER_PROBABILITY
+from common.constants import SEASON_WEATHER_PROBABILITIES
 
 
 def get_weather_condition(season: str) -> str:
@@ -19,10 +19,10 @@ def get_weather_condition(season: str) -> str:
     """
     season_key = str(season).lower().strip()
 
-    if season_key not in SEASONS_WEATHER_PROBABILITY:
+    if season_key not in SEASON_WEATHER_PROBABILITIES:
         raise ValueError(f"Invalid season: {season}.")
 
-    weather_probabilities = SEASONS_WEATHER_PROBABILITY[season_key]
+    weather_probabilities = SEASON_WEATHER_PROBABILITIES[season_key]
     random_value = random.random()
 
     rain_threshold = weather_probabilities["rain"]

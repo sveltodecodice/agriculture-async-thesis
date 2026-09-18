@@ -1,22 +1,9 @@
-"""
-core/mqtt_utils.py
+"""MQTT payload serialization and message deduplication utilities."""
 
-Helpers condivisi tra i servizi MQTT del progetto:
-- publish_json: pubblica un dict come JSON, timbrato con un timestamp
-  wall-clock ("ts"), cosi' tutti i servizi usano lo stesso formato.
-- Deduper: tiene traccia dell'ultimo timestamp visto PER TOPIC, cosi'
-  un servizio puo' scartare messaggi duplicati o piu' vecchi di uno
-  gia' processato.
-
-IMPORTANTE: ogni servizio deve avere la PROPRIA istanza di Deduper.
-Non condividere la stessa istanza tra servizi diversi (es. plantation
-e camp_manager sono entrambi sottoscritti a camp/terrain_telemetry,
-ma processano in modo indipendente e devono avere memoria separata).
-"""
-
-import time
 import ssl
 import json
+import time
+from typing import Any, Dict, Optional
 from common.parameters import MQTT_CA_CERT, MQTT_QOS, MQTT_TLS_MIN_VERSION
 
 
@@ -38,37 +25,57 @@ def build_tls_context() -> ssl.SSLContext:
     return context
 
 class Deduper:
-    def __init__(self):
-        self._last_seen: dict[str, float] = {}
+    """Tracks message timestamps per topic to detect duplicate or stale data."""
 
-    def is_duplicate_or_stale(self, topic: str, ts) -> bool:
-        """Ritorna True se il messaggio va scartato (stesso ts o piu' vecchio
-        dell'ultimo visto su quel topic). Se il ts manca o e' malformato,
-        il messaggio NON viene bloccato (fail-open) ma nemmeno tracciato."""
+    def __init__(self) -> None:
+        """Initializes an empty timestamp tracking dictionary."""
+        self._last_seen: Dict[str, float] = {}
+
+    def is_duplicate_or_stale(self, topic: str, timestamp: Any) -> bool:
+        """Determines if a message is duplicate or stale based on its timestamp.
+
+        Args:
+            topic (str): The MQTT topic associated with the message.
+            timestamp (Any): Payload timestamp to validate.
+
+        Returns:
+            bool: True if the timestamp is less than or equal to the last recorded timestamp.
+        """
         try:
-            ts = float(ts)
+            numeric_ts = float(timestamp)
         except (TypeError, ValueError):
             return False
 
-        prev = self._last_seen.get(topic)
-        if prev is not None and ts <= prev:
+        previous_timestamp = self._last_seen.get(topic)
+        if previous_timestamp is not None and numeric_ts <= previous_timestamp:
             return True
-        self._last_seen[topic] = ts
+
+        self._last_seen[topic] = numeric_ts
         return False
 
-    def reset(self, topic: str | None = None):
-        """Da chiamare sui comandi di reset, cosi' un messaggio legittimo
-        post-reset non viene rigettato come 'stale' per errore."""
+    def reset(self, topic: Optional[str] = None) -> None:
+        """Resets tracked timestamps for a specific topic or all topics.
+
+        Args:
+            topic (Optional[str]): Target MQTT topic to clear. Clears all if None.
+        """
         if topic is None:
             self._last_seen.clear()
         else:
             self._last_seen.pop(topic, None)
 
 
-async def publish_json(client, topic, payload: dict, **kwargs):
-    """Pubblica un dict come JSON aggiungendo il campo 'ts' (time.time()).
-    Usare questa funzione al posto di client.publish(topic, json.dumps(...))
-    ovunque, cosi' il timestamp e' sempre presente e nello stesso formato."""
-    stamped = {**payload, "ts": time.time()}
+async def publish_json(
+    client: Any, topic: str, payload: Dict[str, Any], **kwargs: Any
+) -> None:
+    """Publishes a dictionary payload as JSON with an attached wall-clock timestamp.
+
+    Args:
+        client (Any): Active MQTT client instance.
+        topic (str): Target MQTT topic.
+        payload (Dict[str, Any]): Dictionary payload to serialize.
+        **kwargs: Keyword arguments passed to client.publish.
+    """
+    stamped_payload = {**payload, "ts": time.time()}
     kwargs["qos"] = MQTT_QOS
-    await client.publish(topic, json.dumps(stamped), **kwargs)
+    await client.publish(topic, json.dumps(stamped_payload), **kwargs)

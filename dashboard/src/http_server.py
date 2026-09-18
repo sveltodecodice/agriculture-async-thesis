@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from config import CAMPS, DASHBOARD_POLL_INTERVAL_SECONDS, HTTP_PORT
+from config import CAMP_IDS, DASHBOARD_POLL_INTERVAL_SECONDS, HTTP_PORT
 from mqtt_contract import SUPPORTED_ACTIONS
 from mqtt_service import MQTT
 from seeds import CROPS_INFO
@@ -92,7 +92,7 @@ class Handler(BaseHTTPRequestHandler):
             parts = [part for part in path.split("/") if part]
             if len(parts) == 3 and parts[:2] == ["api", "camps"]:
                 camp_id = parts[2]
-                if camp_id not in CAMPS:
+                if camp_id not in CAMP_IDS:
                     return self.json_response({"error": "Campo non supportato"}, HTTPStatus.NOT_FOUND)
                 return self.json_response(field_view(STATE.snapshot(), camp_id))
         if path == "/api/crops":
@@ -108,7 +108,7 @@ class Handler(BaseHTTPRequestHandler):
         parts = [part for part in urlparse(self.path).path.split("/") if part]
         if len(parts) == 5 and parts[:2] == ["api", "camps"] and parts[3] == "commands":
             camp_id, action = parts[2], parts[4]
-            if camp_id not in CAMPS or action not in SUPPORTED_ACTIONS:
+            if camp_id not in CAMP_IDS or action not in SUPPORTED_ACTIONS:
                 return self.json_response({"error": "Campo o comando non supportato"}, HTTPStatus.BAD_REQUEST)
             try:
                 result = MQTT.send_command(camp_id, action, self.body_json())

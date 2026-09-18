@@ -1,6 +1,7 @@
 from config_loader import env_json
 
-SEEDS_DATA = [crop for crop in env_json("CROPS_JSON", "crops", []) if crop.get("selectable", True)]
+CROPS_DATA = env_json("CROPS_JSON", "crops", [])
+SEEDS_DATA = [crop for crop in CROPS_DATA if crop.get("selectable", True)]
 
 SEEDS_LST = [
     {
@@ -32,7 +33,7 @@ CROPS_INFO = {
 }
 
 CROP_KEY_TO_NAME = {}
-for seed in SEEDS_DATA:
+for seed in CROPS_DATA:
     display_name = seed.get("name_it", seed["key"].capitalize())
     CROP_KEY_TO_NAME[seed["key"].lower()] = display_name
     CROP_KEY_TO_NAME[display_name.lower()] = display_name

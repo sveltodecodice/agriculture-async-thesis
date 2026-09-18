@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import threading
 from typing import Any
 
-from config import CAMPS, MANAGER_HEARTBEAT_MAX_AGE_SECONDS, MQTT_CLIENT_ID, MQTT_HOST, MQTT_PORT, TOPICS
+from config import CAMP_IDS, MANAGER_HEARTBEAT_MAX_AGE_SECONDS, MQTT_CLIENT_ID, MQTT_HOST, MQTT_PORT, TOPICS
 from manager_logic import manager_policy
 
 
@@ -79,7 +79,7 @@ class FarmState:
     def __init__(self) -> None:
         self.lock = threading.RLock()
         self.revision = 0
-        self.camps = {camp: empty_camp() for camp in CAMPS}
+        self.camps = {camp: empty_camp() for camp in CAMP_IDS}
         self.mqtt = {
             "connected": False,
             "host": MQTT_HOST,
@@ -92,7 +92,7 @@ class FarmState:
             "last_topic": None,
             "last_error": None,
         }
-        self.camp_manager = {"status": "unknown", "last_heartbeat": None, "camps": []}
+        self.camp_manager = {"status": "UNKNOWN", "last_heartbeat": None, "camps": []}
         self.commands: list[dict[str, Any]] = []
         self.notifications: list[dict[str, Any]] = []
         self.activity: list[dict[str, Any]] = []

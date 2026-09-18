@@ -6,7 +6,7 @@ when the Terrain Sensor observes a completed event from the Irrigator.
 """
 
 import logging
-from common.constants import SOIL_FACTOR
+from common.constants import SOIL_FACTORS
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ def get_soil_moisture(
 ) -> float:
     """Calculate moisture changes caused only by rain and evapotranspiration."""
     st_key = str(soil_type).strip().lower().replace("_", "-")
-    factor = SOIL_FACTOR.get(st_key) or SOIL_FACTOR.get(
+    factor = SOIL_FACTORS.get(st_key) or SOIL_FACTORS.get(
         st_key.replace(" ", "-"), 1.0
     )
 

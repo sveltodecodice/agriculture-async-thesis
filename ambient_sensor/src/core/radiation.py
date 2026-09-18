@@ -2,7 +2,7 @@
 
 import random
 
-from common.constants import SEASONS_RAD_DEFAULT
+from common.constants import SEASON_RADIATION_RANGES
 
 
 def get_radiation(season: str, weather: str) -> float:
@@ -18,7 +18,7 @@ def get_radiation(season: str, weather: str) -> float:
     season_key = str(season).lower().strip()
     weather_type = str(weather).lower().strip()
 
-    low, high = SEASONS_RAD_DEFAULT.get(season_key, (300.0, 500.0))
+    low, high = SEASON_RADIATION_RANGES.get(season_key, (300.0, 500.0))
     base_radiation = random.uniform(low, high)
 
     if weather_type in ("rain", "rainy", "pioggia"):

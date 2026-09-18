@@ -2,7 +2,7 @@
 
 import random
 
-from common.constants import DEFAULT_FIELD_ORDER, SOIL_TYPES
+from common.constants import FIELD_ORDER, SOIL_TYPES
 
 
 def normalize_soil(value: str) -> str:
@@ -28,7 +28,7 @@ def select_initial_soil(
     random.Random(int(layout_seed)).shuffle(soils)
 
     try:
-        field_index = DEFAULT_FIELD_ORDER.index(field_name)
+        field_index = FIELD_ORDER.index(field_name)
     except ValueError:
         # Deterministic fallback for additional field IDs. Current A/B/C
         # topology uses the guaranteed-unique branch above.

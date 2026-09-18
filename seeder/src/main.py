@@ -3,6 +3,7 @@
 import asyncio
 import json
 import logging
+from time import time
 
 import aiomqtt
 from common.parameters import (
@@ -12,7 +13,7 @@ from common.parameters import (
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
-    MQTT_PASS,
+    MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
@@ -34,7 +35,7 @@ async def heartbeat_loop(client: aiomqtt.Client) -> None:
         await publish_json(
             client,
             HEARTBEAT_TOPIC,
-            {"service": "seeder", "field": FIELD_NAME, "status": "online"},
+            {"service": "seeder", "field": FIELD_NAME, "status": "ONLINE", "ts": time()},
             retain=True,
         )
         await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
@@ -99,7 +100,7 @@ async def worker() -> None:
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
-        password=MQTT_PASS,
+        password=MQTT_PASSWORD,
         tls_context=ssl_context,
         identifier=f"seeder-{FIELD_NAME}",
         keepalive=MQTT_KEEPALIVE,

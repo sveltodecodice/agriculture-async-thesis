@@ -92,6 +92,10 @@ def manager_policy(camp: dict[str, Any]) -> dict[str, Any]:
     env = camp.get("environment") or {}
     terrain = camp.get("terrain") or {}
     plantation = camp.get("plantation") or {}
+    system = camp.get("system") or {}
+    automation = system.get("automation") or {}
+    irrigation_pending = bool((automation.get("irrigation") or {}).get("pending"))
+    reoxygenation_pending = bool((automation.get("reoxygenation") or {}).get("pending"))
 
     occupied = bool(plantation.get("occupied"))
     moisture_pct = _percent_from_fraction(terrain.get("soil_moisture"))
@@ -99,11 +103,10 @@ def manager_policy(camp: dict[str, Any]) -> dict[str, Any]:
     target_min_pct = plant_min_pct if occupied and plant_min_pct is not None else EMPTY_FIELD_MIN_MOISTURE_PCT
     target_after_pct = target_min_pct + IRRIGATION_TARGET_MARGIN_PCT
 
-    irrigation_active = terrain.get("irrigation_active") is True
     auto_irrigation_required = (
         moisture_pct is not None
         and moisture_pct < target_min_pct
-        and not irrigation_active
+        and not irrigation_pending
     )
     needed_water_pct = None
     if moisture_pct is not None:
@@ -113,7 +116,9 @@ def manager_policy(camp: dict[str, Any]) -> dict[str, Any]:
 
     oxygenation_pct = _number(terrain.get("oxygenation"))
     auto_reoxygenation_required = (
-        oxygenation_pct is not None and oxygenation_pct < OXYGENATION_THRESHOLD_PCT
+        oxygenation_pct is not None
+        and oxygenation_pct < OXYGENATION_THRESHOLD_PCT
+        and not reoxygenation_pending
     )
 
     time_left = _number(plantation.get("time_left"))
@@ -132,12 +137,13 @@ def manager_policy(camp: dict[str, Any]) -> dict[str, Any]:
             "target_after_pct": round(target_after_pct, 1),
             "needed_water_pct": needed_water_pct,
             "automatic_required": auto_irrigation_required,
-            "irrigation_active": irrigation_active,
+            "pending": irrigation_pending,
         },
         "oxygenation": {
             "current_pct": round(oxygenation_pct, 1) if oxygenation_pct is not None else None,
             "threshold_pct": OXYGENATION_THRESHOLD_PCT,
             "automatic_required": auto_reoxygenation_required,
+            "pending": reoxygenation_pending,
         },
         "harvest": {
             "automatic_required": auto_harvest_required,

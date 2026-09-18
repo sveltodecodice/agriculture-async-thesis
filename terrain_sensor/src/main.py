@@ -3,14 +3,15 @@
 import asyncio
 import json
 import logging
+from time import time
 from typing import Any, Dict
 
 import aiomqtt
 from common.parameters import (
     ENV_TELEMETRY_TOPIC,
-    FIELD_INIT_MOIST,
-    FIELD_INIT_OXY,
-    FIELD_INIT_TYPE,
+    FIELD_INIT_MOISTURE,
+    FIELD_INIT_OXYGENATION,
+    FIELD_INIT_SOIL_TYPE,
     FIELD_NAME,
     HEARTBEAT_INTERVAL_SECONDS,
     HEARTBEAT_TOPIC,
@@ -18,7 +19,7 @@ from common.parameters import (
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
-    MQTT_PASS,
+    MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
@@ -40,7 +41,7 @@ logger = LoggingUtils.get_logger(__name__)
 
 INITIAL_SOIL_TYPE = select_initial_soil(
     FIELD_NAME,
-    FIELD_INIT_TYPE,
+    FIELD_INIT_SOIL_TYPE,
     SOIL_LAYOUT_SEED,
 )
 
@@ -52,7 +53,7 @@ async def heartbeat_loop(client: aiomqtt.Client) -> None:
         await publish_json(
             client,
             HEARTBEAT_TOPIC,
-            {"service": "terrain_sensor", "field": FIELD_NAME, "status": "online"},
+            {"service": "terrain_sensor", "field": FIELD_NAME, "status": "ONLINE", "ts": time()},
             retain=True,
         )
         await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
@@ -101,8 +102,8 @@ async def listen_mqtt_telemetry(
 
         if camp_id not in camp_states:
             camp_states[camp_id] = create_terrain_state(
-                initial_moisture=FIELD_INIT_MOIST,
-                initial_oxygen=FIELD_INIT_OXY,
+                initial_moisture=FIELD_INIT_MOISTURE,
+                initial_oxygen=FIELD_INIT_OXYGENATION,
                 soil_type=INITIAL_SOIL_TYPE,
             )
 
@@ -188,8 +189,8 @@ async def listen_mqtt_telemetry(
 
                 elif cmd in ("reset", "restart"):
                     camp_states[camp_id] = create_terrain_state(
-                        initial_moisture=FIELD_INIT_MOIST,
-                        initial_oxygen=FIELD_INIT_OXY,
+                        initial_moisture=FIELD_INIT_MOISTURE,
+                        initial_oxygen=FIELD_INIT_OXYGENATION,
                         soil_type=INITIAL_SOIL_TYPE,
                     )
                     state = camp_states[camp_id]
@@ -224,7 +225,7 @@ async def worker(
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
-        password=MQTT_PASS,
+        password=MQTT_PASSWORD,
         tls_context=ssl_ctx,
         identifier=f"terrain-sensor-{FIELD_NAME}",
         keepalive=MQTT_KEEPALIVE,
@@ -261,8 +262,8 @@ async def worker(
 async def main() -> None:
     camp_states = {
         FIELD_NAME: create_terrain_state(
-            initial_moisture=FIELD_INIT_MOIST,
-            initial_oxygen=FIELD_INIT_OXY,
+            initial_moisture=FIELD_INIT_MOISTURE,
+            initial_oxygen=FIELD_INIT_OXYGENATION,
             soil_type=INITIAL_SOIL_TYPE,
         )
     }

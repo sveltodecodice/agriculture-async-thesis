@@ -2,7 +2,7 @@
 
 import random
 
-from common.constants import SEASONS_TEMP_RANGES
+from common.constants import SEASON_TEMPERATURE_RANGES
 
 
 def get_temperature(season: str) -> int:
@@ -17,11 +17,11 @@ def get_temperature(season: str) -> int:
     Raises:
         ValueError: If season is not recognized in configuration.
     """
-    if season not in SEASONS_TEMP_RANGES:
+    if season not in SEASON_TEMPERATURE_RANGES:
         raise ValueError(
             f"Invalid season: {season}. "
-            f"Expected one of: {', '.join(SEASONS_TEMP_RANGES)}."
+            f"Expected one of: {', '.join(SEASON_TEMPERATURE_RANGES)}."
         )
 
-    min_temp, max_temp = SEASONS_TEMP_RANGES[season]
+    min_temp, max_temp = SEASON_TEMPERATURE_RANGES[season]
     return random.randint(min_temp, max_temp)

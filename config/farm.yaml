@@ -8,7 +8,6 @@ mqtt:
   host: mqtt-broker
   port: 8883
   username: farm_admin
-  password: secure_farm
   ca_cert: /app/certs/ca.crt
   keepalive: 60
   reconnect_seconds: 5
@@ -501,7 +500,7 @@ crops:
   - autunno
   selectable: true
 - key: bell pepper
-  name_it: Bell pepper
+  name_it: Peperoni
   min_soilmoisture: 0.55
   max_soilmoisture: 0.75
   min_temperature: 20
@@ -516,7 +515,7 @@ crops:
   - summer
   selectable: false
 - key: grape
-  name_it: Grape
+  name_it: Uva
   min_soilmoisture: 0.35
   max_soilmoisture: 0.55
   min_temperature: 15
@@ -531,7 +530,7 @@ crops:
   - summer
   selectable: false
 - key: potato
-  name_it: Potato
+  name_it: Patata
   min_soilmoisture: 0.55
   max_soilmoisture: 0.75
   min_temperature: 12
@@ -546,7 +545,7 @@ crops:
   - summer
   selectable: false
 - key: apple
-  name_it: Apple
+  name_it: Mela
   min_soilmoisture: 0.45
   max_soilmoisture: 0.65
   min_temperature: 10
@@ -561,7 +560,7 @@ crops:
   - autumn
   selectable: false
 - key: peach
-  name_it: Peach
+  name_it: Pesca
   min_soilmoisture: 0.45
   max_soilmoisture: 0.65
   min_temperature: 15
@@ -576,7 +575,7 @@ crops:
   - summer
   selectable: false
 - key: citrus
-  name_it: Citrus
+  name_it: Agrumi
   min_soilmoisture: 0.4
   max_soilmoisture: 0.6
   min_temperature: 13
@@ -591,7 +590,7 @@ crops:
   - autumn
   selectable: false
 - key: soy
-  name_it: Soy
+  name_it: Soia
   min_soilmoisture: 0.5
   max_soilmoisture: 0.7
   min_temperature: 18
@@ -606,7 +605,7 @@ crops:
   - summer
   selectable: false
 - key: melon
-  name_it: Melon
+  name_it: Melone
   min_soilmoisture: 0.6
   max_soilmoisture: 0.8
   min_temperature: 20
@@ -621,7 +620,7 @@ crops:
   - summer
   selectable: false
 - key: watermelon
-  name_it: Watermelon
+  name_it: Anguria
   min_soilmoisture: 0.6
   max_soilmoisture: 0.8
   min_temperature: 22
@@ -651,7 +650,7 @@ crops:
   - winter
   selectable: false
 - key: cauliflower
-  name_it: Cauliflower
+  name_it: Cavolfiore
   min_soilmoisture: 0.55
   max_soilmoisture: 0.75
   min_temperature: 10
@@ -666,7 +665,7 @@ crops:
   - winter
   selectable: false
 - key: rice
-  name_it: Rice
+  name_it: Riso
   min_soilmoisture: 0.7
   max_soilmoisture: 0.9
   min_temperature: 20
@@ -681,7 +680,7 @@ crops:
   - summer
   selectable: false
 - key: barley
-  name_it: Barley
+  name_it: Orzo
   min_soilmoisture: 0.4
   max_soilmoisture: 0.6
   min_temperature: 10
@@ -696,7 +695,7 @@ crops:
   - winter
   selectable: false
 - key: oats
-  name_it: Oats
+  name_it: Avena
   min_soilmoisture: 0.4
   max_soilmoisture: 0.6
   min_temperature: 10
@@ -711,7 +710,7 @@ crops:
   - winter
   selectable: false
 - key: almond
-  name_it: Almond
+  name_it: Mandorla
   min_soilmoisture: 0.35
   max_soilmoisture: 0.55
   min_temperature: 15
@@ -726,7 +725,7 @@ crops:
   - summer
   selectable: false
 - key: walnut
-  name_it: Walnut
+  name_it: Noce
   min_soilmoisture: 0.4
   max_soilmoisture: 0.6
   min_temperature: 12
@@ -741,7 +740,7 @@ crops:
   - autumn
   selectable: false
 - key: alfalfa
-  name_it: Alfalfa
+  name_it: Erba medica
   min_soilmoisture: 0.45
   max_soilmoisture: 0.65
   min_temperature: 12

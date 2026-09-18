@@ -14,12 +14,12 @@ from common.parameters import (
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
-    MQTT_PASS,
+    MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
     MQTT_CLIENT_ID,
-    CONFIGURED_CAMPS,
+    CAMP_IDS,
     SENSOR_OFFLINE_SECONDS,
     HEALTH_PUBLISH_INTERVAL_SECONDS,
     MANAGER_HEARTBEAT_INTERVAL_SECONDS,
@@ -33,7 +33,6 @@ from common.parameters import (
 )
 from common.seeds import SEEDS_LST
 from core.daily_report_producer import add_to_daily_report
-from core.harvest_deposit import save_harvest
 from core.irrigation_control import request_irrigation, request_reoxygenation
 from core.plantation_control import (
     publish_field_cleared_event,
@@ -128,7 +127,7 @@ async def manager_heartbeat_loop(
     while True:
         payload = {
             "service": "camp_manager",
-            "status": "online",
+            "status": "ONLINE",
             "observed_at": utc_now(),
             "camps": sorted(camp_states.keys()),
         }
@@ -336,8 +335,6 @@ async def process_plantation_status(
         await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg, qos=MQTT_QOS)
 
         await request_harvest(mqtt, camp_id, state["seed_name"], state.get("date"))
-        save_harvest(state["seed_name"], state.get("date"))
-
         logs = add_to_daily_report(
             "AUTO_HARVEST",
             f"[{camp_id}] Richiesto raccolto {state['seed_name']}",
@@ -645,7 +642,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
-        password=MQTT_PASS,
+        password=MQTT_PASSWORD,
         tls_context=ssl_context,
         identifier=MQTT_CLIENT_ID,
         keepalive=MQTT_KEEPALIVE,
@@ -655,7 +652,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
         logger.info("Multi-camp service online.")
 
         auto_plant_tasks: Dict[str, asyncio.Task] = {}
-        for camp_id in CONFIGURED_CAMPS:
+        for camp_id in CAMP_IDS:
             auto_plant_tasks[camp_id] = asyncio.create_task(
                 auto_plant_monitor_loop(client, camp_id, camp_states[camp_id])
             )
@@ -682,7 +679,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
 
 async def main() -> None:
     """Main function initializing states and managing reconnection loop."""
-    camp_states = {camp_id: copy.deepcopy(DEFAULT_STATE) for camp_id in CONFIGURED_CAMPS}
+    camp_states = {camp_id: copy.deepcopy(DEFAULT_STATE) for camp_id in CAMP_IDS}
 
     while True:
         try:

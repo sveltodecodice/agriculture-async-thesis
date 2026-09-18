@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from config import CAMPS
+from config import CAMP_IDS
 from seeds import CROP_KEY_TO_NAME, CROPS_INFO
 from state_store import utc_now
 
@@ -40,7 +40,7 @@ def normalize_dict(payload: dict[str, Any]) -> dict[str, Any]:
 
 def camp_from_topic(topic: str) -> str | None:
     parts = topic.split("/")
-    if len(parts) >= 2 and parts[0] == "camp" and parts[1] in CAMPS:
+    if len(parts) >= 2 and parts[0] == "camp" and parts[1] in CAMP_IDS:
         return parts[1]
     return None
 

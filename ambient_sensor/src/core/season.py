@@ -1,6 +1,6 @@
 """Seasonal lookup logic."""
 
-from common.constants import MONTH_NUM_SEASON_MAP
+from common.constants import MONTH_TO_SEASON
 
 
 def get_season(month: int) -> str:
@@ -15,9 +15,9 @@ def get_season(month: int) -> str:
     Raises:
         ValueError: If the month integer is not between 1 and 12.
     """
-    if month not in MONTH_NUM_SEASON_MAP:
+    if month not in MONTH_TO_SEASON:
         raise ValueError(
             f"Invalid month number received: {month}. Expected a value from 1 to 12."
         )
 
-    return MONTH_NUM_SEASON_MAP[month]
+    return MONTH_TO_SEASON[month]

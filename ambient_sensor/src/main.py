@@ -2,25 +2,26 @@
 
 import asyncio
 import logging
-from typing import Dict
 from datetime import datetime
+from time import time
+from typing import Dict
 
 import aiomqtt
 from common.parameters import (
-    CMD_ENV_TOPIC,
+    ENV_CMD_TOPIC,
     FIELD_NAME,
     HEARTBEAT_INTERVAL_SECONDS,
     HEARTBEAT_TOPIC,
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
-    MQTT_PASS,
+    MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
     ENV_PUBLISH_INTERVAL_SECONDS,
     SIMULATION_START_DATE,
-    TELEMETRY_ENV_TOPIC,
+    ENV_TELEMETRY_TOPIC,
 )
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
@@ -41,7 +42,7 @@ async def heartbeat_loop(client: aiomqtt.Client) -> None:
         await publish_json(
             client,
             HEARTBEAT_TOPIC,
-            {"service": "ambient_sensor", "field": FIELD_NAME, "status": "online"},
+            {"service": "ambient_sensor", "field": FIELD_NAME, "status": "ONLINE", "ts": time()},
             retain=True,
         )
         await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
@@ -59,7 +60,7 @@ async def publish_loop(
     while True:
         for camp_id, manager in managers.items():
             state = manager.get_state()
-            topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
+            topic = ENV_TELEMETRY_TOPIC.format(camp_id=camp_id)
             await publish_data(client, topic, state)
             manager.update_environment()
 
@@ -75,7 +76,7 @@ async def listen_mqtt_commands(
         client (aiomqtt.Client): Connected MQTT client.
         managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
     """
-    await client.subscribe(CMD_ENV_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(ENV_CMD_TOPIC, qos=MQTT_QOS)
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -106,7 +107,7 @@ async def listen_mqtt_commands(
             for _ in range(days):
                 manager.update_environment()
                 current_state = manager.get_state()
-                telemetry_topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
+                telemetry_topic = ENV_TELEMETRY_TOPIC.format(camp_id=camp_id)
                 await publish_data(client, telemetry_topic, current_state)
                 await asyncio.sleep(0.1)
 
@@ -126,7 +127,7 @@ async def listen_mqtt_commands(
                 camp_id.upper(),
                 SIMULATION_START_DATE,
             )
-            telemetry_topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
+            telemetry_topic = ENV_TELEMETRY_TOPIC.format(camp_id=camp_id)
             await publish_data(client, telemetry_topic, manager.get_state())
 
 
@@ -145,7 +146,7 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
         MQTT_HOST,
         MQTT_PORT,
         username=MQTT_USER,
-        password=MQTT_PASS,
+        password=MQTT_PASSWORD,
         tls_context=ssl_context,
         identifier=f"ambient-sensor-{FIELD_NAME}",
         keepalive=MQTT_KEEPALIVE,

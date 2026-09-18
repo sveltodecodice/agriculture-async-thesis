@@ -44,61 +44,79 @@ const campLabel = (id) => /^field_([a-z])$/i.test(id || '')
   ? `Campo ${id.slice(-1).toUpperCase()}`
   : String(id || '').replaceAll('_', ' ');
 
-const seasonLabel = (v) => ({
+const SEASON_LABELS = {
   winter:'Inverno', spring:'Primavera', summer:'Estate',
   autumn:'Autunno', fall:'Autunno',
-})[String(v || '').toLowerCase()] || (v || '—');
+};
 
-const stageLabel = (v) => ({
+const GROWTH_STAGE_LABELS = {
   EMPTY:'Vuoto',
   PLANTED:'Seminato',
-  GERMINATING:'Germinazione',
+  GERMINATION:'Germinazione',
+  GERMINATING:'Germinazione', // compatibilità con vecchi payload
   GROWING:'Crescita',
   VEGETATIVE:'Fase vegetativa',
   FLOWERING:'Fioritura',
   FRUITING:'Fruttificazione',
   MATURING:'Maturazione',
   READY_FOR_HARVEST:'Pronto al raccolto',
-})[String(v || '').toUpperCase()] || (v || '—');
+  UNKNOWN:'Sconosciuta',
+};
 
-const operationLabel = (v) => ({
+const OPERATION_LABELS = {
   idle:'In attesa',
   irrigating:'Irrigazione in corso',
   reoxygenating:'Riossigenazione in corso',
   unknown:'Sconosciuta',
-})[String(v || '').toLowerCase()] || (v || '—');
+};
 
-const actionLabel = (v) => ({
+const HEALTH_LABELS = {
+  HEALTHY:'Regolare',
+  'FIELD IS EMPTY':'Campo vuoto',
+  TOO_DRY:'Terreno troppo secco',
+  TOO_WET:'Terreno troppo umido',
+  TOO_COLD:'Temperatura troppo bassa',
+  TOO_HOT:'Temperatura troppo alta',
+  UNFAVORABLE_SEASON:'Stagione non favorevole',
+  UNKNOWN:'Sconosciuto',
+};
+
+const SERVICE_STATUS_LABELS = {
+  ONLINE:'Connesso',
+  OFFLINE:'Non disponibile',
+  UNKNOWN:'Sconosciuto',
+};
+
+const SYSTEM_HEALTH_LABELS = {
+  HEALTHY:'Regolare',
+  DEGRADED:'Degradato',
+  UNKNOWN:'Sconosciuto',
+};
+
+const COMMAND_STATUS_LABELS = {
+  published:'Pubblicato',
+  pending:'In attesa',
+  completed:'Completato',
+  error:'Errore durante l’invio del comando',
+};
+
+const ACTION_LABELS = {
   irrigate:'Irrigazione',
   reoxygenate:'Riossigenazione',
   plant:'Semina',
   clear:'Svuotamento campo',
   restart:'Reimpostazione stato',
   skip:'Avanzamento simulazione',
-})[String(v || '').toLowerCase()] || (v || '—');
-
-const eventLabel = (v) => ({
-  AUTO_PLANT:'Semina automatica',
-  AUTO_IRRIGATE:'Irrigazione automatica',
-  AUTO_HARVEST:'Raccolta automatica',
-})[String(v || '').toUpperCase()] || 'Attività';
-
-const healthLabel = (raw) => {
-  const map = {
-    HEALTHY:'Regolare',
-    'FIELD IS EMPTY':'Campo vuoto',
-    TOO_DRY:'Terreno troppo secco',
-    TOO_WET:'Terreno troppo umido',
-    TOO_COLD:'Temperatura troppo bassa',
-    TOO_HOT:'Temperatura troppo alta',
-    UNFAVORABLE_SEASON:'Stagione non favorevole',
-    UNKNOWN:'Sconosciuto',
-  };
-  if (!raw) return '—';
-  return String(raw).split(',').map(x => map[x.trim().toUpperCase()] || x.trim()).join(', ');
 };
 
-const weatherMap = {
+const EVENT_LABELS = {
+  AUTO_PLANT:'Semina automatica',
+  AUTO_IRRIGATE:'Irrigazione automatica',
+  AUTO_REOXYGENATE:'Riossigenazione automatica',
+  AUTO_HARVEST:'Raccolta automatica',
+};
+
+const WEATHER_LABELS = {
   sun:['Soleggiato','☀'], sunny:['Soleggiato','☀'], clear:['Sereno','☀'],
   cloudy:['Nuvoloso','☁'], clouds:['Nuvoloso','☁'], overcast:['Coperto','☁'],
   rain:['Pioggia','☂'], rainy:['Pioggia','☂'], drizzle:['Pioviggine','☂'],
@@ -106,10 +124,27 @@ const weatherMap = {
   fog:['Nebbia','≋'], mist:['Foschia','≋'], snow:['Neve','❄'], windy:['Ventoso','↝'],
 };
 
+const seasonLabel = (v) => SEASON_LABELS[String(v || '').toLowerCase()] || 'Non disponibile';
+const stageLabel = (v) => GROWTH_STAGE_LABELS[String(v || '').toUpperCase()] || 'Sconosciuta';
+const operationLabel = (v) => OPERATION_LABELS[String(v || '').toLowerCase()] || 'Sconosciuta';
+const actionLabel = (v) => ACTION_LABELS[String(v || '').toLowerCase()] || 'Operazione sconosciuta';
+const eventLabel = (v) => EVENT_LABELS[String(v || '').toUpperCase()] || 'Attività';
+const serviceStatusLabel = (v) => SERVICE_STATUS_LABELS[String(v || '').toUpperCase()] || 'Sconosciuto';
+const systemHealthLabel = (v) => SYSTEM_HEALTH_LABELS[String(v || '').toUpperCase()] || 'Sconosciuto';
+const commandStatusLabel = (v) => COMMAND_STATUS_LABELS[String(v || '').toLowerCase()] || 'Stato sconosciuto';
+
+const healthLabel = (raw) => {
+  if (!raw) return '—';
+  return String(raw)
+    .split(',')
+    .map(value => HEALTH_LABELS[value.trim().toUpperCase()] || 'Sconosciuto')
+    .join(', ');
+};
+
 function weatherInfo(v) {
-  const hit = weatherMap[String(v || '').toLowerCase()];
+  const hit = WEATHER_LABELS[String(v || '').toLowerCase()];
   return hit ? { label: hit[0], icon: hit[1] } : {
-    label: v ? String(v) : 'Dato non disponibile',
+    label: 'Condizione non disponibile',
     icon: '○',
   };
 }
@@ -141,6 +176,15 @@ function italianText(raw) {
     ['TOO_COLD', 'TROPPO FREDDO'],
     ['TOO_HOT', 'TROPPO CALDO'],
     ['UNFAVORABLE_SEASON', 'STAGIONE NON FAVOREVOLE'],
+    ['GERMINATION', 'GERMINAZIONE'],
+    ['GERMINATING', 'GERMINAZIONE'],
+    ['VEGETATIVE', 'FASE VEGETATIVA'],
+    ['MATURING', 'MATURAZIONE'],
+    ['READY_FOR_HARVEST', 'PRONTO AL RACCOLTO'],
+    ['DEGRADED', 'DEGRADATO'],
+    ['ONLINE', 'CONNESSO'],
+    ['OFFLINE', 'NON DISPONIBILE'],
+    ['UNKNOWN', 'SCONOSCIUTO'],
     [' | Pump: ON', ' | Pompa: ATTIVA'],
     [' | Pump: OFF', ' | Pompa: FERMA'],
   ];
@@ -195,6 +239,12 @@ function suggested(c) {
   const policy = c.manager_policy || {};
   if (policy.harvest?.automatic_required) {
     return ['warn', 'Raccolta automatica', 'Il Gestore centrale richiederà la raccolta.'];
+  }
+  if (policy.irrigation?.pending) {
+    return ['warn', 'Irrigazione richiesta', 'La richiesta è in attesa della conferma del sensore terreno.'];
+  }
+  if (policy.oxygenation?.pending) {
+    return ['warn', 'Riossigenazione richiesta', 'La richiesta è in attesa della conferma del sensore terreno.'];
   }
   if (policy.irrigation?.automatic_required) {
     return ['warn', 'Irrigazione automatica',
@@ -835,7 +885,7 @@ function notificationsHTML() {
             <span>${esc(campLabel(x.camp_id))} · ${esc(actionLabel(x.action))}</span>
             <span>${esc(x.requested_at || '')}</span>
           </div>
-          <span>${x.status === 'published' ? 'Pubblicato' : 'Errore durante l’invio del comando'}</span>
+          <span>${esc(commandStatusLabel(x.status))}</span>
         </div>`).join('') : '<div class="empty">Nessun comando inviato.</div>'}
       </div>
     </article>
@@ -871,7 +921,7 @@ function serviceState(label, state = {}, detail = '') {
     <span class="service-dot"></span>
     <div>
       <strong>${esc(label)}</strong>
-      <small>${online ? 'Connesso' : 'Non disponibile'} · ${esc(age)}${detail ? ` · ${esc(detail)}` : ''}</small>
+      <small>${esc(serviceStatusLabel(state.status))} · ${esc(age)}${detail ? ` · ${esc(detail)}` : ''}</small>
     </div>
   </div>`;
 }

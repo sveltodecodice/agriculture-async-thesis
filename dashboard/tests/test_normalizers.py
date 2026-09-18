@@ -10,7 +10,7 @@ if LOCAL_CONFIG.exists():
 
 import unittest
 
-from normalizers import moisture_fraction, plantation_from_payload
+from normalizers import display_crop, moisture_fraction, plantation_from_payload
 
 
 class NormalizerTests(unittest.TestCase):
@@ -58,3 +58,9 @@ class NormalizerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_known_non_selectable_crop_is_still_localized():
+    crop, key = display_crop("grape")
+    assert crop == "Uva"
+    assert key == "grape"

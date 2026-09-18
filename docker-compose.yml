@@ -1,6 +1,6 @@
 x-common-env: &common-env
   FARM_CONFIG: /app/config/farm.yaml
-  MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:-secure_farm}
+  MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:?MQTT_BROKER_PASS must be set}
 
 x-common-volumes: &common-volumes
   - ./certs:/app/certs:ro
@@ -28,7 +28,7 @@ services:
     restart: unless-stopped
     environment:
       MQTT_BROKER_USER: farm_admin
-      MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:-secure_farm}
+      MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:?MQTT_BROKER_PASS must be set}
     ports:
       - "127.0.0.1:8883:8883"
     volumes:
