@@ -1,3 +1,13 @@
+import os
+import sys
+from pathlib import Path
+
+sys.path.append("src")
+
+LOCAL_CONFIG = Path("../config/farm.yaml")
+if LOCAL_CONFIG.exists():
+    os.environ.setdefault("FARM_CONFIG", str(LOCAL_CONFIG))
+
 import json
 import unittest
 

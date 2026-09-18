@@ -15,7 +15,7 @@ from mqtt_service import MQTT
 from seeds import CROPS_INFO
 from state_store import STATE
 
-BASE = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parent.parent
 STATIC = BASE / "static"
 INDEX = BASE / "templates" / "index.html"
 

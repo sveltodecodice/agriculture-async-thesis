@@ -18,9 +18,6 @@ from common.parameters import (
     MQTT_RECONNECT_SECONDS,
     ENV_PUBLISH_INTERVAL_SECONDS,
     SIMULATION_START_DATE,
-    START_DAY,
-    START_MONTH,
-    START_YEAR,
     TELEMETRY_ENV_TOPIC,
 )
 from core.manager import SensorManager
@@ -29,6 +26,9 @@ from utils.logger_utils import LoggingUtils
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
+
+_START_DATE = datetime.strptime(SIMULATION_START_DATE, "%d/%m/%Y")
+START_DAY, START_MONTH, START_YEAR = _START_DATE.day, _START_DATE.month, _START_DATE.year
 
 
 async def publish_loop(

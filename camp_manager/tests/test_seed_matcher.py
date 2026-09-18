@@ -1,21 +1,22 @@
-import unittest
+import os
+import sys
+from pathlib import Path
 
-from core.seed_matcher import evaluate_soil_ok, find_top_3_seeds
+sys.path.append("src")
 
+LOCAL_CONFIG = Path("../config/farm.yaml")
+if LOCAL_CONFIG.exists():
+    os.environ.setdefault("FARM_CONFIG", str(LOCAL_CONFIG))
 
-class SeedMatcherTests(unittest.TestCase):
-    def test_soil_labels_are_normalized(self):
-        seed = {"ideal_soil": "Franco-Sabbioso"}
-        self.assertTrue(evaluate_soil_ok(seed, "franco sabbioso"))
+from core.seed_matcher import evaluate_soil_ok,find_top_3_seeds
 
-    def test_season_is_first_priority(self):
-        candidates = find_top_3_seeds(28.0, "summer", "Argilloso")
-        self.assertTrue(all("summer" in [s.lower() for s in seed["seasons"]] for seed in candidates))
+def test_soil_labels_are_normalized():
+    assert evaluate_soil_ok({"ideal_soil":"Franco-Sabbioso"},"franco sabbioso") is True
 
-    def test_soil_is_second_priority(self):
-        candidates = find_top_3_seeds(28.0, "summer", "Franco-Argilloso")
-        self.assertEqual(candidates[0]["ideal_soil"].lower(), "franco-argilloso")
+def test_season_is_first_priority():
+    candidates=find_top_3_seeds(28.0,"summer","Argilloso")
+    assert all("summer" in [s.lower() for s in seed["seasons"]] for seed in candidates)
 
-
-if __name__ == "__main__":
-    unittest.main()
+def test_soil_is_second_priority():
+    candidates=find_top_3_seeds(28.0,"summer","Franco-Argilloso")
+    assert candidates[0]["ideal_soil"].lower()=="franco-argilloso"
