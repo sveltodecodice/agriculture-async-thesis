@@ -289,7 +289,7 @@ La password MQTT non viene salvata in `farm.yaml`. Deve essere fornita come segr
 MQTT_BROKER_PASS
 ```
 
-Il file `.env.example` mostra solamente il nome della variabile richiesta.
+Il file `.env` contiene solamente la password necessaria ad MQTT per funzionare correttamente.
 
 ## Persistenza
 
@@ -338,7 +338,7 @@ La Dashboard espone API separate per le diverse viste, evitando di trasferire in
 ├── docker-compose.yml
 ├── mqtt_tls_healthcheck.py
 ├── run_tests.sh
-└── .env.example
+└── .env
 ```
 
 Ogni servizio Python contiene normalmente:
@@ -450,11 +450,7 @@ I test applicativi sono progettati per verificare principalmente funzioni core e
 
 ### 1. Configurare la password MQTT
 
-Creare il file `.env` partendo dall'esempio:
-
-```bash
-cp .env.example .env
-```
+Aprire il file `.env` 
 
 Impostare quindi `MQTT_BROKER_PASS` con la stessa password configurata nel file password di Mosquitto.
 
@@ -499,9 +495,3 @@ http://localhost:8501
 ```bash
 docker compose down
 ```
-
-## Note
-
-Il progetto è pensato come simulazione didattica e non come prodotto agricolo destinato a un ambiente reale. Alcune scelte, come la persistenza su JSON, il numero fisso di campi nel Compose e l'assenza di autenticazione HTTP della Dashboard, sono adeguate allo scopo del progetto ma richiederebbero una progettazione diversa in un sistema di produzione.
-
-L'architettura cerca comunque di applicare principi utili anche in sistemi reali: responsabilità separate, messaggistica asincrona, configurazione centralizzata, TLS, healthcheck, heartbeat, test automatici e distinzione tra decisione, azione e osservazione.
