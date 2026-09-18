@@ -12,6 +12,9 @@ mqtt:
   ca_cert: /app/certs/ca.crt
   keepalive: 60
   reconnect_seconds: 5
+  qos: 2
+  tls:
+    minimum_version: TLSv1.2
 simulation:
   start_date: 01/01/2026
   environment_publish_interval_seconds: 10

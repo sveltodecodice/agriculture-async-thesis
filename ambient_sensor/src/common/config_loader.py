@@ -1,10 +1,3 @@
-"""Small YAML + environment configuration loader.
-
-Precedence: environment variable -> farm.yaml -> code default.
-The file is copied inside each Docker build context so containers never import
-Python code from another container.
-"""
-
 import json
 import os
 from pathlib import Path

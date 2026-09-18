@@ -3,12 +3,12 @@
 import asyncio
 import json
 import logging
-import ssl
 
 import aiomqtt
 from common.parameters import (
     FIELD_NAME,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -19,7 +19,7 @@ from common.parameters import (
 )
 from core.seeder import start_seeding
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import publish_json
+from utils.mqtt_utils import build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -31,7 +31,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
     Args:
         client (aiomqtt.Client): Active MQTT client instance.
     """
-    await client.subscribe(SEEDER_CMD_PLANT_TOPIC, qos=1)
+    await client.subscribe(SEEDER_CMD_PLANT_TOPIC, qos=MQTT_QOS)
     logger.info(
         "Seeder ready | field=%s | topic=%s", FIELD_NAME, SEEDER_CMD_PLANT_TOPIC
     )
@@ -63,7 +63,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
                 client,
                 PLANTATION_EVENT_SEEDED_TOPIC,
                 seed_data,
-                qos=1,
+                qos=MQTT_QOS,
             )
 
         except Exception as error:
@@ -78,9 +78,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
 
 async def worker() -> None:
     """Manages secure MQTT connection lifecycle for the seeder task."""
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_REQUIRED
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -89,6 +87,8 @@ async def worker() -> None:
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=f"seeder-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
 
     async with client:

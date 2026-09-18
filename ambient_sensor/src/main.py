@@ -2,7 +2,6 @@
 
 import asyncio
 import logging
-import ssl
 from typing import Dict
 from datetime import datetime
 
@@ -10,7 +9,8 @@ import aiomqtt
 from common.parameters import (
     CMD_ENV_TOPIC,
     FIELD_NAME,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -23,6 +23,7 @@ from common.parameters import (
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
 from utils.logger_utils import LoggingUtils
+from utils.mqtt_utils import build_tls_context
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -59,7 +60,7 @@ async def listen_mqtt_commands(
         client (aiomqtt.Client): Connected MQTT client.
         managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
     """
-    await client.subscribe(CMD_ENV_TOPIC)
+    await client.subscribe(CMD_ENV_TOPIC, qos=MQTT_QOS)
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -123,9 +124,7 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
     Raises:
         Exception: Propagates task exceptions to trigger connection recovery.
     """
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -134,6 +133,8 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=f"ambient-sensor-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
     async with client:
         logger.info("Multi-camp service online. Starting tasks...")

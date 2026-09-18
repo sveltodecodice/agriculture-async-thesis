@@ -52,6 +52,7 @@ const seasonLabel = (v) => ({
 const stageLabel = (v) => ({
   EMPTY:'Vuoto',
   PLANTED:'Seminato',
+  GERMINATION: 'Germinazione',
   GERMINATING:'Germinazione',
   GROWING:'Crescita',
   VEGETATIVE:'Fase vegetativa',

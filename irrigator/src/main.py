@@ -3,7 +3,6 @@
 import asyncio
 import json
 import logging
-import ssl
 from datetime import datetime, timezone
 from typing import Any, Dict
 
@@ -14,7 +13,8 @@ from common.parameters import (
     IRRIGATE_CMD_TOPIC,
     IRRIGATED_EVENT_TOPIC,
     IRRIGATOR_STATUS_TOPIC,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -27,7 +27,7 @@ from common.parameters import (
 )
 from core.irrigator import start_irrigation, start_reoxygenation
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import publish_json
+from utils.mqtt_utils import build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -61,7 +61,7 @@ async def publish_status(
         client,
         IRRIGATOR_STATUS_TOPIC,
         payload,
-        qos=1,
+        qos=MQTT_QOS,
         retain=True,
     )
 
@@ -79,8 +79,8 @@ async def listen_mqtt_commands(
     client: aiomqtt.Client,
     status: Dict[str, Any],
 ) -> None:
-    await client.subscribe(IRRIGATE_CMD_TOPIC, qos=1)
-    await client.subscribe(REOXYGENATE_CMD_TOPIC, qos=1)
+    await client.subscribe(IRRIGATE_CMD_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(REOXYGENATE_CMD_TOPIC, qos=MQTT_QOS)
 
     logger.info(
         "Irrigator ready | field=%s | irrigation=%s | oxygenation=%s",
@@ -130,7 +130,7 @@ async def listen_mqtt_commands(
                     client,
                     IRRIGATED_EVENT_TOPIC,
                     result,
-                    qos=1,
+                    qos=MQTT_QOS,
                 )
 
                 status["last_amount"] = result["amount_pct"]
@@ -151,7 +151,7 @@ async def listen_mqtt_commands(
                     client,
                     REOXYGENATED_EVENT_TOPIC,
                     result,
-                    qos=1,
+                    qos=MQTT_QOS,
                 )
 
                 status["last_action"] = "reoxygenated"
@@ -187,9 +187,7 @@ async def listen_mqtt_commands(
 
 
 async def worker() -> None:
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -198,6 +196,8 @@ async def worker() -> None:
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=f"irrigator-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
 
     status = create_status()

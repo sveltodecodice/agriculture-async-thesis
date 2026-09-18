@@ -25,6 +25,8 @@ from config import (
     MQTT_PASSWORD,
     MQTT_PORT,
     MQTT_RECONNECT_SECONDS,
+    MQTT_QOS,
+    MQTT_TLS_MIN_VERSION,
     MQTT_USER,
     TOPICS,
 )
@@ -48,18 +50,21 @@ class MqttService:
 
     @staticmethod
     def _tls_context() -> ssl.SSLContext:
-        """Build the same TLS policy used by Camp Manager.
+        """Build a CA-verified TLS context for the MQTT broker."""
+        versions = {
+            "TLSv1.2": ssl.TLSVersion.TLSv1_2,
+            "TLSv1.3": ssl.TLSVersion.TLSv1_3,
+        }
+        minimum = versions.get(MQTT_TLS_MIN_VERSION)
+        if minimum is None:
+            raise ValueError(f"Unsupported MQTT TLS minimum version: {MQTT_TLS_MIN_VERSION}")
+        if not MQTT_CA_CERT or not os.path.exists(MQTT_CA_CERT):
+            raise FileNotFoundError(f"MQTT CA certificate not found: {MQTT_CA_CERT}")
 
-        The project uses TLS for transport encryption, but the current service
-        configuration disables certificate hostname/chain verification. Keeping
-        the dashboard aligned with Camp Manager avoids a dashboard-only TLS
-        failure when the broker certificate hostname does not match
-        ``mqtt-broker``.
-        """
-        cafile = MQTT_CA_CERT if MQTT_CA_CERT and os.path.exists(MQTT_CA_CERT) else None
-        context = ssl.create_default_context(cafile=cafile)
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
+        context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=MQTT_CA_CERT)
+        context.check_hostname = True
+        context.verify_mode = ssl.CERT_REQUIRED
+        context.minimum_version = minimum
         return context
 
     def start(self) -> None:
@@ -125,12 +130,13 @@ class MqttService:
                     tls_context=self._tls_context(),
                     identifier=MQTT_CLIENT_ID,
                     keepalive=MQTT_KEEPALIVE,
+                    clean_session=False,
                 )
 
                 async with client:
                     self._client = client
                     for topic in TOPICS:
-                        await client.subscribe(topic, qos=1)
+                        await client.subscribe(topic, qos=MQTT_QOS)
                         logger.info("Subscribed MQTT topic: %s", topic)
 
                     STATE.set_mqtt(connected=True, error=None)
@@ -177,7 +183,7 @@ class MqttService:
             connected = bool(STATE.mqtt.get("connected"))
         if client is None or not connected:
             raise ConnectionError("Il pannello non è connesso al server MQTT")
-        await client.publish(topic, payload, qos=1, retain=False)
+        await client.publish(topic, payload, qos=MQTT_QOS, retain=False)
         logger.info("MQTT command published | topic=%s | payload=%s", topic, payload)
 
     def send_command(self, camp_id: str, action: str, params: dict[str, Any]) -> dict[str, Any]:

@@ -3,7 +3,6 @@
 import asyncio
 import json
 import logging
-import ssl
 from typing import Any, Dict
 
 import aiomqtt
@@ -14,7 +13,8 @@ from common.parameters import (
     FIELD_INIT_TYPE,
     FIELD_NAME,
     SOIL_LAYOUT_SEED,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -31,7 +31,7 @@ from core.terrain_condition import (
     terrain_telemetry,
 )
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import Deduper, publish_json
+from utils.mqtt_utils import Deduper, build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -49,7 +49,7 @@ async def publish_terrain(client: aiomqtt.Client, camp_id: str, state: Dict[str,
         client,
         f"camp/{camp_id}/terrain/telemetry",
         terrain_telemetry(state),
-        qos=1,
+        qos=MQTT_QOS,
     )
 
 
@@ -59,9 +59,9 @@ async def listen_mqtt_telemetry(
     dedup: Deduper,
 ) -> None:
     """Observe ambient changes, actuator events and administrative commands."""
-    await client.subscribe(ENV_TELEMETRY_TOPIC, qos=1)
-    await client.subscribe(TERRAIN_EVENT_TOPIC, qos=1)
-    await client.subscribe(TERRAIN_CMD_TOPIC, qos=1)
+    await client.subscribe(ENV_TELEMETRY_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(TERRAIN_EVENT_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(TERRAIN_CMD_TOPIC, qos=MQTT_QOS)
 
     logger.info(
         "Terrain Sensor ready | field=%s | soil=%s | ambient=%s | events=%s",
@@ -104,7 +104,7 @@ async def listen_mqtt_telemetry(
                     client,
                     f"camp/{camp_id}/terrain/telemetry",
                     telemetry,
-                    qos=1,
+                    qos=MQTT_QOS,
                 )
 
                 logger.info(
@@ -203,9 +203,7 @@ async def listen_mqtt_telemetry(
 async def worker(
     camp_states: Dict[str, Dict[str, Any]], dedup: Deduper
 ) -> None:
-    ssl_ctx = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_ctx.check_hostname = False
-    ssl_ctx.verify_mode = ssl.CERT_NONE
+    ssl_ctx = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -214,6 +212,8 @@ async def worker(
         password=MQTT_PASS,
         tls_context=ssl_ctx,
         identifier=f"terrain-sensor-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
 
     async with client:

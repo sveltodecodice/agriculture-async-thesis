@@ -3,14 +3,14 @@
 import asyncio
 import json
 import logging
-import ssl
 from typing import Any, Dict
 
 import aiomqtt
 from common.parameters import (
     ENV_TELEMETRY_TOPIC,
     FIELD_NAME,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -29,7 +29,7 @@ from core.plant_conditions import (
     seed_planted,
 )
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import Deduper, publish_json
+from utils.mqtt_utils import Deduper, build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -79,18 +79,22 @@ async def monitor_loop(
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/plant_name",
                 str(status_detail["plant_name"]),
+                qos=MQTT_QOS,
             )
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/time_left",
                 str(status_detail["time_left"]),
+                qos=MQTT_QOS,
             )
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/growth_stage",
                 str(status_detail["growth_stage"]),
+                qos=MQTT_QOS,
             )
             await mqtt.publish(
                 f"camp/{camp_id}/plantation/health",
                 str(status_detail["health"]),
+                qos=MQTT_QOS,
             )
 
 
@@ -106,9 +110,9 @@ async def listen_mqtt_telemetry(
         camp_contexts (Dict[str, Dict[str, Any]]): Shared map of camp states.
         dedup (Deduper): Deduplication handler instance.
     """
-    await mqtt.subscribe(TERRAIN_TELEMETRY_TOPIC)
-    await mqtt.subscribe(ENV_TELEMETRY_TOPIC)
-    await mqtt.subscribe(PLANTATION_EVENT_TOPIC)
+    await mqtt.subscribe(TERRAIN_TELEMETRY_TOPIC, qos=MQTT_QOS)
+    await mqtt.subscribe(ENV_TELEMETRY_TOPIC, qos=MQTT_QOS)
+    await mqtt.subscribe(PLANTATION_EVENT_TOPIC, qos=MQTT_QOS)
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -186,9 +190,7 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
     Raises:
         Exception: Re-raises task failure to initiate reconnect.
     """
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -197,6 +199,8 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=f"plantation-sensor-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
     async with client:
         logger.info("Plantation sensor online | field=%s", FIELD_NAME)

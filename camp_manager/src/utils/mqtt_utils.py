@@ -15,8 +15,27 @@ ma processano in modo indipendente e devono avere memoria separata).
 """
 
 import time
+import ssl
 import json
+from common.parameters import MQTT_CA_CERT, MQTT_QOS, MQTT_TLS_MIN_VERSION
 
+
+
+def build_tls_context() -> ssl.SSLContext:
+    """Build a verified TLS context for every MQTT connection/reconnection."""
+    versions = {
+        "TLSv1.2": ssl.TLSVersion.TLSv1_2,
+        "TLSv1.3": ssl.TLSVersion.TLSv1_3,
+    }
+    minimum = versions.get(MQTT_TLS_MIN_VERSION)
+    if minimum is None:
+        raise ValueError(f"Unsupported MQTT TLS minimum version: {MQTT_TLS_MIN_VERSION}")
+
+    context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH, cafile=MQTT_CA_CERT)
+    context.check_hostname = True
+    context.verify_mode = ssl.CERT_REQUIRED
+    context.minimum_version = minimum
+    return context
 
 class Deduper:
     def __init__(self):
@@ -51,4 +70,5 @@ async def publish_json(client, topic, payload: dict, **kwargs):
     Usare questa funzione al posto di client.publish(topic, json.dumps(...))
     ovunque, cosi' il timestamp e' sempre presente e nello stesso formato."""
     stamped = {**payload, "ts": time.time()}
+    kwargs["qos"] = MQTT_QOS
     await client.publish(topic, json.dumps(stamped), **kwargs)

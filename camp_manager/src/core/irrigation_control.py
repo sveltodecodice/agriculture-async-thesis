@@ -3,6 +3,7 @@ import uuid
 
 import aiomqtt
 
+from common.parameters import MQTT_QOS
 from common.constants import (
     TOPIC_IRRIGATOR_IRRIGATE,
     TOPIC_IRRIGATOR_REOXYGENATE,
@@ -30,7 +31,7 @@ async def request_irrigation(
         "request_id": operation_id,
         "amount": amount,
     }
-    await publish_json(mqtt_client, topic, payload, qos=1)
+    await publish_json(mqtt_client, topic, payload, qos=MQTT_QOS)
     logger.info(
         "Irrigation requested | field=%s | request=%s | amount=%.1f",
         camp_id,
@@ -49,7 +50,7 @@ async def request_reoxygenation(
     operation_id = request_id or new_request_id()
     topic = TOPIC_IRRIGATOR_REOXYGENATE.format(camp_id=camp_id)
     payload = {"request_id": operation_id}
-    await publish_json(mqtt_client, topic, payload, qos=1)
+    await publish_json(mqtt_client, topic, payload, qos=MQTT_QOS)
     logger.info(
         "Reoxygenation requested | field=%s | request=%s",
         camp_id,

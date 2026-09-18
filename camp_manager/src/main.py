@@ -2,7 +2,6 @@ import asyncio
 import copy
 import json
 import logging
-import ssl
 import time
 from datetime import datetime, timezone
 from typing import Any, Dict
@@ -12,7 +11,8 @@ from common.constants import DEFAULT_STATE, SEED_TARGETS, TOPIC_SYSTEM_STATUS
 from common.parameters import (
     ACTIVITY_LOGS_TOPIC,
     CAMP_MANAGER_STATUS_TOPIC,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -42,7 +42,7 @@ from core.plantation_control import (
 )
 from core.seed_matcher import find_top_3_seeds
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import Deduper, publish_json
+from utils.mqtt_utils import Deduper, build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -132,7 +132,7 @@ async def manager_heartbeat_loop(
             "observed_at": utc_now(),
             "camps": sorted(camp_states.keys()),
         }
-        await publish_json(mqtt, CAMP_MANAGER_STATUS_TOPIC, payload, qos=1, retain=True)
+        await publish_json(mqtt, CAMP_MANAGER_STATUS_TOPIC, payload, qos=MQTT_QOS, retain=True)
         await asyncio.sleep(MANAGER_HEARTBEAT_INTERVAL_SECONDS)
 
 
@@ -262,7 +262,7 @@ async def auto_plant_monitor_loop(
             f"Richiesta autosemina: {target['name'].capitalize()}."
         )
         logger.info(msg)
-        await mqtt.publish(NOTIFICATIONS_TOPIC, msg)
+        await mqtt.publish(NOTIFICATIONS_TOPIC, msg, qos=MQTT_QOS)
 
         await request_seeding(mqtt, camp_id, target)
         state["seeding_pending"] = True
@@ -274,7 +274,7 @@ async def auto_plant_monitor_loop(
             state.get("date"),
             stats=state,
         )
-        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs), qos=MQTT_QOS)
 
 
 async def process_plantation_status(
@@ -333,7 +333,7 @@ async def process_plantation_status(
         state["harvest_pending"] = True
         log_msg = f"[{camp_id.upper()}] {state['seed_name']} maturazione completata! Auto-raccolto in corso..."
         logger.info("%s", log_msg)
-        await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg)
+        await mqtt.publish(NOTIFICATIONS_TOPIC, log_msg, qos=MQTT_QOS)
 
         await request_harvest(mqtt, camp_id, state["seed_name"], state.get("date"))
         save_harvest(state["seed_name"], state.get("date"))
@@ -344,7 +344,7 @@ async def process_plantation_status(
             state.get("date"),
             stats=state,
         )
-        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+        await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs), qos=MQTT_QOS)
     except Exception as err:
         logger.error("Plantation error on %s: %s", camp_id, err, exc_info=True)
 
@@ -442,7 +442,7 @@ async def handle_terrain_telemetry(
                 f"Richiesta irrigazione +{needed_water}%."
             )
             logger.info("%s", notif)
-            await mqtt.publish(NOTIFICATIONS_TOPIC, notif)
+            await mqtt.publish(NOTIFICATIONS_TOPIC, notif, qos=MQTT_QOS)
 
             logs = add_to_daily_report(
                 "AUTO_IRRIGATE",
@@ -450,7 +450,7 @@ async def handle_terrain_telemetry(
                 state.get("date"),
                 stats=state,
             )
-            await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
+            await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs), qos=MQTT_QOS)
 
         if state["oxygenation"] < OXYGENATION_THRESHOLD and not state.get("reoxygenation_pending"):
             request_id = await request_reoxygenation(mqtt, camp_id)
@@ -574,11 +574,11 @@ async def listen_telemetry(
     """
     deduper = Deduper()
 
-    await mqtt.subscribe("camp/+/environment/telemetry")
-    await mqtt.subscribe("camp/+/plantation/status")
-    await mqtt.subscribe("camp/+/terrain/telemetry")
-    await mqtt.subscribe("camp/+/irrigator/status")
-    await mqtt.subscribe("camp/+/camp_manager/cmd/#")
+    await mqtt.subscribe("camp/+/environment/telemetry", qos=MQTT_QOS)
+    await mqtt.subscribe("camp/+/plantation/status", qos=MQTT_QOS)
+    await mqtt.subscribe("camp/+/terrain/telemetry", qos=MQTT_QOS)
+    await mqtt.subscribe("camp/+/irrigator/status", qos=MQTT_QOS)
+    await mqtt.subscribe("camp/+/camp_manager/cmd/#", qos=MQTT_QOS)
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -639,9 +639,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
     Raises:
         Exception: Re-raises any unhandled task exception to prompt connection retry.
     """
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -650,6 +648,8 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=MQTT_CLIENT_ID,
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
     async with client:
         logger.info("Multi-camp service online.")

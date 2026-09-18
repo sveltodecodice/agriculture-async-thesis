@@ -1,5 +1,6 @@
 import logging
 import aiomqtt
+from common.parameters import MQTT_QOS
 from common.constants import (
     TOPIC_HARVESTER_HARVEST,
     TOPIC_PLANTATION_CLEARED,
@@ -21,7 +22,7 @@ async def request_seeding(
         seed (dict): Dictionary with crop details to be planted.
     """
     topic = TOPIC_SEEDER_PLANT.format(camp_id=camp_id)
-    await publish_json(mqtt_client, topic, seed, qos=1)
+    await publish_json(mqtt_client, topic, seed, qos=MQTT_QOS)
     logger.info("Seeding requested | field=%s | seed=%s", camp_id, seed.get("name"))
 
 
@@ -38,7 +39,7 @@ async def request_harvest(
     """
     topic = TOPIC_HARVESTER_HARVEST.format(camp_id=camp_id)
     payload = {"seed": seed_name, "date": harvest_date}
-    await publish_json(mqtt_client, topic, payload, qos=1)
+    await publish_json(mqtt_client, topic, payload, qos=MQTT_QOS)
     logger.info("Harvest requested | field=%s | seed=%s", camp_id, seed_name)
 
 
@@ -54,5 +55,5 @@ async def publish_field_cleared_event(
     """
     topic = TOPIC_PLANTATION_CLEARED.format(camp_id=camp_id)
     payload = {"reason": reason}
-    await publish_json(mqtt_client, topic, payload, qos=1)
+    await publish_json(mqtt_client, topic, payload, qos=MQTT_QOS)
     logger.info("Field cleared event | field=%s | reason=%s", camp_id, reason)

@@ -3,7 +3,6 @@
 import asyncio
 import json
 import logging
-import ssl
 
 import aiomqtt
 from common.parameters import (
@@ -11,7 +10,8 @@ from common.parameters import (
     HARVEST_CMD_TOPIC,
     HARVEST_DEPOSIT_TOPIC,
     HARVEST_EVENT_TOPIC,
-    MQTT_CA_CERT,
+    MQTT_KEEPALIVE,
+    MQTT_QOS,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
@@ -21,7 +21,7 @@ from common.parameters import (
 from core.harvester import start_harvesting
 from core.harvester_deposit import save_harvest
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import publish_json
+from utils.mqtt_utils import build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
@@ -33,7 +33,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
     Args:
         client (aiomqtt.Client): Connected MQTT client instance.
     """
-    await client.subscribe(HARVEST_CMD_TOPIC, qos=1)
+    await client.subscribe(HARVEST_CMD_TOPIC, qos=MQTT_QOS)
     logger.info("Harvester ready | field=%s | topic=%s", FIELD_NAME, HARVEST_CMD_TOPIC)
 
     async for message in client.messages:
@@ -53,7 +53,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
             )
 
             await publish_json(
-                client, HARVEST_DEPOSIT_TOPIC, {"history": history}, qos=1
+                client, HARVEST_DEPOSIT_TOPIC, {"history": history}, qos=MQTT_QOS
             )
 
             logger.info(
@@ -62,7 +62,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
                 harvest_data["seed"],
             )
 
-            await publish_json(client, HARVEST_EVENT_TOPIC, harvest_data, qos=1)
+            await publish_json(client, HARVEST_EVENT_TOPIC, harvest_data, qos=MQTT_QOS)
 
         except Exception as error:
             logger.error(
@@ -80,9 +80,7 @@ async def worker() -> None:
     Raises:
         Exception: Re-raises connection exceptions to trigger reconnection in main loop.
     """
-    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
+    ssl_context = build_tls_context()
 
     client = aiomqtt.Client(
         MQTT_HOST,
@@ -91,6 +89,8 @@ async def worker() -> None:
         password=MQTT_PASS,
         tls_context=ssl_context,
         identifier=f"harvester-{FIELD_NAME}",
+        keepalive=MQTT_KEEPALIVE,
+        clean_session=False,
     )
 
     async with client:

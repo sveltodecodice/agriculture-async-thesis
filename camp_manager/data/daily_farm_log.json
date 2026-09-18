@@ -158,5 +158,420 @@
     "date": "04/01/2026",
     "event": "AUTO_PLANT",
     "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 14°C | Weather: sun | Moist: 39.3% | Oxy: 55.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_c] Richiesto raccolto Cabbage | Temp: 23°C | Weather: sun | Moist: 66.7% | Oxy: 85.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: READY_FOR_HARVEST | Health: TOO_WET, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.3% | Temp: 21°C | Weather: sun | Moist: 16.7% | Oxy: 92.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: TOO_WET, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina eggplant | Soil: Franco-Argilloso | Temp: 22°C | Weather: sun | Moist: 70.1% | Oxy: 70.4% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "22/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.7% | Temp: 20°C | Weather: cloudy | Moist: 15.3% | Oxy: 70.4% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "24/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.9% | Temp: 20°C | Weather: cloudy | Moist: 16.1% | Oxy: 62.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.8% | Temp: 25°C | Weather: cloudy | Moist: 17.2% | Oxy: 58.3% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +7.4% | Temp: 20°C | Weather: cloudy | Moist: 23.6% | Oxy: 34.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.8% | Temp: 20°C | Weather: sun | Moist: 15.2% | Oxy: 54.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.8% | Temp: 25°C | Weather: sun | Moist: 17.2% | Oxy: 58.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.1% | Temp: 23°C | Weather: sun | Moist: 25.9% | Oxy: 30.1% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "27/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.9% | Temp: 21°C | Weather: cloudy | Moist: 17.1% | Oxy: 50.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.8% | Temp: 23°C | Weather: cloudy | Moist: 14.2% | Oxy: 49.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "29/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +9.2% | Temp: 23°C | Weather: cloudy | Moist: 21.8% | Oxy: 95.8% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "30/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.8% | Temp: 22°C | Weather: sun | Moist: 15.2% | Oxy: 42.0% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +14.3% | Temp: 25°C | Weather: sun | Moist: 8.7% | Oxy: 95.9% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +11.0% | Temp: 21°C | Weather: sun | Moist: 12.0% | Oxy: 87.9% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.6% | Temp: 20°C | Weather: cloudy | Moist: 17.4% | Oxy: 75.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_WET, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.3% | Temp: 22°C | Weather: cloudy | Moist: 16.7% | Oxy: 71.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.8% | Temp: 20°C | Weather: cloudy | Moist: 17.2% | Oxy: 67.8% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.0% | Temp: 24°C | Weather: sun | Moist: 17.0% | Oxy: 69.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.6% | Temp: 25°C | Weather: sun | Moist: 12.4% | Oxy: 63.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +11.9% | Temp: 25°C | Weather: sun | Moist: 19.1% | Oxy: 38.8% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "12/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +12.2% | Temp: 25°C | Weather: cloudy | Moist: 10.8% | Oxy: 55.2% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +7.3% | Temp: 23°C | Weather: sun | Moist: 23.7% | Oxy: 30.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "13/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.5% | Temp: 20°C | Weather: cloudy | Moist: 17.5% | Oxy: 51.4% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.2% | Temp: 21°C | Weather: sun | Moist: 12.8% | Oxy: 47.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.6% | Temp: 21°C | Weather: sun | Moist: 16.4% | Oxy: 43.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "15/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.1% | Temp: 23°C | Weather: sun | Moist: 15.9% | Oxy: 45.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.6% | Temp: 25°C | Weather: sun | Moist: 17.4% | Oxy: 41.6% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.4% | Temp: 23°C | Weather: sun | Moist: 25.6% | Oxy: 83.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "18/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.7% | Temp: 24°C | Weather: cloudy | Moist: 15.3% | Oxy: 33.3% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "19/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.5% | Temp: 20°C | Weather: sun | Moist: 24.5% | Oxy: 79.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: VEGETATIVE | Health: HEALTHY"
+  },
+  {
+    "date": "19/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.7% | Temp: 21°C | Weather: sun | Moist: 16.3% | Oxy: 29.4% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.9% | Temp: 20°C | Weather: sun | Moist: 16.1% | Oxy: 83.9% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "25/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.3% | Temp: 25°C | Weather: sun | Moist: 12.7% | Oxy: 75.8% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +7.5% | Temp: 23°C | Weather: cloudy | Moist: 15.5% | Oxy: 67.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.1% | Temp: 22°C | Weather: cloudy | Moist: 17.9% | Oxy: 63.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "28/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.9% | Temp: 21°C | Weather: sun | Moist: 15.1% | Oxy: 61.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.5% | Temp: 21°C | Weather: sun | Moist: 16.5% | Oxy: 54.0% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.1% | Temp: 24°C | Weather: cloudy | Moist: 16.9% | Oxy: 49.8% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.3% | Temp: 25°C | Weather: sun | Moist: 16.7% | Oxy: 47.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "02/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.8% | Temp: 24°C | Weather: sun | Moist: 16.2% | Oxy: 45.6% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "03/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +8.4% | Temp: 23°C | Weather: sun | Moist: 14.6% | Oxy: 43.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +9.6% | Temp: 25°C | Weather: sun | Moist: 13.4% | Oxy: 39.3% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +9.4% | Temp: 23°C | Weather: cloudy | Moist: 13.6% | Oxy: 37.4% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "05/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.2% | Temp: 22°C | Weather: sun | Moist: 25.8% | Oxy: 78.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: VEGETATIVE | Health: TOO_WET"
+  },
+  {
+    "date": "05/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.9% | Temp: 24°C | Weather: sun | Moist: 15.1% | Oxy: 33.2% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.3% | Temp: 20°C | Weather: cloudy | Moist: 16.7% | Oxy: 27.1% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "07/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.0% | Temp: 25°C | Weather: cloudy | Moist: 15.0% | Oxy: 95.7% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "08/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.7% | Temp: 25°C | Weather: sun | Moist: 16.3% | Oxy: 95.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "09/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.9% | Temp: 24°C | Weather: cloudy | Moist: 16.1% | Oxy: 87.5% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.2% | Temp: 20°C | Weather: cloudy | Moist: 12.8% | Oxy: 87.8% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "10/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.7% | Temp: 22°C | Weather: sun | Moist: 16.3% | Oxy: 83.5% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.1% | Temp: 22°C | Weather: cloudy | Moist: 16.9% | Oxy: 83.8% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +6.8% | Temp: 23°C | Weather: sun | Moist: 16.2% | Oxy: 79.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.0% | Temp: 24°C | Weather: sun | Moist: 15.0% | Oxy: 75.0% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.7% | Temp: 20°C | Weather: sun | Moist: 15.3% | Oxy: 71.2% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "14/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +9.1% | Temp: 23°C | Weather: sun | Moist: 21.9% | Oxy: 38.8% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "15/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.7% | Temp: 23°C | Weather: sun | Moist: 16.3% | Oxy: 63.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "16/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.8% | Temp: 25°C | Weather: sun | Moist: 24.2% | Oxy: 30.5% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "16/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.7% | Temp: 22°C | Weather: sun | Moist: 17.3% | Oxy: 63.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_WET, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +12.1% | Temp: 23°C | Weather: sun | Moist: 10.9% | Oxy: 55.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +11.9% | Temp: 23°C | Weather: sun | Moist: 11.1% | Oxy: 50.8% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "19/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.7% | Temp: 22°C | Weather: sun | Moist: 14.3% | Oxy: 46.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "20/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +7.3% | Temp: 24°C | Weather: cloudy | Moist: 15.7% | Oxy: 42.7% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: MATURING | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "21/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +7.6% | Temp: 22°C | Weather: sun | Moist: 23.4% | Oxy: 83.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: MATURING | Health: HEALTHY"
+  },
+  {
+    "date": "22/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +11.1% | Temp: 24°C | Weather: sun | Moist: 11.9% | Oxy: 34.7% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: MATURING | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "23/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.0% | Temp: 25°C | Weather: sun | Moist: 13.0% | Oxy: 35.0% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "26/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.0% | Temp: 20°C | Weather: sun | Moist: 25.0% | Oxy: 62.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: MATURING | Health: TOO_WET"
+  },
+  {
+    "date": "26/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.8% | Temp: 23°C | Weather: sun | Moist: 16.2% | Oxy: 92.0% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: MATURING | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +9.5% | Temp: 24°C | Weather: sun | Moist: 13.5% | Oxy: 92.0% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: MATURING | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "27/05/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_c] Richiesto raccolto Eggplant | Temp: 22°C | Weather: rain | Moist: 35.5% | Oxy: 58.0% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Eggplant | Stage: READY_FOR_HARVEST | Health: TOO_WET"
+  },
+  {
+    "date": "28/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.5% | Temp: 21°C | Weather: sun | Moist: 14.5% | Oxy: 84.2% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: MATURING | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/05/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +6.8% | Temp: 23°C | Weather: cloudy | Moist: 16.2% | Oxy: 76.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: MATURING | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "30/05/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina eggplant | Soil: Franco-Argilloso | Temp: 24°C | Weather: sun | Moist: 33.7% | Oxy: 44.9% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 12°C | Weather: cloudy | Moist: 35.6% | Oxy: 59.3% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 15°C | Weather: cloudy | Moist: 24.5% | Oxy: 59.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 14°C | Weather: cloudy | Moist: 24.3% | Oxy: 59.6% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +9.7% | Temp: 13°C | Weather: sun | Moist: 22.3% | Oxy: 56.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: PLANTED | Health: TOO_DRY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 14°C | Weather: sun | Moist: 24.6% | Oxy: 59.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 15°C | Weather: sun | Moist: 29.6% | Oxy: 59.5% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 14°C | Weather: sun | Moist: 39.3% | Oxy: 55.6% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "14/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.5% | Temp: 16°C | Weather: cloudy | Moist: 26.5% | Oxy: 92.8% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: GERMINATION | Health: HEALTHY"
   }
 ]

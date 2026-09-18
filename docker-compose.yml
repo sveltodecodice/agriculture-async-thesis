@@ -5,12 +5,19 @@ x-common-env: &common-env
 x-common-volumes: &common-volumes
   - ./certs:/app/certs:ro
   - ./config/farm.yaml:/app/config/farm.yaml:ro
+  - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
 
 x-base-service: &base-service
   restart: unless-stopped
   depends_on:
     mqtt-broker:
       condition: service_healthy
+  healthcheck:
+    test: ["CMD", "python", "/app/mqtt_tls_healthcheck.py"]
+    interval: 30s
+    timeout: 8s
+    retries: 3
+    start_period: 15s
   networks:
     - farm_network
 
@@ -19,17 +26,26 @@ services:
     image: eclipse-mosquitto:2.1.2-alpine
     container_name: mqtt-broker
     restart: unless-stopped
+    environment:
+      MQTT_BROKER_USER: farm_admin
+      MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:-secure_farm}
     ports:
       - "127.0.0.1:8883:8883"
     volumes:
       - ./mosquitto/config:/mosquitto/config:ro
       - ./certs:/mosquitto/certs:ro
     healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 8883 || exit 1"]
-      interval: 10s
-      timeout: 5s
+      test:
+        - CMD-SHELL
+        - >-
+          mosquitto_pub -h mqtt-broker -p 8883
+          --cafile /mosquitto/certs/ca.crt
+          -u "$${MQTT_BROKER_USER}" -P "$${MQTT_BROKER_PASS}"
+          -t healthcheck/broker -m ok -q 2
+      interval: 15s
+      timeout: 8s
       retries: 3
-      start_period: 5s
+      start_period: 10s
     networks: [farm_network]
 
   ambient_sensor_a:
@@ -87,6 +103,7 @@ services:
     volumes:
       - ./certs:/app/certs:ro
       - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
       - ./harvester/data:/app/data
 
   ambient_sensor_b:
@@ -144,6 +161,7 @@ services:
     volumes:
       - ./certs:/app/certs:ro
       - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
       - ./harvester/data:/app/data
 
   ambient_sensor_c:
@@ -201,6 +219,7 @@ services:
     volumes:
       - ./certs:/app/certs:ro
       - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
       - ./harvester/data:/app/data
 
   camp_manager:
@@ -212,6 +231,7 @@ services:
     volumes:
       - ./certs:/app/certs:ro
       - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
       - ./camp_manager/data:/app/data
 
   dashboard:

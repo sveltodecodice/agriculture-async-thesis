@@ -11,6 +11,11 @@ MQTT_CA_CERT = env_value("MQTT_CA_CERT", "mqtt.ca_cert", "/app/certs/ca.crt", st
 MQTT_KEEPALIVE = env_value("MQTT_KEEPALIVE", "mqtt.keepalive", 60, int)
 MQTT_CLIENT_ID = env_value("MQTT_CLIENT_ID", "dashboard.mqtt_client_id", "smart-farm-dashboard", str)
 MQTT_RECONNECT_SECONDS = env_value("MQTT_RECONNECT_SECONDS", "mqtt.reconnect_seconds", 5, float)
+MQTT_TLS_MIN_VERSION = env_value("MQTT_TLS_MIN_VERSION", "mqtt.tls.minimum_version", "TLSv1.2", str)
+MQTT_QOS = env_value("MQTT_QOS", "mqtt.qos", 2, int)
+
+if MQTT_QOS != 2:
+    raise ValueError("MQTT_QOS must be 2 to preserve maximum delivery guarantee")
 CAMPS = tuple(env_list("CAMP_IDS", "farm.fields", ["field_a", "field_b", "field_c"]))
 MANAGER_HEARTBEAT_MAX_AGE_SECONDS = env_value("MANAGER_HEARTBEAT_MAX_AGE_SECONDS", "health.manager_heartbeat_max_age_seconds", 15, float)
 DASHBOARD_POLL_INTERVAL_SECONDS = env_value("DASHBOARD_POLL_INTERVAL_SECONDS", "dashboard.polling_interval_seconds", 2, float)
