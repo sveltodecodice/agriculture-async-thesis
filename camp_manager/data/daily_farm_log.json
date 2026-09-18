@@ -1,0 +1,162 @@
+[
+  {
+    "date": "11/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +9.1% | Temp: 29°C | Weather: sun | Moist: 30.9% | Oxy: 68.3% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "11/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +13.4% | Temp: 35°C | Weather: sun | Moist: 26.6% | Oxy: 73.7% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +10.4% | Temp: 31°C | Weather: sun | Moist: 29.6% | Oxy: 39.1% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "12/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +15.0% | Temp: 33°C | Weather: sun | Moist: 25.0% | Oxy: 68.5% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +17.1% | Temp: 32°C | Weather: sun | Moist: 22.9% | Oxy: 34.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "13/06/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +8.5% | Temp: 35°C | Weather: sun | Moist: 31.5% | Oxy: 63.0% | Soil: Franco | Water: 0.0mm | Pump: OFF | Plant: Olive | Stage: VEGETATIVE | Health: TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 15°C | Weather: rain | Moist: 41.8% | Oxy: 55.5% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 16°C | Weather: cloudy | Moist: 36.7% | Oxy: 58.9% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 16°C | Weather: sun | Moist: 23.3% | Oxy: 59.6% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +9.6% | Temp: 14°C | Weather: cloudy | Moist: 22.4% | Oxy: 56.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: PLANTED | Health: TOO_DRY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 12°C | Weather: rain | Moist: 38.4% | Oxy: 59.2% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 12°C | Weather: sun | Moist: 37.1% | Oxy: 59.1% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 15°C | Weather: cloudy | Moist: 33.0% | Oxy: 55.6% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 16°C | Weather: rain | Moist: 36.8% | Oxy: 59.2% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 15°C | Weather: rain | Moist: 37.8% | Oxy: 59.6% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 13°C | Weather: rain | Moist: 27.5% | Oxy: 59.6% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "05/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +6.3% | Temp: 13°C | Weather: sun | Moist: 25.7% | Oxy: 56.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: PLANTED | Health: HEALTHY"
+  },
+  {
+    "date": "05/02/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_a] Richiesta irrigazione +5.8% | Temp: 13°C | Weather: cloudy | Moist: 17.2% | Oxy: 93.4% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: Garlic | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 12°C | Weather: sun | Moist: 23.9% | Oxy: 56.2% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 16°C | Weather: cloudy | Moist: 27.5% | Oxy: 56.1% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 14°C | Weather: rain | Moist: 42.5% | Oxy: 59.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "06/01/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_c] Richiesta irrigazione +5.9% | Temp: 14°C | Weather: cloudy | Moist: 26.1% | Oxy: 49.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: GERMINATION | Health: HEALTHY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 14°C | Weather: cloudy | Moist: 31.9% | Oxy: 59.2% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 16°C | Weather: cloudy | Moist: 49.0% | Oxy: 58.5% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 16°C | Weather: rain | Moist: 33.2% | Oxy: 59.4% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "15/03/2026",
+    "event": "AUTO_HARVEST",
+    "details": "[field_c] Richiesto raccolto Cabbage | Temp: 21°C | Weather: sun | Moist: 60.6% | Oxy: 40.1% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: Cabbage | Stage: READY_FOR_HARVEST | Health: TOO_WET, TOO_HOT, UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "18/03/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina eggplant | Soil: Franco-Argilloso | Temp: 21°C | Weather: rain | Moist: 55.6% | Oxy: 95.5% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "31/03/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +5.8% | Temp: 20°C | Weather: sun | Moist: 17.2% | Oxy: 92.4% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "01/04/2026",
+    "event": "AUTO_IRRIGATE",
+    "details": "[field_b] Richiesta irrigazione +8.3% | Temp: 23°C | Weather: cloudy | Moist: 14.7% | Oxy: 88.4% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: Wheat | Stage: VEGETATIVE | Health: UNFAVORABLE_SEASON"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_a] Richiesta autosemina garlic | Soil: Sabbioso | Temp: 16°C | Weather: rain | Moist: 46.5% | Oxy: 58.7% | Soil: Sabbioso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_b] Richiesta autosemina wheat | Soil: Argilloso | Temp: 15°C | Weather: cloudy | Moist: 23.1% | Oxy: 56.1% | Soil: Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  },
+  {
+    "date": "04/01/2026",
+    "event": "AUTO_PLANT",
+    "details": "[field_c] Richiesta autosemina cabbage | Soil: Franco-Argilloso | Temp: 14°C | Weather: cloudy | Moist: 22.6% | Oxy: 56.3% | Soil: Franco-Argilloso | Water: 0.0mm | Pump: OFF | Plant: EMPTY | Stage: EMPTY | Health: FIELD IS EMPTY"
+  }
+]

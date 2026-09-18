@@ -7,24 +7,23 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Create non-root application user -> Security before execution -> Docker security + TLS 
-
+# Create non-root application user
 RUN groupadd --system appgroup \
     && useradd --system \
         --gid appgroup \
         --create-home \
-        appuser
-
+        appuser \
+    && mkdir -p /app/data \
+    && chown -R appuser:appgroup /app/data
 
 COPY requirements.txt ./
 
 RUN python -m pip install --upgrade pip \
     && python -m pip install -r requirements.txt
 
-
 COPY --chown=appuser:appgroup . .
 
-# Run the application as not root user
+RUN chown -R appuser:appgroup /app/data
 
 USER appuser
 

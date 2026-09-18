@@ -1,0 +1,249 @@
+x-common-env: &common-env
+  FARM_CONFIG: /app/config/farm.yaml
+  MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:?MQTT_BROKER_PASS must be set}
+
+x-common-volumes: &common-volumes
+  - ./certs:/app/certs:ro
+  - ./config/farm.yaml:/app/config/farm.yaml:ro
+  - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
+
+x-base-service: &base-service
+  restart: unless-stopped
+  depends_on:
+    mqtt-broker:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD", "python", "/app/mqtt_tls_healthcheck.py"]
+    interval: 30s
+    timeout: 8s
+    retries: 3
+    start_period: 15s
+  networks:
+    - farm_network
+
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    container_name: mqtt-broker
+    restart: unless-stopped
+    environment:
+      MQTT_BROKER_USER: farm_admin
+      MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:?MQTT_BROKER_PASS must be set}
+    ports:
+      - "127.0.0.1:8883:8883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:ro
+      - ./certs:/mosquitto/certs:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          mosquitto_pub -h mqtt-broker -p 8883
+          --cafile /mosquitto/certs/ca.crt
+          -u "$${MQTT_BROKER_USER}" -P "$${MQTT_BROKER_PASS}"
+          -t healthcheck/broker -m ok -q 2
+      interval: 15s
+      timeout: 8s
+      retries: 3
+      start_period: 10s
+    networks: [farm_network]
+
+  ambient_sensor_a:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  terrain_sensor_a:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  plantation_sensor_a:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  seeder_actuator_a:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  irrigator_actuator_a:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  harvester_actuator_a:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
+      - ./harvester/data:/app/data
+
+  ambient_sensor_b:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  terrain_sensor_b:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  plantation_sensor_b:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  seeder_actuator_b:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  irrigator_actuator_b:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  harvester_actuator_b:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
+      - ./harvester/data:/app/data
+
+  ambient_sensor_c:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  terrain_sensor_c:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  plantation_sensor_c:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  seeder_actuator_c:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  irrigator_actuator_c:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  harvester_actuator_c:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
+      - ./harvester/data:/app/data
+
+  camp_manager:
+    <<: *base-service
+    build: ./camp_manager
+    container_name: camp_manager
+    environment:
+      <<: *common-env
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./mqtt_tls_healthcheck.py:/app/mqtt_tls_healthcheck.py:ro
+      - ./camp_manager/data:/app/data
+
+  dashboard:
+    <<: *base-service
+    build: ./dashboard
+    container_name: dashboard
+    ports:
+      - "127.0.0.1:8501:8501"
+    environment:
+      <<: *common-env
+    volumes: *common-volumes
+
+networks:
+  farm_network:
+    driver: bridge
