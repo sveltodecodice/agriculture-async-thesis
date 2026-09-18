@@ -337,7 +337,6 @@ La Dashboard espone API separate per le diverse viste, evitando di trasferire in
 ├── tests/
 ├── docker-compose.yml
 ├── mqtt_tls_healthcheck.py
-├── run_tests.sh
 └── .env
 ```
 
@@ -434,12 +433,6 @@ Per eseguire i test di un singolo servizio:
 ```bash
 cd terrain_sensor
 pytest -q
-```
-
-Per eseguire la suite dei moduli principali dalla root del progetto:
-
-```bash
-./run_tests.sh
 ```
 
 Sono inoltre presenti test globali nella directory root `tests/` per verificare convenzioni comuni e invarianti critici, come TLS, QoS, healthcheck e responsabilità tra servizi.
