@@ -1,3 +1,0 @@
-keyUsage = digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth
-subjectAltName = DNS:mqtt-broker,DNS:localhost,IP:127.0.0.1

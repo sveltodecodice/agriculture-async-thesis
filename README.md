@@ -10,7 +10,6 @@ Il progetto è stato sviluppato come a microservizi, con comportamento asincrono
 
 ## Responsabilità architetturali
 
-Il sistema segue una regola principale:
 
 ```text
 sensori = osservano e pubblicano lo stato
@@ -386,6 +385,18 @@ Tutte le connessioni MQTT applicative usano TLS verificato. Il client:
 
 Il certificato del broker deve quindi essere valido anche per il nome DNS usato dai container, normalmente `mqtt-broker`.
 
+# Certificati TLS
+
+Questa directory contiene i certificati TLS utilizzati dal sistema.
+
+I certificati non sono versionati nel repository perché le chiavi private
+non devono essere distribuite insieme al codice sorgente.
+
+Per generarli:
+
+```bash
+./generate_certs.sh
+
 ### MQTT QoS
 
 Il progetto impone **QoS 2** per i flussi MQTT applicativi principali. Questo è il livello massimo previsto dal protocollo MQTT per la consegna dei messaggi.
@@ -443,7 +454,7 @@ I test applicativi sono progettati per verificare principalmente funzioni core e
 
 ### 1. Configurare la password MQTT
 
-Aprire il file `.env` 
+Aprire il file `.env` se presente, altrimenti crearlo.
 
 Impostare quindi `MQTT_BROKER_PASS` con la stessa password configurata nel file password di Mosquitto.
 
