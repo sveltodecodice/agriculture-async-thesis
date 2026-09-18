@@ -1,40 +1,27 @@
-"""Dashboard configuration.
+"""Dashboard configuration. Environment variables override farm.yaml."""
 
-The dashboard follows the same field identifiers as the distributed farm.
-Set CAMP_IDS to the same comma-separated list used by Camp Manager.
-"""
-from __future__ import annotations
+from config_loader import env_list, env_value
 
-import os
+HTTP_PORT = env_value("PORT", "dashboard.port", 8501, int)
+MQTT_HOST = env_value("MQTT_BROKER_HOST", "mqtt.host", "mqtt-broker", str)
+MQTT_PORT = env_value("MQTT_BROKER_PORT", "mqtt.port", 8883, int)
+MQTT_USER = env_value("MQTT_BROKER_USER", "mqtt.username", "farm_admin", str)
+MQTT_PASSWORD = env_value("MQTT_BROKER_PASS", "mqtt.password", "secure_farm", str)
+MQTT_CA_CERT = env_value("MQTT_CA_CERT", "mqtt.ca_cert", "/app/certs/ca.crt", str)
+MQTT_KEEPALIVE = env_value("MQTT_KEEPALIVE", "mqtt.keepalive", 60, int)
+MQTT_CLIENT_ID = env_value("MQTT_CLIENT_ID", "dashboard.mqtt_client_id", "smart-farm-dashboard", str)
+MQTT_RECONNECT_SECONDS = env_value("MQTT_RECONNECT_SECONDS", "mqtt.reconnect_seconds", 5, float)
+CAMPS = tuple(env_list("CAMP_IDS", "farm.fields", ["field_a", "field_b", "field_c"]))
+MANAGER_HEARTBEAT_MAX_AGE_SECONDS = env_value("MANAGER_HEARTBEAT_MAX_AGE_SECONDS", "health.manager_heartbeat_max_age_seconds", 15, float)
+DASHBOARD_POLL_INTERVAL_SECONDS = env_value("DASHBOARD_POLL_INTERVAL_SECONDS", "dashboard.polling_interval_seconds", 2, float)
 
-HTTP_PORT = int(os.getenv("PORT", "8501"))
-
-MQTT_HOST = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
-MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", "8883"))
-MQTT_USER = os.getenv("MQTT_BROKER_USER", "farm_admin")
-MQTT_PASSWORD = os.getenv("MQTT_BROKER_PASS", "secure_farm")
-MQTT_CA_CERT = os.getenv("MQTT_CA_CERT", "/app/certs/ca.crt")
-MQTT_KEEPALIVE = int(os.getenv("MQTT_KEEPALIVE", "60"))
-
-
-def configured_camps() -> tuple[str, ...]:
-    raw = os.getenv("CAMP_IDS", "field_a,field_b,field_c")
-    camps = tuple(camp.strip() for camp in raw.split(",") if camp.strip())
-    if not camps:
-        raise ValueError("CAMP_IDS must contain at least one field id")
-    return camps
-
-
-CAMPS = configured_camps()
-MANAGER_HEARTBEAT_MAX_AGE_SECONDS = 15
-
-# The dashboard consumes observations and manager health only. Actuator events are
-# intentionally not used as UI truth: their effects are confirmed through sensor
-# telemetry/status, matching the system feedback-loop architecture.
 TOPICS = (
     "camp/+/environment/telemetry",
     "camp/+/terrain/telemetry",
     "camp/+/plantation/status",
     "camp/+/system/status",
+    "camp/+/irrigator/status",
     "camp/manager/status",
+    "camp/notifications",
+    "camp/activity_logs",
 )

@@ -10,10 +10,13 @@ import aiomqtt
 from common.parameters import (
     ENV_TELEMETRY_TOPIC,
     FIELD_NAME,
+    MQTT_CA_CERT,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    MQTT_RECONNECT_SECONDS,
+    PLANTATION_PUBLISH_INTERVAL_SECONDS,
     PLANTATION_EVENT_TOPIC,
     TERRAIN_TELEMETRY_TOPIC,
 )
@@ -61,7 +64,7 @@ async def monitor_loop(
         camp_contexts (Dict[str, Dict[str, Any]]): Map of camp IDs to states.
     """
     while True:
-        await asyncio.sleep(3)
+        await asyncio.sleep(PLANTATION_PUBLISH_INTERVAL_SECONDS)
         for camp_id, context in camp_contexts.items():
             status = get_status(
                 context["plantation"],
@@ -183,7 +186,7 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
     Raises:
         Exception: Re-raises task failure to initiate reconnect.
     """
-    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
@@ -226,8 +229,8 @@ async def main() -> None:
         try:
             await worker(field_ctx, dedup)
         except Exception as error:
-            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
-            await asyncio.sleep(5)
+            logger.error("Connection dropped (%s). Reconnecting in %ss...", error, MQTT_RECONNECT_SECONDS)
+            await asyncio.sleep(MQTT_RECONNECT_SECONDS)
 
 
 if __name__ == "__main__":

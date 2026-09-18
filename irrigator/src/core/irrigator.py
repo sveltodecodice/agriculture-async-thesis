@@ -1,22 +1,12 @@
-"""Irrigation and reoxygenation domain execution logic."""
+"""Irrigation and reoxygenation actuator domain logic."""
 
 from typing import Any, Dict
 
 
 def start_irrigation(request: Any) -> Dict[str, float]:
-    """Validates and calculates irrigation volume.
-
-    Args:
-        request (Any): Dictionary containing 'amount' or a raw numerical/string value.
-
-    Returns:
-        Dict[str, float]: Dictionary containing the validated irrigation amount.
-
-    Raises:
-        ValueError: If amount is less than or equal to zero.
-    """
+    """Validate the requested soil-moisture percentage-point increase."""
     if isinstance(request, dict):
-        amount = request.get("amount", 15.0)
+        amount = request.get("amount_pct", request.get("amount", 15.0))
     else:
         amount = request
 
@@ -24,13 +14,13 @@ def start_irrigation(request: Any) -> Dict[str, float]:
     if numeric_amount <= 0:
         raise ValueError("Irrigation amount must be greater than zero")
 
-    return {"amount": numeric_amount}
+    return {
+        "amount_pct": numeric_amount,
+        # Compatibility alias for older Terrain Sensor versions.
+        "amount": numeric_amount,
+    }
 
 
-def start_reoxygenation() -> Dict[str, float]:
-    """Executes soil reoxygenation and returns target oxygenation level.
-
-    Returns:
-        Dict[str, float]: Dictionary with resulting oxygenation percentage.
-    """
-    return {"oxygenation": 100.0}
+def start_reoxygenation(target: float = 100.0) -> Dict[str, float]:
+    """Return the target oxygenation after actuator completion."""
+    return {"oxygenation": float(target)}

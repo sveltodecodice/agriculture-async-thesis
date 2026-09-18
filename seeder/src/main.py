@@ -8,10 +8,12 @@ import ssl
 import aiomqtt
 from common.parameters import (
     FIELD_NAME,
+    MQTT_CA_CERT,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    MQTT_RECONNECT_SECONDS,
     PLANTATION_EVENT_SEEDED_TOPIC,
     SEEDER_CMD_PLANT_TOPIC,
 )
@@ -76,7 +78,7 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
 
 async def worker() -> None:
     """Manages secure MQTT connection lifecycle for the seeder task."""
-    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_REQUIRED
 
@@ -106,12 +108,13 @@ async def main() -> None:
             await worker()
         except Exception as error:
             logger.error(
-                "Seeder connection dropped | field=%s | error=%s | reconnecting in 5s",
+                "Seeder connection dropped | field=%s | error=%s | reconnecting in %ss",
                 FIELD_NAME,
                 error,
+                MQTT_RECONNECT_SECONDS,
                 exc_info=True,
             )
-            await asyncio.sleep(5)
+            await asyncio.sleep(MQTT_RECONNECT_SECONDS)
 
 
 if __name__ == "__main__":

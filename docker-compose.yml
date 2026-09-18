@@ -1,13 +1,10 @@
-# Introdotte le anchor per ridurre duplicazione del codice e semplificare aggiunta di servizi
-
 x-common-env: &common-env
-  MQTT_BROKER_HOST: mqtt-broker
-  MQTT_BROKER_PORT: 8883
-  MQTT_BROKER_USER: farm_admin
-  MQTT_BROKER_PASS: secure_farm
+  FARM_CONFIG: /app/config/farm.yaml
+  MQTT_BROKER_PASS: ${MQTT_BROKER_PASS:-secure_farm}
 
 x-common-volumes: &common-volumes
   - ./certs:/app/certs:ro
+  - ./config/farm.yaml:/app/config/farm.yaml:ro
 
 x-base-service: &base-service
   restart: unless-stopped
@@ -18,7 +15,6 @@ x-base-service: &base-service
     - farm_network
 
 services:
-
   mqtt-broker:
     image: eclipse-mosquitto:2.1.2-alpine
     container_name: mqtt-broker
@@ -34,10 +30,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 5s
-    networks:
-      - farm_network
-
-  # TERRENO A
+    networks: [farm_network]
 
   ambient_sensor_a:
     <<: *base-service
@@ -55,21 +48,16 @@ services:
     environment:
       <<: *common-env
       FIELD_NAME: field_a
-      FIELD_INIT_TYPE: Franco
-      FIELD_INIT_OXY: "70.0"
-      FIELD_INIT_MOIST: "28.0"
     volumes: *common-volumes
 
-  harvester_actuator_a:
+  plantation_sensor_a:
     <<: *base-service
-    build: ./harvester
-    container_name: harvester_a
+    build: ./plantation_sensor
+    container_name: plantation_sensor_a
     environment:
       <<: *common-env
       FIELD_NAME: field_a
-    volumes:
-      - ./certs:/app/certs:ro
-      - ./harvester/data:/app/data
+    volumes: *common-volumes
 
   seeder_actuator_a:
     <<: *base-service
@@ -89,16 +77,18 @@ services:
       FIELD_NAME: field_a
     volumes: *common-volumes
 
-  plantation_sensor_a:
+  harvester_actuator_a:
     <<: *base-service
-    build: ./plantation_sensor
-    container_name: plantation_sensor_a
+    build: ./harvester
+    container_name: harvester_a
     environment:
       <<: *common-env
       FIELD_NAME: field_a
-    volumes: *common-volumes
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./harvester/data:/app/data
 
-  # TERRENO B
   ambient_sensor_b:
     <<: *base-service
     build: ./ambient_sensor
@@ -115,21 +105,16 @@ services:
     environment:
       <<: *common-env
       FIELD_NAME: field_b
-      FIELD_INIT_TYPE: Franco
-      FIELD_INIT_OXY: "70.0"
-      FIELD_INIT_MOIST: "28.0"
     volumes: *common-volumes
 
-  harvester_actuator_b:
+  plantation_sensor_b:
     <<: *base-service
-    build: ./harvester
-    container_name: harvester_b
+    build: ./plantation_sensor
+    container_name: plantation_sensor_b
     environment:
       <<: *common-env
       FIELD_NAME: field_b
-    volumes:
-      - ./certs:/app/certs:ro
-      - ./harvester/data:/app/data
+    volumes: *common-volumes
 
   seeder_actuator_b:
     <<: *base-service
@@ -149,16 +134,18 @@ services:
       FIELD_NAME: field_b
     volumes: *common-volumes
 
-  plantation_sensor_b:
+  harvester_actuator_b:
     <<: *base-service
-    build: ./plantation_sensor
-    container_name: plantation_sensor_b
+    build: ./harvester
+    container_name: harvester_b
     environment:
       <<: *common-env
       FIELD_NAME: field_b
-    volumes: *common-volumes
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./harvester/data:/app/data
 
-  # TERRENO C
   ambient_sensor_c:
     <<: *base-service
     build: ./ambient_sensor
@@ -175,21 +162,16 @@ services:
     environment:
       <<: *common-env
       FIELD_NAME: field_c
-      FIELD_INIT_TYPE: Franco
-      FIELD_INIT_OXY: "70.0"
-      FIELD_INIT_MOIST: "28.0"
     volumes: *common-volumes
 
-  harvester_actuator_c:
+  plantation_sensor_c:
     <<: *base-service
-    build: ./harvester
-    container_name: harvester_c
+    build: ./plantation_sensor
+    container_name: plantation_sensor_c
     environment:
       <<: *common-env
       FIELD_NAME: field_c
-    volumes:
-      - ./certs:/app/certs:ro
-      - ./harvester/data:/app/data
+    volumes: *common-volumes
 
   seeder_actuator_c:
     <<: *base-service
@@ -209,25 +191,27 @@ services:
       FIELD_NAME: field_c
     volumes: *common-volumes
 
-  plantation_sensor_c:
+  harvester_actuator_c:
     <<: *base-service
-    build: ./plantation_sensor
-    container_name: plantation_sensor_c
+    build: ./harvester
+    container_name: harvester_c
     environment:
       <<: *common-env
       FIELD_NAME: field_c
-    volumes: *common-volumes
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
+      - ./harvester/data:/app/data
 
-  # MANAGEMENT & DASHBOARD
   camp_manager:
     <<: *base-service
     build: ./camp_manager
     container_name: camp_manager
     environment:
       <<: *common-env
-      CAMP_IDS: field_a,field_b,field_c
     volumes:
       - ./certs:/app/certs:ro
+      - ./config/farm.yaml:/app/config/farm.yaml:ro
       - ./camp_manager/data:/app/data
 
   dashboard:
@@ -238,7 +222,7 @@ services:
       - "127.0.0.1:8501:8501"
     environment:
       <<: *common-env
-      CAMP_IDS: field_a,field_b,field_c
+    volumes: *common-volumes
 
 networks:
   farm_network:

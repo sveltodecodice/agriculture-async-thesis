@@ -2,7 +2,6 @@ import asyncio
 import copy
 import json
 import logging
-import os
 import ssl
 import time
 from datetime import datetime, timezone
@@ -13,10 +12,23 @@ from common.constants import DEFAULT_STATE, SEED_TARGETS, TOPIC_SYSTEM_STATUS
 from common.parameters import (
     ACTIVITY_LOGS_TOPIC,
     CAMP_MANAGER_STATUS_TOPIC,
+    MQTT_CA_CERT,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    MQTT_RECONNECT_SECONDS,
+    MQTT_CLIENT_ID,
+    CONFIGURED_CAMPS,
+    SENSOR_OFFLINE_SECONDS,
+    HEALTH_PUBLISH_INTERVAL_SECONDS,
+    MANAGER_HEARTBEAT_INTERVAL_SECONDS,
+    AUTO_SEED_EMPTY_DAYS,
+    AUTO_SEED_CHECK_INTERVAL_SECONDS,
+    EMPTY_FIELD_MIN_MOISTURE,
+    IRRIGATION_TARGET_MARGIN,
+    MIN_IRRIGATION_AMOUNT,
+    OXYGENATION_THRESHOLD,
     NOTIFICATIONS_TOPIC,
 )
 from common.seeds import SEEDS_LST
@@ -36,22 +48,6 @@ LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 
-def configured_camps() -> list[str]:
-    """Parse configured camp IDs from environment variables.
-
-    Returns:
-        list[str]: Clean list of camp identifiers.
-
-    Raises:
-        EnvironmentError: If the CAMP_IDS environment variable is missing.
-    """
-    raw = os.getenv("CAMP_IDS", "").strip()
-    if raw:
-        return [camp.strip() for camp in raw.split(",") if camp.strip()]
-    raise EnvironmentError("Missing env variable CAMP_IDS, check docker compose")
-
-
-CONFIGURED_CAMPS = configured_camps()
 
 
 def utc_now() -> str:
@@ -92,6 +88,34 @@ def record_sensor_heartbeat(
     }
 
 
+def record_actuator_heartbeat(
+    state: Dict[str, Any], actuator_type: str, payload_data: Dict[str, Any]
+) -> None:
+    """Track actuator heartbeat plus its current operation state."""
+    now = time.time()
+    payload_ts = payload_data.get("ts") if isinstance(payload_data, dict) else None
+    latency_ms = 0.0
+
+    if payload_ts is not None:
+        try:
+            latency_ms = max(0.0, round((now - float(payload_ts)) * 1000.0, 2))
+        except (TypeError, ValueError):
+            latency_ms = 0.0
+
+    actuator_health = state.setdefault("actuator_health", {})
+    actuator_health[actuator_type] = {
+        "last_seen": now,
+        "latency_ms": latency_ms,
+        "operation": payload_data.get("operation", "unknown"),
+        "status": payload_data.get("status", "unknown"),
+        "active_request_id": payload_data.get("active_request_id"),
+        "last_request_id": payload_data.get("last_request_id"),
+        "last_action": payload_data.get("last_action"),
+        "last_amount": payload_data.get("last_amount"),
+        "last_completed_at": payload_data.get("last_completed_at"),
+    }
+
+
 async def manager_heartbeat_loop(
     mqtt: aiomqtt.Client, camp_states: Dict[str, Dict[str, Any]]
 ) -> None:
@@ -109,31 +133,25 @@ async def manager_heartbeat_loop(
             "camps": sorted(camp_states.keys()),
         }
         await publish_json(mqtt, CAMP_MANAGER_STATUS_TOPIC, payload, qos=1, retain=True)
-        await asyncio.sleep(5)
+        await asyncio.sleep(MANAGER_HEARTBEAT_INTERVAL_SECONDS)
 
 
 async def system_health_monitor_loop(
     mqtt: aiomqtt.Client, camp_states: Dict[str, Dict[str, Any]]
 ) -> None:
-    """Monitor sensor health and flag camps as DEGRADED if sensors miss heartbeats.
-
-    Args:
-        mqtt (aiomqtt.Client): Active MQTT client connection.
-        camp_states (Dict[str, Dict[str, Any]]): Global state tracking dictionary.
-    """
-    offline_threshold_seconds = 30.0
+    """Publish sensor health, Irrigator health and automation state."""
+    offline_threshold_seconds = SENSOR_OFFLINE_SECONDS
 
     while True:
-        await asyncio.sleep(5)
+        await asyncio.sleep(HEALTH_PUBLISH_INTERVAL_SECONDS)
         now = time.time()
 
         for camp_id, state in list(camp_states.items()):
-            sensor_health = state.get("sensor_health", {})
             sensors_status = {}
             all_online = True
 
             for sensor_name in ("environment", "terrain", "plantation"):
-                info = sensor_health.get(sensor_name, {})
+                info = state.get("sensor_health", {}).get(sensor_name, {})
                 last_seen = info.get("last_seen", 0.0)
 
                 if last_seen > 0:
@@ -152,11 +170,58 @@ async def system_health_monitor_loop(
                     "latency_ms": info.get("latency_ms", 0.0),
                 }
 
+            actuators_status = {}
+            for actuator_name in ("irrigator",):
+                info = state.get("actuator_health", {}).get(actuator_name, {})
+                last_seen = info.get("last_seen", 0.0)
+
+                if last_seen > 0:
+                    seconds_ago = round(now - last_seen, 1)
+                    is_online = seconds_ago <= offline_threshold_seconds
+                else:
+                    seconds_ago = None
+                    is_online = False
+
+                if not is_online:
+                    all_online = False
+
+                actuators_status[actuator_name] = {
+                    "status": "ONLINE" if is_online else "OFFLINE",
+                    "last_seen_seconds_ago": seconds_ago,
+                    "latency_ms": info.get("latency_ms", 0.0),
+                    "operation": info.get("operation", "unknown"),
+                    "active_request_id": info.get("active_request_id"),
+                    "last_request_id": info.get("last_request_id"),
+                    "last_action": info.get("last_action"),
+                    "last_amount": info.get("last_amount"),
+                    "last_completed_at": info.get("last_completed_at"),
+                }
+
+            target_min = (
+                state.get("min_moisture", 18.0)
+                if state.get("occupied")
+                else EMPTY_FIELD_MIN_MOISTURE
+            )
+
             system_payload = {
                 "camp_id": camp_id,
                 "mqtt_connected": True,
                 "overall_health": "HEALTHY" if all_online else "DEGRADED",
                 "sensors": sensors_status,
+                "actuators": actuators_status,
+                "automation": {
+                    "irrigation": {
+                        "pending": state.get("irrigation_pending", False),
+                        "request_id": state.get("irrigation_request_id"),
+                        "target_min_pct": target_min,
+                        "target_after_pct": target_min + IRRIGATION_TARGET_MARGIN,
+                    },
+                    "reoxygenation": {
+                        "pending": state.get("reoxygenation_pending", False),
+                        "request_id": state.get("reoxygenation_request_id"),
+                        "threshold_pct": OXYGENATION_THRESHOLD,
+                    },
+                },
                 "updated_at": utc_now(),
             }
 
@@ -175,19 +240,27 @@ async def auto_plant_monitor_loop(
         state (Dict[str, Any]): Field state record dictionary.
     """
     while True:
-        await asyncio.sleep(4)
+        await asyncio.sleep(AUTO_SEED_CHECK_INTERVAL_SECONDS)
         if (
             state["occupied"]
             or state.get("seeding_pending", False)
-            or state.get("empty_days", 0) < 3
+            or state.get("empty_days", 0) < AUTO_SEED_EMPTY_DAYS
         ):
             continue
 
         season = state.get("season", "spring")
-        top_seeds = find_top_3_seeds(state["moisture"], season)
+        soil_type = state.get("soil_type", "Franco")
+        top_seeds = find_top_3_seeds(
+            state["moisture"],
+            season,
+            soil_type,
+        )
         target = top_seeds[0] if top_seeds else SEEDS_LST[0]
 
-        msg = f"[{camp_id.upper()}] Campo libero. Richiesta autosemina: {target['name'].capitalize()}."
+        msg = (
+            f"[{camp_id.upper()}] Campo libero ({soil_type}). "
+            f"Richiesta autosemina: {target['name'].capitalize()}."
+        )
         logger.info(msg)
         await mqtt.publish(NOTIFICATIONS_TOPIC, msg)
 
@@ -197,7 +270,7 @@ async def auto_plant_monitor_loop(
 
         logs = add_to_daily_report(
             "AUTO_PLANT",
-            f"[{camp_id}] Richiesta autosemina {target['name']}",
+            f"[{camp_id}] Richiesta autosemina {target['name']} | Soil: {soil_type}",
             state.get("date"),
             stats=state,
         )
@@ -309,14 +382,7 @@ async def handle_env_telemetry(raw_data: str, state: Dict[str, Any]) -> None:
 async def handle_terrain_telemetry(
     mqtt: aiomqtt.Client, camp_id: str, raw_data: str, state: Dict[str, Any]
 ) -> None:
-    """Process terrain sensor telemetry and request auto-irrigation when dry.
-
-    Args:
-        mqtt (aiomqtt.Client): Active MQTT connection client.
-        camp_id (str): Field camp identifier.
-        raw_data (str): Unparsed JSON string from terrain sensor.
-        state (Dict[str, Any]): Local state tracking dictionary.
-    """
+    """Process observed terrain state and request actuator operations when needed."""
     try:
         data = json.loads(raw_data)
         if not isinstance(data, dict):
@@ -326,20 +392,55 @@ async def handle_terrain_telemetry(
 
         state["moisture"] = data.get("soil_moisture", 28.0)
         state["oxygenation"] = data.get("oxygenation", 70.0)
-        state["irrigation_active"] = data.get("irrigation_active", False)
         state["soil_type"] = data.get("soil_type", state.get("soil_type", "Franco"))
         state["water_dispensed_mm"] = data.get("water_dispensed_mm", 0.0)
         state["date"] = data.get("date", state.get("date"))
 
-        target_min = state.get("min_moisture", 18.0) if state["occupied"] else 15.0
-        target_max = target_min + 5.0
+        # Confirmation comes from Terrain Sensor telemetry after it observes the
+        # completed Irrigator event. This prevents "command sent" from being
+        # treated as "physical state changed".
+        last_irrigation_id = data.get("last_irrigation_id")
+        if (
+            state.get("irrigation_pending")
+            and last_irrigation_id
+            and last_irrigation_id == state.get("irrigation_request_id")
+        ):
+            logger.info(
+                "Irrigation confirmed by Terrain Sensor | field=%s | request=%s",
+                camp_id,
+                last_irrigation_id,
+            )
+            state["irrigation_pending"] = False
+            state["irrigation_request_id"] = None
 
-        if state["moisture"] < target_min and not state["irrigation_active"]:
-            state["irrigation_active"] = True
-            needed_water = round(max(2.0, target_max - state["moisture"]), 1)
+        last_reoxygenation_id = data.get("last_reoxygenation_id")
+        if (
+            state.get("reoxygenation_pending")
+            and last_reoxygenation_id
+            and last_reoxygenation_id == state.get("reoxygenation_request_id")
+        ):
+            logger.info(
+                "Reoxygenation confirmed by Terrain Sensor | field=%s | request=%s",
+                camp_id,
+                last_reoxygenation_id,
+            )
+            state["reoxygenation_pending"] = False
+            state["reoxygenation_request_id"] = None
 
-            await request_irrigation(mqtt, camp_id, needed_water)
-            notif = f"[{camp_id.upper()}] Sotto soglia ({state['moisture']:.1f}% < {target_min}%). Richiesta irrigazione +{needed_water}%."
+        target_min = state.get("min_moisture", 18.0) if state["occupied"] else EMPTY_FIELD_MIN_MOISTURE
+        target_max = target_min + IRRIGATION_TARGET_MARGIN
+
+        if state["moisture"] < target_min and not state.get("irrigation_pending"):
+            needed_water = round(max(MIN_IRRIGATION_AMOUNT, target_max - state["moisture"]), 1)
+            request_id = await request_irrigation(mqtt, camp_id, needed_water)
+            state["irrigation_pending"] = True
+            state["irrigation_request_id"] = request_id
+
+            notif = (
+                f"[{camp_id.upper()}] Sotto soglia "
+                f"({state['moisture']:.1f}% < {target_min}%). "
+                f"Richiesta irrigazione +{needed_water}%."
+            )
             logger.info("%s", notif)
             await mqtt.publish(NOTIFICATIONS_TOPIC, notif)
 
@@ -351,10 +452,36 @@ async def handle_terrain_telemetry(
             )
             await mqtt.publish(ACTIVITY_LOGS_TOPIC, json.dumps(logs))
 
-        if state["oxygenation"] < 30.0:
-            await request_reoxygenation(mqtt, camp_id)
+        if state["oxygenation"] < OXYGENATION_THRESHOLD and not state.get("reoxygenation_pending"):
+            request_id = await request_reoxygenation(mqtt, camp_id)
+            state["reoxygenation_pending"] = True
+            state["reoxygenation_request_id"] = request_id
+
     except Exception as err:
         logger.error("Terrain telemetry error on %s: %s", camp_id, err, exc_info=True)
+
+
+async def handle_irrigator_status(
+    camp_id: str, raw_data: str, state: Dict[str, Any]
+) -> None:
+    """Track Irrigator availability and operation without changing terrain state."""
+    try:
+        data = json.loads(raw_data)
+        if not isinstance(data, dict):
+            return
+
+        record_actuator_heartbeat(state, "irrigator", data)
+        state["irrigator_operation"] = data.get("operation", "unknown")
+        state["irrigation_active"] = data.get("operation") == "irrigating"
+
+        logger.debug(
+            "Irrigator status | field=%s | operation=%s | request=%s",
+            camp_id,
+            state["irrigator_operation"],
+            data.get("active_request_id"),
+        )
+    except Exception as err:
+        logger.error("Irrigator status error on %s: %s", camp_id, err, exc_info=True)
 
 
 async def handle_dashboard_command(
@@ -395,11 +522,13 @@ async def handle_dashboard_command(
         state["empty_days"] = 0
 
     elif cmd == "irrigate":
-        target_min = state.get("min_moisture", 18.0) if state["occupied"] else 15.0
-        target_max = target_min + 5.0
-        needed_water = round(max(2.0, target_max - state["moisture"]), 1)
-        state["irrigation_active"] = True
-        await request_irrigation(mqtt, camp_id, needed_water)
+        if not state.get("irrigation_pending"):
+            target_min = state.get("min_moisture", 18.0) if state["occupied"] else EMPTY_FIELD_MIN_MOISTURE
+            target_max = target_min + IRRIGATION_TARGET_MARGIN
+            needed_water = round(max(MIN_IRRIGATION_AMOUNT, target_max - state["moisture"]), 1)
+            request_id = await request_irrigation(mqtt, camp_id, needed_water)
+            state["irrigation_pending"] = True
+            state["irrigation_request_id"] = request_id
 
     elif cmd == "clear":
         await publish_field_cleared_event(mqtt, camp_id, reason="dashboard")
@@ -421,7 +550,10 @@ async def handle_dashboard_command(
             state["empty_days"] += days
 
     elif cmd == "reoxygenate":
-        await request_reoxygenation(mqtt, camp_id)
+        if not state.get("reoxygenation_pending"):
+            request_id = await request_reoxygenation(mqtt, camp_id)
+            state["reoxygenation_pending"] = True
+            state["reoxygenation_request_id"] = request_id
 
     elif cmd in ("reset", "restart"):
         state.clear()
@@ -445,6 +577,7 @@ async def listen_telemetry(
     await mqtt.subscribe("camp/+/environment/telemetry")
     await mqtt.subscribe("camp/+/plantation/status")
     await mqtt.subscribe("camp/+/terrain/telemetry")
+    await mqtt.subscribe("camp/+/irrigator/status")
     await mqtt.subscribe("camp/+/camp_manager/cmd/#")
 
     async for message in mqtt.messages:
@@ -484,6 +617,8 @@ async def listen_telemetry(
                 await handle_env_telemetry(raw_data, state)
             elif "plantation" in topic:
                 await process_plantation_status(mqtt, camp_id, message.payload, state)
+            elif "irrigator/status" in topic:
+                await handle_irrigator_status(camp_id, raw_data, state)
             elif "terrain" in topic:
                 await handle_terrain_telemetry(mqtt, camp_id, raw_data, state)
             elif "camp_manager/cmd/" in topic:
@@ -504,7 +639,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
     Raises:
         Exception: Re-raises any unhandled task exception to prompt connection retry.
     """
-    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
@@ -514,7 +649,7 @@ async def worker(camp_states: Dict[str, Dict[str, Any]]) -> None:
         username=MQTT_USER,
         password=MQTT_PASS,
         tls_context=ssl_context,
-        identifier="camp-manager-app",
+        identifier=MQTT_CLIENT_ID,
     )
     async with client:
         logger.info("Multi-camp service online.")
@@ -553,8 +688,8 @@ async def main() -> None:
         try:
             await worker(camp_states)
         except Exception as error:
-            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
-            await asyncio.sleep(5)
+            logger.error("Connection dropped (%s). Reconnecting in %ss...", error, MQTT_RECONNECT_SECONDS)
+            await asyncio.sleep(MQTT_RECONNECT_SECONDS)
 
 
 if __name__ == "__main__":

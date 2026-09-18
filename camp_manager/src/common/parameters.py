@@ -1,24 +1,26 @@
-import os
+from common.config_loader import env_list, env_value
 
-# Credenziali MQTT
-MQTT_HOST = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
-MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 8883))
-MQTT_USER = os.getenv("MQTT_BROKER_USER", "farm_admin")
-MQTT_PASS = os.getenv("MQTT_BROKER_PASS", "secure_farm")
+MQTT_HOST = env_value("MQTT_BROKER_HOST", "mqtt.host", "mqtt-broker", str)
+MQTT_PORT = env_value("MQTT_BROKER_PORT", "mqtt.port", 8883, int)
+MQTT_USER = env_value("MQTT_BROKER_USER", "mqtt.username", "farm_admin", str)
+MQTT_PASS = env_value("MQTT_BROKER_PASS", "mqtt.password", "secure_farm", str)
+MQTT_CA_CERT = env_value("MQTT_CA_CERT", "mqtt.ca_cert", "/app/certs/ca.crt", str)
+MQTT_RECONNECT_SECONDS = env_value("MQTT_RECONNECT_SECONDS", "mqtt.reconnect_seconds", 5, float)
+MQTT_CLIENT_ID = env_value("MQTT_CLIENT_ID", "camp_manager.mqtt_client_id", "camp-manager-app", str)
+CONFIGURED_CAMPS = env_list("CAMP_IDS", "farm.fields", ["field_a", "field_b", "field_c"])
 
-# Topic Telemetria (Sensori -> Manager)
-TELEMETRY_ENV_TOPIC = "environment/telemetry"
-TELEMETRY_TERRAIN_TOPIC = "camp/terrain_telemetry"
-PLANTATION_STATUS_TOPIC = "plantation/status"
+SENSOR_OFFLINE_SECONDS = env_value("SENSOR_OFFLINE_SECONDS", "health.offline_after_seconds", 30.0, float)
+HEALTH_PUBLISH_INTERVAL_SECONDS = env_value("HEALTH_PUBLISH_INTERVAL_SECONDS", "health.publish_interval_seconds", 5, float)
+MANAGER_HEARTBEAT_INTERVAL_SECONDS = env_value("MANAGER_HEARTBEAT_INTERVAL_SECONDS", "health.manager_heartbeat_interval_seconds", 5, float)
+AUTO_SEED_EMPTY_DAYS = env_value("AUTO_SEED_EMPTY_DAYS", "automation.planting.empty_days_before_auto_seed", 3, int)
+AUTO_SEED_CHECK_INTERVAL_SECONDS = env_value("AUTO_SEED_CHECK_INTERVAL_SECONDS", "automation.planting.check_interval_seconds", 4, float)
+EMPTY_FIELD_MIN_MOISTURE = env_value("EMPTY_FIELD_MIN_MOISTURE", "automation.irrigation.empty_field_min_moisture", 15.0, float)
+IRRIGATION_TARGET_MARGIN = env_value("IRRIGATION_TARGET_MARGIN", "automation.irrigation.target_margin", 5.0, float)
+MIN_IRRIGATION_AMOUNT = env_value("MIN_IRRIGATION_AMOUNT", "automation.irrigation.minimum_amount_pct", 2.0, float)
+OXYGENATION_THRESHOLD = env_value("OXYGENATION_THRESHOLD", "automation.oxygenation.minimum_percentage", 30.0, float)
 
-# Topic Dashboard & Notifiche (Manager -> Node-RED)
 NOTIFICATIONS_TOPIC = "camp/notifications"
 ACTIVITY_LOGS_TOPIC = "camp/activity_logs"
 HARVEST_DEPOSIT_TOPIC = "camp/harvest_deposit"
 TOP_SEEDS_TOPIC = "camp/top_seeds"
 CAMP_MANAGER_STATUS_TOPIC = "camp/manager/status"
-
-# Topic Comandi (Manager -> Sensori)
-CMD_ENV_TOPIC = "environment/cmd/#"
-CMD_TERRAIN_TOPIC = "terrain/cmd/#"
-CMD_PLANTATION_TOPIC = "plantation/cmd/#"

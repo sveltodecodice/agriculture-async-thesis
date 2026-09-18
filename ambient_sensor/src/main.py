@@ -4,15 +4,23 @@ import asyncio
 import logging
 import ssl
 from typing import Dict
+from datetime import datetime
 
 import aiomqtt
 from common.parameters import (
     CMD_ENV_TOPIC,
     FIELD_NAME,
+    MQTT_CA_CERT,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    MQTT_RECONNECT_SECONDS,
+    ENV_PUBLISH_INTERVAL_SECONDS,
+    SIMULATION_START_DATE,
+    START_DAY,
+    START_MONTH,
+    START_YEAR,
     TELEMETRY_ENV_TOPIC,
 )
 from core.manager import SensorManager
@@ -39,7 +47,7 @@ async def publish_loop(
             await publish_data(client, topic, state)
             manager.update_environment()
 
-        await asyncio.sleep(10)
+        await asyncio.sleep(ENV_PUBLISH_INTERVAL_SECONDS)
 
 
 async def listen_mqtt_commands(
@@ -68,7 +76,7 @@ async def listen_mqtt_commands(
             continue
 
         if camp_id not in managers:
-            managers[camp_id] = SensorManager(day=1, month=1, year=2026)
+            managers[camp_id] = SensorManager(day=START_DAY, month=START_MONTH, year=START_YEAR)
 
         manager = managers[camp_id]
 
@@ -96,10 +104,11 @@ async def listen_mqtt_commands(
             )
 
         elif topic.endswith("/reset"):
-            manager.reset(day=1, month=1, year=2026)
+            manager.reset(day=START_DAY, month=START_MONTH, year=START_YEAR)
             logger.info(
-                "[%s] Environment state reset to 01/01/2026.",
+                "[%s] Environment state reset to %s.",
                 camp_id.upper(),
+                SIMULATION_START_DATE,
             )
             telemetry_topic = TELEMETRY_ENV_TOPIC.format(camp_id=camp_id)
             await publish_data(client, telemetry_topic, manager.get_state())
@@ -114,7 +123,7 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
     Raises:
         Exception: Propagates task exceptions to trigger connection recovery.
     """
-    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
@@ -149,15 +158,15 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
 
 async def main() -> None:
     """Service entry point initializing default camp state and reconnection loop."""
-    managers = {FIELD_NAME: SensorManager(day=1, month=1, year=2026)}
+    managers = {FIELD_NAME: SensorManager(day=START_DAY, month=START_MONTH, year=START_YEAR)}
     logger.info("Starting Ambient Sensor service")
 
     while True:
         try:
             await worker(managers)
         except Exception as error:
-            logger.error("Connection dropped (%s). Reconnecting in 5s...", error)
-            await asyncio.sleep(5)
+            logger.error("Connection dropped (%s). Reconnecting in %ss...", error, MQTT_RECONNECT_SECONDS)
+            await asyncio.sleep(MQTT_RECONNECT_SECONDS)
 
 
 if __name__ == "__main__":

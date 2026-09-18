@@ -11,10 +11,12 @@ from common.parameters import (
     HARVEST_CMD_TOPIC,
     HARVEST_DEPOSIT_TOPIC,
     HARVEST_EVENT_TOPIC,
+    MQTT_CA_CERT,
     MQTT_HOST,
     MQTT_PASS,
     MQTT_PORT,
     MQTT_USER,
+    MQTT_RECONNECT_SECONDS,
 )
 from core.harvester import start_harvesting
 from core.harvester_deposit import save_harvest
@@ -78,7 +80,7 @@ async def worker() -> None:
     Raises:
         Exception: Re-raises connection exceptions to trigger reconnection in main loop.
     """
-    ssl_context = ssl.create_default_context(cafile="/app/certs/ca.crt")
+    ssl_context = ssl.create_default_context(cafile=MQTT_CA_CERT)
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
 
@@ -108,12 +110,13 @@ async def main() -> None:
             await worker()
         except Exception as error:
             logger.error(
-                "Harvester connection dropped | field=%s | error=%s | reconnecting in 5s",
+                "Harvester connection dropped | field=%s | error=%s | reconnecting in %ss",
                 FIELD_NAME,
                 error,
+                MQTT_RECONNECT_SECONDS,
                 exc_info=True,
             )
-            await asyncio.sleep(5)
+            await asyncio.sleep(MQTT_RECONNECT_SECONDS)
 
 
 if __name__ == "__main__":

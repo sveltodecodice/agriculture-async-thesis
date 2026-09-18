@@ -1,12 +1,15 @@
-"""Application entry point.
+"""Smart Farm dashboard entry point."""
+import logging
 
-Start MQTT first, then expose the small HTTP/SSE server.
-"""
-from mqtt_service import MQTT
 from http_server import run_http_server
+from mqtt_service import MQTT
 
 
 def main() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
     MQTT.start()
     try:
         run_http_server()

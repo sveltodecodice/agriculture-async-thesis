@@ -1,37 +1,52 @@
 from common.seeds import SEEDS_LST
 
 
-def evaluate_season_ok(seed: dict, season: str) -> bool:
-    """Check if a crop is suitable for planting in the given season.
+def normalize_soil(value: str | None) -> str:
+    """Normalize soil labels used by sensors and seed metadata."""
+    return str(value or "").strip().lower().replace("_", "-").replace(" ", "-")
 
-    Args:
-        seed (dict): Dictionary containing seed metadata and supported seasons.
-        season (str): Name of the current season (e.g., "spring", "estate").
 
-    Returns:
-        bool: True if the crop can be grown in the target season, False otherwise.
-    """
+def evaluate_season_ok(seed: dict, season: str | None) -> bool:
+    """Return True when the crop supports the current season."""
     if not season:
         return False
-    return season.lower() in [s.lower() for s in seed.get("seasons", [])]
+    return str(season).lower() in [
+        str(item).lower() for item in seed.get("seasons", [])
+    ]
 
 
-def find_top_3_seeds(moisture: float, season: str) -> list[dict]:
-    """Find the top 3 best matching seeds for the current soil moisture and season.
+def evaluate_soil_ok(seed: dict, soil_type: str | None) -> bool:
+    """Return True when the field matches the crop's ideal soil."""
+    if not soil_type:
+        return False
+    return normalize_soil(seed.get("ideal_soil")) == normalize_soil(soil_type)
 
-    The algorithm first filters crops that match the current season. Then it sorts
-    them based on how close their minimum required moisture is to the actual soil moisture.
 
-    Args:
-        moisture (float): Current soil moisture percentage.
-        season (str): Current active season.
+def find_top_3_seeds(
+    moisture: float,
+    season: str | None,
+    soil_type: str | None = None,
+) -> list[dict]:
+    """Rank crops using season, soil compatibility and moisture.
 
-    Returns:
-        list[dict]: A list containing up to 3 best-matching seed dictionaries.
+    Priority is intentionally simple and deterministic:
+
+    1. crops compatible with the current season;
+    2. crops whose ``ideal_soil`` matches the observed field soil;
+    3. smallest distance between current moisture and crop minimum;
+    4. crop name as a stable tie-breaker.
+
+    Manual planting remains possible even when soil does not match; this
+    matcher is used for automatic/recommended crop selection only.
     """
-    seasonal_matches = [s for s in SEEDS_LST if evaluate_season_ok(s, season)]
-    candidate_list = seasonal_matches if len(seasonal_matches) >= 3 else SEEDS_LST
+    current_moisture = float(moisture)
 
     return sorted(
-        candidate_list, key=lambda s: abs(s.get("min_soilmoisture", 20.0) - moisture)
+        SEEDS_LST,
+        key=lambda seed: (
+            0 if evaluate_season_ok(seed, season) else 1,
+            0 if evaluate_soil_ok(seed, soil_type) else 1,
+            abs(float(seed.get("min_soilmoisture", 20.0)) - current_moisture),
+            str(seed.get("name", "")),
+        ),
     )[:3]

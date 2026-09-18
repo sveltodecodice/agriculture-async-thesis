@@ -1,13 +1,12 @@
-"""Environment variables and MQTT topic parameters for seeder service."""
+from common.config_loader import env_value
 
-import os
-
-MQTT_HOST = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
-MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 8883))
-MQTT_USER = os.getenv("MQTT_BROKER_USER", "farm_admin")
-MQTT_PASS = os.getenv("MQTT_BROKER_PASS", "secure_farm")
-
-FIELD_NAME = os.getenv("FIELD_NAME", "test")
+MQTT_HOST = env_value("MQTT_BROKER_HOST", "mqtt.host", "mqtt-broker", str)
+MQTT_PORT = env_value("MQTT_BROKER_PORT", "mqtt.port", 8883, int)
+MQTT_USER = env_value("MQTT_BROKER_USER", "mqtt.username", "farm_admin", str)
+MQTT_PASS = env_value("MQTT_BROKER_PASS", "mqtt.password", "secure_farm", str)
+MQTT_CA_CERT = env_value("MQTT_CA_CERT", "mqtt.ca_cert", "/app/certs/ca.crt", str)
+MQTT_RECONNECT_SECONDS = env_value("MQTT_RECONNECT_SECONDS", "mqtt.reconnect_seconds", 5, float)
+FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 SEEDER_CMD_PLANT_TOPIC = f"camp/{FIELD_NAME}/seeder/cmd/plant"
 PLANTATION_EVENT_SEEDED_TOPIC = f"camp/{FIELD_NAME}/plantation/event/seeded"

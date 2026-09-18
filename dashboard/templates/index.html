@@ -1,62 +1,36 @@
 <!doctype html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#183b2d" />
-  <title>Smart Farm · Control Center</title>
-  <link rel="stylesheet" href="/static/css/tokens.css" />
-  <link rel="stylesheet" href="/static/css/layout.css" />
-  <link rel="stylesheet" href="/static/css/components.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173c2d">
+  <title>Smart Farm · Centro di controllo</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  <div class="shell">
-    <aside class="sidebar" id="sidebar" aria-label="Navigazione principale">
-      <div class="brand">
-        <div class="brand-mark">SF</div>
-        <div class="brand-copy">
-          <strong>Smart Farm</strong>
-          <span>Control Center</span>
-        </div>
-      </div>
-
-      <nav class="main-nav" id="mainNav">
-        <button class="nav-link" data-route="home">
-          <span class="nav-symbol">⌂</span>
-          <span>Panoramica</span>
-        </button>
-        <button class="nav-link" data-route="diagnostics">
-          <span class="nav-symbol">●</span>
-          <span>Diagnostica</span>
-        </button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">SF</span><div><strong>Smart Farm</strong><small>Centro di controllo</small></div></div>
+      <nav class="main-nav">
+        <button data-route="home">⌂ <span>Panoramica</span></button>
+        <button data-route="activity">≡ <span>Attività</span></button>
+        <button data-route="diagnostics">● <span>Diagnostica</span></button>
       </nav>
-
-      <div class="sidebar-label">Campi</div>
-      <div class="field-nav" id="fieldNav"></div>
-      <div class="sidebar-system" id="sidebarSystem"></div>
+      <div class="nav-title">Campi</div>
+      <div id="fieldNav" class="field-nav"></div>
     </aside>
+    <button class="backdrop" id="backdrop" aria-label="Chiudi menu"></button>
 
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
-
-    <main class="main-area">
+    <main class="main">
       <header class="topbar">
-        <div class="topbar-title">
-          <button class="menu-button" id="menuButton" aria-label="Apri menu">
-            <span class="menu-icon">☰</span><span class="menu-label">Menu</span>
-          </button>
-          <div>
-            <span class="page-kicker" id="pageKicker">Smart Farm</span>
-            <h1 id="pageTitle">Panoramica azienda</h1>
-          </div>
-        </div>
-        <div class="topbar-tools" id="topbarTools"></div>
+        <button id="menuButton" class="menu-button">☰ Menu</button>
+        <div><small id="pageKicker">Smart Farm</small><h1 id="pageTitle">Panoramica azienda</h1></div>
+        <div id="topbarTools" class="topbar-tools"></div>
       </header>
-
-      <div class="page" id="page"></div>
+      <section id="page"></section>
     </main>
   </div>
-
-  <div class="toast" id="toast"></div>
-  <script type="module" src="/static/js/app.js"></script>
+  <div id="toast" class="toast"></div>
+  <script type="module" src="/static/app.js"></script>
 </body>
 </html>

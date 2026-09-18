@@ -1,0 +1,765 @@
+farm:
+  name: Smart Farm
+  fields:
+  - field_a
+  - field_b
+  - field_c
+mqtt:
+  host: mqtt-broker
+  port: 8883
+  username: farm_admin
+  password: secure_farm
+  ca_cert: /app/certs/ca.crt
+  keepalive: 60
+  reconnect_seconds: 5
+simulation:
+  start_date: 01/01/2026
+  environment_publish_interval_seconds: 10
+  plantation_publish_interval_seconds: 3
+  soil_layout:
+    mode: random
+    seed: 2026
+    available_types:
+    - Franco
+    - Sabbioso
+    - Franco-Sabbioso
+    - Franco-Argilloso
+    - Argilloso
+fields:
+  field_a:
+    terrain:
+      soil_type: random
+      initial_moisture: 28.0
+      initial_oxygenation: 70.0
+  field_b:
+    terrain:
+      soil_type: random
+      initial_moisture: 28.0
+      initial_oxygenation: 70.0
+  field_c:
+    terrain:
+      soil_type: random
+      initial_moisture: 28.0
+      initial_oxygenation: 70.0
+terrain:
+  soil_factors:
+    sandy: 1.1
+    sabbioso: 1.1
+    loam: 1.0
+    franco: 1.0
+    sandy-loam: 1.05
+    franco-sabbioso: 1.05
+    franco sabbioso: 1.05
+    clay-loam: 0.95
+    franco-argilloso: 0.95
+    franco argilloso: 0.95
+    clay: 0.9
+    argilloso: 0.9
+environment:
+  temperature_ranges:
+    autumn:
+    - 16
+    - 22
+    winter:
+    - 12
+    - 16
+    spring:
+    - 20
+    - 25
+    summer:
+    - 28
+    - 35
+  weather_probability:
+    winter:
+      rain: 0.3
+      cloudy: 0.4
+      sun: 0.3
+    spring:
+      rain: 0.2
+      cloudy: 0.3
+      sun: 0.5
+    summer:
+      rain: 0.1
+      cloudy: 0.2
+      sun: 0.7
+    autumn:
+      rain: 0.3
+      cloudy: 0.4
+      sun: 0.3
+  radiation_ranges:
+    summer:
+    - 600.0
+    - 850.0
+    spring:
+    - 450.0
+    - 650.0
+    autumn:
+    - 300.0
+    - 500.0
+    winter:
+    - 150.0
+    - 300.0
+automation:
+  irrigation:
+    empty_field_min_moisture: 15.0
+    target_margin: 5.0
+    minimum_amount_pct: 2.0
+  oxygenation:
+    minimum_percentage: 30.0
+  planting:
+    empty_days_before_auto_seed: 3
+    check_interval_seconds: 4
+  harvesting:
+    automatic: true
+health:
+  offline_after_seconds: 30.0
+  publish_interval_seconds: 5
+  manager_heartbeat_interval_seconds: 5
+  manager_heartbeat_max_age_seconds: 15
+irrigator:
+  status_interval_seconds: 5
+  action_delay_seconds: 0.5
+  reoxygenation_target: 100.0
+dashboard:
+  port: 8501
+  polling_interval_seconds: 2
+  mqtt_client_id: smart-farm-dashboard
+crops:
+- key: tomato
+  name_it: Pomodoro
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 18
+  max_temperature: 27
+  ideal_soil: Franco
+  days: 60
+  harvest_time:
+  - 60
+  - 90
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: zucchini
+  name_it: Zucchine
+  min_soilmoisture: 0.26
+  max_soilmoisture: 0.31
+  min_temperature: 18
+  max_temperature: 28
+  ideal_soil: Franco
+  days: 50
+  harvest_time:
+  - 45
+  - 60
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: lettuce
+  name_it: Insalata
+  min_soilmoisture: 0.28
+  max_soilmoisture: 0.33
+  min_temperature: 10
+  max_temperature: 20
+  ideal_soil: Sabbioso
+  days: 30
+  harvest_time:
+  - 40
+  - 60
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: carrot
+  name_it: Carote
+  min_soilmoisture: 0.24
+  max_soilmoisture: 0.29
+  min_temperature: 15
+  max_temperature: 22
+  ideal_soil: Franco-Sabbioso
+  days: 70
+  harvest_time:
+  - 70
+  - 100
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: bean
+  name_it: Fagioli
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 18
+  max_temperature: 26
+  ideal_soil: Franco
+  days: 60
+  harvest_time:
+  - 50
+  - 70
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: pea
+  name_it: Piselli
+  min_soilmoisture: 0.24
+  max_soilmoisture: 0.29
+  min_temperature: 10
+  max_temperature: 18
+  ideal_soil: Franco-Sabbioso
+  days: 65
+  harvest_time:
+  - 60
+  - 70
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - winter
+  - primavera
+  - autunno
+  - inverno
+  selectable: true
+- key: spinach
+  name_it: Spinaci
+  min_soilmoisture: 0.3
+  max_soilmoisture: 0.35
+  min_temperature: 8
+  max_temperature: 18
+  ideal_soil: Franco
+  days: 40
+  harvest_time:
+  - 35
+  - 50
+  seasons:
+  - autumn
+  - fall
+  - winter
+  - spring
+  - autunno
+  - inverno
+  - primavera
+  selectable: true
+- key: eggplant
+  name_it: Melanzane
+  min_soilmoisture: 0.26
+  max_soilmoisture: 0.31
+  min_temperature: 20
+  max_temperature: 30
+  ideal_soil: Franco-Argilloso
+  days: 80
+  harvest_time:
+  - 70
+  - 90
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: bell_pepper
+  name_it: Peperoni
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 20
+  max_temperature: 30
+  ideal_soil: Franco-Argilloso
+  days: 75
+  harvest_time:
+  - 75
+  - 95
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: cucumber
+  name_it: Cetrioli
+  min_soilmoisture: 0.28
+  max_soilmoisture: 0.33
+  min_temperature: 18
+  max_temperature: 28
+  ideal_soil: Franco
+  days: 55
+  harvest_time:
+  - 45
+  - 60
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: corn
+  name_it: Mais
+  min_soilmoisture: 0.22
+  max_soilmoisture: 0.27
+  min_temperature: 18
+  max_temperature: 30
+  ideal_soil: Franco
+  days: 75
+  harvest_time:
+  - 80
+  - 100
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: wheat
+  name_it: Grano
+  min_soilmoisture: 0.18
+  max_soilmoisture: 0.23
+  min_temperature: 10
+  max_temperature: 24
+  ideal_soil: Argilloso
+  days: 90
+  harvest_time:
+  - 180
+  - 240
+  seasons:
+  - autumn
+  - fall
+  - winter
+  - autunno
+  - inverno
+  selectable: true
+- key: basil
+  name_it: Basilico
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 18
+  max_temperature: 28
+  ideal_soil: Franco-Sabbioso
+  days: 40
+  harvest_time:
+  - 30
+  - 60
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: pumpkin
+  name_it: Zucca
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 18
+  max_temperature: 27
+  ideal_soil: Franco
+  days: 100
+  harvest_time:
+  - 90
+  - 120
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: cabbage
+  name_it: Cavolo
+  min_soilmoisture: 0.27
+  max_soilmoisture: 0.32
+  min_temperature: 10
+  max_temperature: 20
+  ideal_soil: Franco-Argilloso
+  days: 85
+  harvest_time:
+  - 70
+  - 100
+  seasons:
+  - autumn
+  - fall
+  - winter
+  - autunno
+  - inverno
+  selectable: true
+- key: garlic
+  name_it: Aglio
+  min_soilmoisture: 0.18
+  max_soilmoisture: 0.23
+  min_temperature: 5
+  max_temperature: 18
+  ideal_soil: Sabbioso
+  days: 180
+  harvest_time:
+  - 180
+  - 240
+  seasons:
+  - autumn
+  - fall
+  - winter
+  - autunno
+  - inverno
+  selectable: true
+- key: onion
+  name_it: Cipolla
+  min_soilmoisture: 0.2
+  max_soilmoisture: 0.25
+  min_temperature: 13
+  max_temperature: 24
+  ideal_soil: Franco-Sabbioso
+  days: 120
+  harvest_time:
+  - 100
+  - 150
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: strawberry
+  name_it: Fragole
+  min_soilmoisture: 0.28
+  max_soilmoisture: 0.33
+  min_temperature: 15
+  max_temperature: 25
+  ideal_soil: Sabbioso
+  days: 90
+  harvest_time:
+  - 90
+  - 120
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: sunflower
+  name_it: Girasole
+  min_soilmoisture: 0.18
+  max_soilmoisture: 0.23
+  min_temperature: 18
+  max_temperature: 28
+  ideal_soil: Argilloso
+  days: 90
+  harvest_time:
+  - 80
+  - 100
+  seasons:
+  - spring
+  - summer
+  - primavera
+  - estate
+  selectable: true
+- key: arugula
+  name_it: Rucola
+  min_soilmoisture: 0.25
+  max_soilmoisture: 0.3
+  min_temperature: 10
+  max_temperature: 22
+  ideal_soil: Franco-Sabbioso
+  days: 30
+  harvest_time:
+  - 25
+  - 40
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: olive
+  name_it: Oliva
+  min_soilmoisture: 0.35
+  max_soilmoisture: 0.4
+  min_temperature: 12
+  max_temperature: 32
+  ideal_soil: Franco-sabbioso
+  days: 60
+  harvest_time:
+  - 180
+  - 210
+  seasons:
+  - spring
+  - autumn
+  - fall
+  - primavera
+  - autunno
+  selectable: true
+- key: bell pepper
+  name_it: Bell pepper
+  min_soilmoisture: 0.55
+  max_soilmoisture: 0.75
+  min_temperature: 20
+  max_temperature: 30
+  ideal_soil: null
+  days: 60
+  harvest_time:
+  - 60
+  - 90
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: grape
+  name_it: Grape
+  min_soilmoisture: 0.35
+  max_soilmoisture: 0.55
+  min_temperature: 15
+  max_temperature: 30
+  ideal_soil: null
+  days: 120
+  harvest_time:
+  - 120
+  - 150
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: potato
+  name_it: Potato
+  min_soilmoisture: 0.55
+  max_soilmoisture: 0.75
+  min_temperature: 12
+  max_temperature: 22
+  ideal_soil: null
+  days: 90
+  harvest_time:
+  - 90
+  - 110
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: apple
+  name_it: Apple
+  min_soilmoisture: 0.45
+  max_soilmoisture: 0.65
+  min_temperature: 10
+  max_temperature: 25
+  ideal_soil: null
+  days: 150
+  harvest_time:
+  - 150
+  - 180
+  seasons:
+  - spring
+  - autumn
+  selectable: false
+- key: peach
+  name_it: Peach
+  min_soilmoisture: 0.45
+  max_soilmoisture: 0.65
+  min_temperature: 15
+  max_temperature: 28
+  ideal_soil: null
+  days: 120
+  harvest_time:
+  - 120
+  - 150
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: citrus
+  name_it: Citrus
+  min_soilmoisture: 0.4
+  max_soilmoisture: 0.6
+  min_temperature: 13
+  max_temperature: 30
+  ideal_soil: null
+  days: 180
+  harvest_time:
+  - 180
+  - 210
+  seasons:
+  - spring
+  - autumn
+  selectable: false
+- key: soy
+  name_it: Soy
+  min_soilmoisture: 0.5
+  max_soilmoisture: 0.7
+  min_temperature: 18
+  max_temperature: 28
+  ideal_soil: null
+  days: 100
+  harvest_time:
+  - 100
+  - 130
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: melon
+  name_it: Melon
+  min_soilmoisture: 0.6
+  max_soilmoisture: 0.8
+  min_temperature: 20
+  max_temperature: 32
+  ideal_soil: null
+  days: 70
+  harvest_time:
+  - 70
+  - 85
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: watermelon
+  name_it: Watermelon
+  min_soilmoisture: 0.6
+  max_soilmoisture: 0.8
+  min_temperature: 22
+  max_temperature: 34
+  ideal_soil: null
+  days: 75
+  harvest_time:
+  - 75
+  - 90
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: broccoli
+  name_it: Broccoli
+  min_soilmoisture: 0.55
+  max_soilmoisture: 0.75
+  min_temperature: 10
+  max_temperature: 20
+  ideal_soil: null
+  days: 60
+  harvest_time:
+  - 60
+  - 75
+  seasons:
+  - autumn
+  - winter
+  selectable: false
+- key: cauliflower
+  name_it: Cauliflower
+  min_soilmoisture: 0.55
+  max_soilmoisture: 0.75
+  min_temperature: 10
+  max_temperature: 20
+  ideal_soil: null
+  days: 70
+  harvest_time:
+  - 70
+  - 90
+  seasons:
+  - autumn
+  - winter
+  selectable: false
+- key: rice
+  name_it: Rice
+  min_soilmoisture: 0.7
+  max_soilmoisture: 0.9
+  min_temperature: 20
+  max_temperature: 32
+  ideal_soil: null
+  days: 130
+  harvest_time:
+  - 130
+  - 160
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: barley
+  name_it: Barley
+  min_soilmoisture: 0.4
+  max_soilmoisture: 0.6
+  min_temperature: 10
+  max_temperature: 22
+  ideal_soil: null
+  days: 120
+  harvest_time:
+  - 120
+  - 150
+  seasons:
+  - autumn
+  - winter
+  selectable: false
+- key: oats
+  name_it: Oats
+  min_soilmoisture: 0.4
+  max_soilmoisture: 0.6
+  min_temperature: 10
+  max_temperature: 22
+  ideal_soil: null
+  days: 120
+  harvest_time:
+  - 120
+  - 150
+  seasons:
+  - autumn
+  - winter
+  selectable: false
+- key: almond
+  name_it: Almond
+  min_soilmoisture: 0.35
+  max_soilmoisture: 0.55
+  min_temperature: 15
+  max_temperature: 32
+  ideal_soil: null
+  days: 180
+  harvest_time:
+  - 180
+  - 210
+  seasons:
+  - spring
+  - summer
+  selectable: false
+- key: walnut
+  name_it: Walnut
+  min_soilmoisture: 0.4
+  max_soilmoisture: 0.6
+  min_temperature: 12
+  max_temperature: 28
+  ideal_soil: null
+  days: 180
+  harvest_time:
+  - 180
+  - 210
+  seasons:
+  - spring
+  - autumn
+  selectable: false
+- key: alfalfa
+  name_it: Alfalfa
+  min_soilmoisture: 0.45
+  max_soilmoisture: 0.65
+  min_temperature: 12
+  max_temperature: 26
+  ideal_soil: null
+  days: 45
+  harvest_time:
+  - 45
+  - 60
+  seasons:
+  - spring
+  - summer
+  selectable: false
+defaults:
+  terrain:
+    initial_moisture: 28.0
+    initial_oxygenation: 70.0
+    soil_type: Franco
+  environment:
+    temperature: 20.0
+    weather: Sunny
+    season: winter
+camp_manager:
+  mqtt_client_id: camp-manager-app

@@ -1,16 +1,18 @@
-"""Environment variables and operational parameters for irrigator MQTT communication."""
+from common.config_loader import env_value
 
-import os
-
-MQTT_HOST = os.getenv("MQTT_BROKER_HOST", "mqtt-broker")
-MQTT_PORT = int(os.getenv("MQTT_BROKER_PORT", 8883))
-MQTT_USER = os.getenv("MQTT_BROKER_USER", "farm_admin")
-MQTT_PASS = os.getenv("MQTT_BROKER_PASS", "secure_farm")
-
-FIELD_NAME = os.getenv("FIELD_NAME", "test")
+MQTT_HOST = env_value("MQTT_BROKER_HOST", "mqtt.host", "mqtt-broker", str)
+MQTT_PORT = env_value("MQTT_BROKER_PORT", "mqtt.port", 8883, int)
+MQTT_USER = env_value("MQTT_BROKER_USER", "mqtt.username", "farm_admin", str)
+MQTT_PASS = env_value("MQTT_BROKER_PASS", "mqtt.password", "secure_farm", str)
+MQTT_CA_CERT = env_value("MQTT_CA_CERT", "mqtt.ca_cert", "/app/certs/ca.crt", str)
+MQTT_RECONNECT_SECONDS = env_value("MQTT_RECONNECT_SECONDS", "mqtt.reconnect_seconds", 5, float)
+FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 IRRIGATE_CMD_TOPIC = f"camp/{FIELD_NAME}/irrigator/cmd/irrigate"
 REOXYGENATE_CMD_TOPIC = f"camp/{FIELD_NAME}/irrigator/cmd/reoxygenate"
-
 IRRIGATED_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/irrigated"
 REOXYGENATED_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/reoxygenated"
+IRRIGATOR_STATUS_TOPIC = f"camp/{FIELD_NAME}/irrigator/status"
+STATUS_INTERVAL_SECONDS = env_value("IRRIGATOR_STATUS_INTERVAL", "irrigator.status_interval_seconds", 5, float)
+ACTION_DELAY_SECONDS = env_value("IRRIGATOR_ACTION_DELAY", "irrigator.action_delay_seconds", 0.5, float)
+REOXYGENATION_TARGET = env_value("REOXYGENATION_TARGET", "irrigator.reoxygenation_target", 100.0, float)

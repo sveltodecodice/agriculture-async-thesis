@@ -1,43 +1,39 @@
 from pathlib import Path
 
+from common.config_loader import config_value
+
 # Minimum soil moisture percentage required by crop type
-SEED_TARGETS = {
-    "wheat": 18.0,
-    "grano": 18.0,
-    "corn": 22.0,
-    "mais": 22.0,
-    "potato": 25.0,
-    "patate": 25.0,
-    "carrot": 24.0,
-    "carote": 24.0,
-    "tomato": 25.0,
-    "pomodoro": 25.0,
-    "zucchini": 26.0,
-    "zucchine": 26.0,
-    "lettuce": 28.0,
-    "insalata": 28.0,
-    "spinach": 30.0,
-    "spinaci": 30.0,
-    "sunflower": 18.0,
-    "girasole": 18.0,
-}
+_CROPS = config_value("crops", [])
+SEED_TARGETS = {}
+for crop in _CROPS:
+    if not crop.get("selectable", True):
+        continue
+    target = round(float(crop.get("min_soilmoisture", 0.18)) * 100, 1)
+    SEED_TARGETS[str(crop.get("key", "")).lower()] = target
+    if crop.get("name_it"):
+        SEED_TARGETS[str(crop["name_it"]).lower()] = target
 
 # Initial state template for monitoring field conditions
 DEFAULT_STATE = {
     "occupied": False,
     "empty_days": 0,
-    "moisture": 28.0,
-    "oxygenation": 70.0,
-    "temperature": 20,
-    "weather": "Sunny",
+    "moisture": float(config_value("defaults.terrain.initial_moisture", 28.0)),
+    "oxygenation": float(config_value("defaults.terrain.initial_oxygenation", 70.0)),
+    "temperature": float(config_value("defaults.environment.temperature", 20.0)),
+    "weather": str(config_value("defaults.environment.weather", "Sunny")),
     "irrigation_active": False,
-    "season": "winter",
-    "date": "01/01/2026",
+    "irrigation_pending": False,
+    "irrigation_request_id": None,
+    "reoxygenation_pending": False,
+    "reoxygenation_request_id": None,
+    "irrigator_operation": "unknown",
+    "season": str(config_value("defaults.environment.season", "winter")),
+    "date": str(config_value("simulation.start_date", "01/01/2026")),
     "seed_name": None,
     "min_moisture": 18.0,
     "time_left": 0,
     "harvest_pending": False,
-    "soil_type": "Franco",
+    "soil_type": "Franco",  # observed value will come from Terrain Sensor telemetry
     "water_dispensed_mm": 0.0,
     "growth_percentage": 0.0,
     "growth_stage": "EMPTY",

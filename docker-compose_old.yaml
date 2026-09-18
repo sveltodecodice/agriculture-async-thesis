@@ -1,0 +1,255 @@
+# Introdotte le anchor per ridurre duplicazione del codice e semplificare aggiunta di servizi
+
+x-common-env: &common-env
+  MQTT_BROKER_HOST: mqtt-broker
+  MQTT_BROKER_PORT: 8883
+  MQTT_BROKER_USER: farm_admin
+  MQTT_BROKER_PASS: secure_farm
+  SOIL_LAYOUT_SEED: ${SOIL_LAYOUT_SEED:-2026}
+
+x-common-volumes: &common-volumes
+  - ./certs:/app/certs:ro
+
+x-base-service: &base-service
+  restart: unless-stopped
+  depends_on:
+    mqtt-broker:
+      condition: service_healthy
+  networks:
+    - farm_network
+
+services:
+
+  mqtt-broker:
+    image: eclipse-mosquitto:2.1.2-alpine
+    container_name: mqtt-broker
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8883:8883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config:ro
+      - ./certs:/mosquitto/certs:ro
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8883 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - farm_network
+
+  # TERRENO A
+
+  ambient_sensor_a:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  terrain_sensor_a:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+      FIELD_INIT_TYPE: random
+      FIELD_INIT_OXY: "70.0"
+      FIELD_INIT_MOIST: "28.0"
+    volumes: *common-volumes
+
+  harvester_actuator_a:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
+
+  seeder_actuator_a:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  irrigator_actuator_a:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  plantation_sensor_a:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_a
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_a
+    volumes: *common-volumes
+
+  # TERRENO B
+
+  ambient_sensor_b:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  terrain_sensor_b:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+      FIELD_INIT_TYPE: random
+      FIELD_INIT_OXY: "70.0"
+      FIELD_INIT_MOIST: "28.0"
+    volumes: *common-volumes
+
+  harvester_actuator_b:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
+
+  seeder_actuator_b:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  irrigator_actuator_b:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  plantation_sensor_b:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_b
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_b
+    volumes: *common-volumes
+
+  # TERRENO C
+
+  ambient_sensor_c:
+    <<: *base-service
+    build: ./ambient_sensor
+    container_name: ambient_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  terrain_sensor_c:
+    <<: *base-service
+    build: ./terrain_sensor
+    container_name: terrain_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+      FIELD_INIT_TYPE: random
+      FIELD_INIT_OXY: "70.0"
+      FIELD_INIT_MOIST: "28.0"
+    volumes: *common-volumes
+
+  harvester_actuator_c:
+    <<: *base-service
+    build: ./harvester
+    container_name: harvester_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./harvester/data:/app/data
+
+  seeder_actuator_c:
+    <<: *base-service
+    build: ./seeder
+    container_name: seeder_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  irrigator_actuator_c:
+    <<: *base-service
+    build: ./irrigator
+    container_name: irrigator_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  plantation_sensor_c:
+    <<: *base-service
+    build: ./plantation_sensor
+    container_name: plantation_sensor_c
+    environment:
+      <<: *common-env
+      FIELD_NAME: field_c
+    volumes: *common-volumes
+
+  # MANAGEMENT & DASHBOARD
+
+  camp_manager:
+    <<: *base-service
+    build: ./camp_manager
+    container_name: camp_manager
+    environment:
+      <<: *common-env
+      CAMP_IDS: field_a,field_b,field_c
+    volumes:
+      - ./certs:/app/certs:ro
+      - ./camp_manager/data:/app/data
+
+  dashboard:
+    <<: *base-service
+    build: ./dashboard
+    container_name: dashboard
+    ports:
+      - "127.0.0.1:8501:8501"
+    environment:
+      <<: *common-env
+      CAMP_IDS: field_a,field_b,field_c
+      MQTT_CA_CERT: /app/certs/ca.crt
+      MQTT_CLIENT_ID: smart-farm-dashboard
+      MQTT_KEEPALIVE: "60"
+      MQTT_RECONNECT_SECONDS: "5"
+      PORT: "8501"
+    volumes: *common-volumes
+
+networks:
+  farm_network:
+    driver: bridge
