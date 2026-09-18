@@ -16,3 +16,11 @@ FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 SEEDER_CMD_PLANT_TOPIC = f"camp/{FIELD_NAME}/seeder/cmd/plant"
 PLANTATION_EVENT_SEEDED_TOPIC = f"camp/{FIELD_NAME}/plantation/event/seeded"
+
+HEARTBEAT_INTERVAL_SECONDS = env_value(
+    "HEARTBEAT_INTERVAL_SECONDS",
+    "health.publish_interval_seconds",
+    5,
+    float,
+)
+HEARTBEAT_TOPIC = f"camp/{FIELD_NAME}/heartbeat/seeder"

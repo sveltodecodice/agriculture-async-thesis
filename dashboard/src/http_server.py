@@ -14,6 +14,7 @@ from mqtt_contract import SUPPORTED_ACTIONS
 from mqtt_service import MQTT
 from seeds import CROPS_INFO
 from state_store import STATE
+from view_data import field_view, notifications_view, overview_view, system_status_view
 
 BASE = Path(__file__).resolve().parent.parent
 STATIC = BASE / "static"
@@ -81,8 +82,19 @@ class Handler(BaseHTTPRequestHandler):
             return self.file_response(STATIC / "app.js", "text/javascript; charset=utf-8")
         if path == "/static/styles.css":
             return self.file_response(STATIC / "styles.css", "text/css; charset=utf-8")
-        if path == "/api/state":
-            return self.json_response(STATE.snapshot())
+        if path == "/api/overview":
+            return self.json_response(overview_view(STATE.snapshot()))
+        if path == "/api/notifications":
+            return self.json_response(notifications_view(STATE.snapshot()))
+        if path == "/api/system-status":
+            return self.json_response(system_status_view(STATE.snapshot()))
+        if path.startswith("/api/camps/"):
+            parts = [part for part in path.split("/") if part]
+            if len(parts) == 3 and parts[:2] == ["api", "camps"]:
+                camp_id = parts[2]
+                if camp_id not in CAMPS:
+                    return self.json_response({"error": "Campo non supportato"}, HTTPStatus.NOT_FOUND)
+                return self.json_response(field_view(STATE.snapshot(), camp_id))
         if path == "/api/crops":
             return self.json_response({"crops": crop_list()})
         if path == "/api/config":

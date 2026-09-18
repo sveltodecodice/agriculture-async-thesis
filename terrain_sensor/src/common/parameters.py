@@ -25,3 +25,11 @@ ENV_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/environment/telemetry"
 TERRAIN_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/#"
 TERRAIN_CMD_TOPIC = f"camp/{FIELD_NAME}/terrain/cmd/#"
 TERRAIN_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/terrain/telemetry"
+
+HEARTBEAT_INTERVAL_SECONDS = env_value(
+    "HEARTBEAT_INTERVAL_SECONDS",
+    "health.publish_interval_seconds",
+    5,
+    float,
+)
+HEARTBEAT_TOPIC = f"camp/{FIELD_NAME}/heartbeat/terrain_sensor"

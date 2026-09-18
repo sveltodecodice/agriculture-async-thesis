@@ -18,6 +18,10 @@ def sensor_status() -> dict[str, Any]:
     return {"status": "UNKNOWN", "last_seen_seconds_ago": None, "latency_ms": None}
 
 
+def heartbeat_status() -> dict[str, Any]:
+    return {"status": "UNKNOWN", "observed_at": None, "received_at": None}
+
+
 def empty_camp() -> dict[str, Any]:
     return {
         "environment": {
@@ -44,6 +48,13 @@ def empty_camp() -> dict[str, Any]:
                 "environment": sensor_status(),
                 "terrain": sensor_status(),
                 "plantation": sensor_status(),
+            },
+            "heartbeats": {
+                "ambient_sensor": heartbeat_status(),
+                "terrain_sensor": heartbeat_status(),
+                "plantation_sensor": heartbeat_status(),
+                "seeder": heartbeat_status(),
+                "harvester": heartbeat_status(),
             },
             "actuators": {
                 "irrigator": {

@@ -18,3 +18,11 @@ TELEMETRY_ENV_TOPIC = "camp/{camp_id}/environment/telemetry"
 CMD_ENV_TOPIC = f"camp/{FIELD_NAME}/environment/cmd/#"
 ENV_PUBLISH_INTERVAL_SECONDS = env_value("ENV_PUBLISH_INTERVAL_SECONDS", "simulation.environment_publish_interval_seconds", 10, float)
 SIMULATION_START_DATE = env_value("SIMULATION_START_DATE", "simulation.start_date", "01/01/2026", str)
+
+HEARTBEAT_INTERVAL_SECONDS = env_value(
+    "HEARTBEAT_INTERVAL_SECONDS",
+    "health.publish_interval_seconds",
+    5,
+    float,
+)
+HEARTBEAT_TOPIC = f"camp/{FIELD_NAME}/heartbeat/ambient_sensor"

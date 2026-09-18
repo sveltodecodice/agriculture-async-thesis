@@ -52,7 +52,6 @@ const seasonLabel = (v) => ({
 const stageLabel = (v) => ({
   EMPTY:'Vuoto',
   PLANTED:'Seminato',
-  GERMINATION: 'Germinazione',
   GERMINATING:'Germinazione',
   GROWING:'Crescita',
   VEGETATIVE:'Fase vegetativa',
@@ -165,7 +164,7 @@ function farmDate() {
 function hasTelemetry(c) {
   const e = c.environment || {};
   const t = c.terrain || {};
-  return [e.temperature, e.weather, e.date, t.soil_moisture, t.oxygenation, t.soil_type]
+  return [e.temperature, e.weather, t.soil_moisture, t.oxygenation, t.soil_type]
     .some(v => v !== null && v !== undefined);
 }
 
@@ -242,8 +241,8 @@ function toast(message, error = false) {
 function route() {
   const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   if (parts[0] === 'field' && parts[1]) return { page:'field', id:parts[1] };
-  if (parts[0] === 'activity') return { page:'activity' };
-  if (parts[0] === 'diagnostics') return { page:'diagnostics' };
+  if (parts[0] === 'notifications' || parts[0] === 'activity') return { page:'notifications' };
+  if (parts[0] === 'system' || parts[0] === 'diagnostics') return { page:'system' };
   return { page:'home' };
 }
 
@@ -255,10 +254,9 @@ function go(path) {
   location.hash = path === 'home' ? '#/' : `#/${path}`;
 }
 
-function setHeader(kicker, title, tools = '') {
+function setHeader(kicker, title) {
   document.getElementById('pageKicker').textContent = kicker;
   document.getElementById('pageTitle').textContent = title;
-  document.getElementById('topbarTools').innerHTML = tools;
 }
 
 function setHTML(id, html) {
@@ -271,20 +269,6 @@ function renderSidebar() {
   document.querySelectorAll('[data-route]').forEach(button => {
     button.classList.toggle('active', button.dataset.route === current.page);
   });
-
-  const nav = document.getElementById('fieldNav');
-  nav.innerHTML = campIds().map(id => {
-    const c = camp(id);
-    const state = fieldState(c);
-    const active = current.page === 'field' && current.id === id;
-    return `<button class="${active ? 'active' : ''}" data-field="${esc(id)}">
-      <span>
-        <strong>${esc(campLabel(id))}</strong>
-        <small>${esc(c.plantation?.crop || 'Nessuna coltura')}</small>
-      </span>
-      <i class="dot ${state.tone}"></i>
-    </button>`;
-  }).join('');
 }
 
 /* ---------- PANORAMICA ---------- */
@@ -388,39 +372,30 @@ function fieldCard(id) {
   const policy = suggested(c);
   const harvestText = p.time_left == null ? 'Non disponibile' : `${p.time_left} giorni`;
 
-  return `<article class="card field-card" data-field="${esc(id)}">
-    <header class="field-card-head">
-      <div>
-        <p class="kicker">${esc(campLabel(id))}</p>
-        <h3 class="crop-name">${esc(p.crop || 'Nessuna coltura')}</h3>
-        <p class="field-subtitle">
-          ${esc(t.soil_type || 'Terreno non disponibile')} · ${esc(stageLabel(p.growth_stage))}
-        </p>
+  return `<article class="weather-field crop-field" data-field="${esc(id)}">
+    <header class="weather-field-head">
+      <div class="weather-field-title">
+        <span>${esc(campLabel(id))}</span>
+        <strong>${esc(p.crop || 'Nessuna coltura')}</strong>
       </div>
-      ${pill(state.tone, state.label)}
+      <div class="crop-field-status">${pill(state.tone, state.label)}</div>
     </header>
 
-    <div class="field-key-data">
-      <div>
-        <span>Umidità suolo</span>
-        <strong>${percent(t.soil_moisture)}</strong>
-      </div>
-      <div>
-        <span>Ossigenazione</span>
-        <strong>${value(t.oxygenation, '%', 0)}</strong>
-      </div>
-      <div>
-        <span>Tempo al raccolto</span>
-        <strong>${esc(harvestText)}</strong>
-      </div>
+    <div class="weather-primary crop-primary">
+      <strong>${growth.toFixed(0)}%</strong>
+      <span>${esc(stageLabel(p.growth_stage))}</span>
     </div>
 
-    <section class="growth-block" aria-label="Avanzamento della coltura">
-      <div class="growth-head">
-        <div>
-          <span>Avanzamento crescita</span>
-          <small>${esc(stageLabel(p.growth_stage))}</small>
-        </div>
+    <dl class="weather-data crop-data">
+      <div><dt>Terreno</dt><dd>${esc(t.soil_type || '—')}</dd></div>
+      <div><dt>Umidità suolo</dt><dd>${percent(t.soil_moisture)}</dd></div>
+      <div><dt>Ossigenazione</dt><dd>${value(t.oxygenation, '%', 0)}</dd></div>
+      <div><dt>Tempo al raccolto</dt><dd>${esc(harvestText)}</dd></div>
+    </dl>
+
+    <section class="crop-growth" aria-label="Avanzamento della coltura">
+      <div class="crop-growth-head">
+        <span>Avanzamento crescita</span>
         <strong>${growth.toFixed(0)}%</strong>
       </div>
       <div class="progress descriptive" role="progressbar"
@@ -431,27 +406,32 @@ function fieldCard(id) {
       <div class="growth-scale"><span>Semina</span><span>Maturazione</span></div>
     </section>
 
-    <div class="policy-box">
+    <div class="crop-policy">
       <span>Gestione automatica</span>
       <strong>${esc(policy[1])}</strong>
-      <span>${esc(policy[2])}</span>
+      <small>${esc(policy[2])}</small>
     </div>
   </article>`;
 }
 
 function homeFieldsHTML() {
-  return `<div class="section-head">
-    <div>
-      <p class="kicker">Dati dei campi</p>
-      <h2>Colture e condizioni del terreno</h2>
-      <p>Confronto immediato tra crescita, terreno e gestione automatica.</p>
+  return `<article class="card">
+    <div class="weather-head">
+      <div>
+        <p class="kicker">Dati dei campi</p>
+        <h2>Colture e condizioni del terreno</h2>
+        <p class="copy">Confronto immediato tra crescita, terreno e gestione automatica.</p>
+      </div>
+      <div class="weather-icon crop-section-icon" aria-hidden="true">🌱</div>
     </div>
-  </div>
-  <div class="grid three">${campIds().map(fieldCard).join('')}</div>`;
+    <div class="weather-fields crop-fields">
+      ${campIds().map(fieldCard).join('')}
+    </div>
+  </article>`;
 }
 
 function mountHome() {
-  setHeader('Azienda agricola', 'Panoramica azienda', `<span class="tool">${esc(farmDate())}</span>`);
+  setHeader('Azienda agricola', 'Panoramica azienda');
   page.innerHTML = `<div class="stack">
     <section id="homeSummary"></section>
     <section id="homeWeather"></section>
@@ -461,7 +441,6 @@ function mountHome() {
 }
 
 function updateHome() {
-  document.getElementById('topbarTools').innerHTML = `<span class="tool">${esc(farmDate())}</span>`;
   setHTML('homeSummary', homeSummaryHTML());
   setHTML('homeWeather', homeWeatherHTML());
   setHTML('homeFields', homeFieldsHTML());
@@ -782,9 +761,7 @@ function mountField(id) {
 function updateField(id) {
   const c = camp(id);
   const p = c.plantation || {};
-  const e = c.environment || {};
-  setHeader(campLabel(id), p.crop || 'Nessuna coltura',
-    `<span class="tool">${esc(e.date || '—')}</span>`);
+  setHeader(campLabel(id), p.crop || 'Nessuna coltura');
   setHTML('fieldLive', fieldMainHTML(id));
   updateOperationStatus(id);
 }
@@ -811,9 +788,9 @@ function updateOperationStatus(id) {
   }
 }
 
-/* ---------- ATTIVITÀ ---------- */
+/* ---------- NOTIFICHE SISTEMA ---------- */
 
-function activityHTML() {
+function notificationsHTML() {
   const notifications = [...(store.snapshot?.notifications || [])].reverse();
   const activities = [...(store.snapshot?.activity || [])].reverse();
   const commands = [...(store.snapshot?.commands || [])].reverse();
@@ -821,8 +798,8 @@ function activityHTML() {
   return `<div class="stack">
     <div class="grid two">
       <article class="card">
-        <p class="kicker">Decisioni</p>
-        <h2>Notifiche del Gestore centrale</h2>
+        <p class="kicker">Notifiche</p>
+        <h2>Messaggi del Gestore centrale</h2>
         <div class="list">
           ${notifications.length ? notifications.map(x => `<div class="list-item">
             <div class="meta">
@@ -835,8 +812,8 @@ function activityHTML() {
       </article>
 
       <article class="card">
-        <p class="kicker">Cronologia</p>
-        <h2>Attività automatiche</h2>
+        <p class="kicker">Automazioni</p>
+        <h2>Eventi automatici</h2>
         <div class="list">
           ${activities.length ? activities.map(x => `<div class="list-item">
             <div class="meta">
@@ -850,8 +827,8 @@ function activityHTML() {
     </div>
 
     <article class="card">
-      <p class="kicker">Operatore</p>
-      <h2>Comandi inviati</h2>
+      <p class="kicker">Comandi operatore</p>
+      <h2>Richieste inviate</h2>
       <div class="list">
         ${commands.length ? commands.map(x => `<div class="list-item">
           <div class="meta">
@@ -865,99 +842,147 @@ function activityHTML() {
   </div>`;
 }
 
-function mountActivity() {
-  setHeader('Azienda agricola', 'Attività');
-  page.innerHTML = '<div id="activityLive"></div>';
-  updateActivity();
+function mountNotifications() {
+  setHeader('Sistema', 'Notifiche Sistema');
+  page.innerHTML = '<div id="notificationsLive"></div>';
+  updateNotifications();
 }
-function updateActivity() {
-  setHTML('activityLive', activityHTML());
+function updateNotifications() {
+  setHTML('notificationsLive', notificationsHTML());
 }
 
-/* ---------- DIAGNOSTICA ---------- */
+/* ---------- STATO SISTEMA ---------- */
 
-function sensorHTML(label, state = {}) {
+function connectionTone(online) {
+  return online ? 'good' : 'bad';
+}
+
+function lastSeenText(seconds) {
+  const value = num(seconds);
+  if (value === null) return 'Nessun segnale ricevuto';
+  if (value < 1) return 'Segnale appena ricevuto';
+  return `Ultimo segnale ${Math.round(value)} s fa`;
+}
+
+function serviceState(label, state = {}, detail = '') {
   const online = String(state.status || '').toUpperCase() === 'ONLINE';
-  return `<div class="sensor">
+  const age = lastSeenText(state.last_seen_seconds_ago);
+  return `<div class="service-chip ${connectionTone(online)}">
+    <span class="service-dot"></span>
     <div>
       <strong>${esc(label)}</strong>
-      <small>${online ? 'Attivo' : 'Non disponibile'}${state.operation
-        ? ` · ${esc(operationLabel(state.operation))}` : ''}</small>
+      <small>${online ? 'Connesso' : 'Non disponibile'} · ${esc(age)}${detail ? ` · ${esc(detail)}` : ''}</small>
     </div>
-    <strong>${state.latency_ms == null ? '—' : `${Math.round(state.latency_ms)} ms`}</strong>
   </div>`;
 }
 
-function diagnosticCard(id) {
-  const sys = camp(id).system || {};
-  const sensors = sys.sensors || {};
-  const irrigator = sys.actuators?.irrigator || {};
-  const healthy = sys.overall_health === 'HEALTHY';
+function topologyField(id) {
+  const field = camp(id) || {};
+  const services = field.services || {};
+  const entries = [
+    services.ambient_sensor,
+    services.terrain_sensor,
+    services.plantation_sensor,
+    services.irrigator,
+    services.seeder,
+    services.harvester,
+  ];
+  const onlineCount = entries.filter(x => String(x?.status || '').toUpperCase() === 'ONLINE').length;
+  const tone = onlineCount === entries.length ? 'good' : onlineCount === 0 ? 'bad' : 'warn';
 
-  return `<article class="card">
-    <div class="section-head">
-      <div>
-        <p class="kicker">${esc(campLabel(id))}</p>
-        <h3>${healthy ? 'Regolare' : 'Degradato'}</h3>
-      </div>
-    </div>
-    <div class="sensor-list">
-      ${sensorHTML('Sensore ambientale', sensors.environment)}
-      ${sensorHTML('Sensore terreno', sensors.terrain)}
-      ${sensorHTML('Sensore piantagione', sensors.plantation)}
-      ${sensorHTML('Irrigatore', irrigator)}
-    </div>
-    <div class="subsection">
-      ${row('Irrigazione pendente',
-        sys.automation?.irrigation?.pending ? (sys.automation.irrigation.request_id || 'Sì') : 'No')}
-      ${row('Riossigenazione pendente',
-        sys.automation?.reoxygenation?.pending ? (sys.automation.reoxygenation.request_id || 'Sì') : 'No')}
+  return `<article class="topology-field">
+    <header>
+      <div><span>Servizi di campo</span><strong>${esc(campLabel(id))}</strong></div>
+      ${pill(tone, `${onlineCount}/${entries.length} connessi`)}
+    </header>
+    <div class="topology-services">
+      ${serviceState('Sensore ambientale', services.ambient_sensor)}
+      ${serviceState('Sensore terreno', services.terrain_sensor)}
+      ${serviceState('Sensore piantagione', services.plantation_sensor)}
+      ${serviceState('Irrigatore', services.irrigator, operationLabel(services.irrigator?.operation))}
+      ${serviceState('Seminatrice', services.seeder)}
+      ${serviceState('Raccoglitore', services.harvester)}
     </div>
   </article>`;
 }
 
-function diagnosticsHTML() {
+function systemTopologyHTML() {
+  const snap = store.snapshot || {};
+  const mqtt = snap.mqtt || {};
+  const manager = snap.camp_manager || {};
+
+  return `<article class="card topology-card">
+    <div class="section-head">
+      <div>
+        <p class="kicker">Topologia</p>
+        <h2>Connessioni del sistema</h2>
+        <p>Vista logica dei componenti e delle connessioni MQTT protette da TLS.</p>
+      </div>
+    </div>
+
+    <div class="topology-backbone">
+      <div class="topology-node online">
+        <span>Interfaccia</span><strong>Pannello di controllo</strong><small>Interfaccia disponibile</small>
+      </div>
+      <div class="topology-link ${mqtt.connected ? 'online' : 'offline'}"><span>MQTT/TLS</span><b>⇄</b></div>
+      <div class="topology-node ${mqtt.connected ? 'online' : 'offline'}">
+        <span>Comunicazione</span><strong>Broker MQTT</strong><small>${mqtt.connected ? 'Connesso' : 'Non disponibile'}</small>
+      </div>
+      <div class="topology-link ${manager.connected ? 'online' : 'offline'}"><span>MQTT/TLS</span><b>⇄</b></div>
+      <div class="topology-node ${manager.connected ? 'online' : 'offline'}">
+        <span>Orchestrazione</span><strong>Gestore centrale</strong><small>${manager.connected ? 'Attivo' : 'Non disponibile'}</small>
+      </div>
+    </div>
+
+    <div class="topology-branch"><span>Servizi collegati al broker</span></div>
+    <div class="topology-fields">${campIds().map(topologyField).join('')}</div>
+  </article>`;
+}
+
+function systemStatusHTML() {
   const snap = store.snapshot || {};
   const mqtt = snap.mqtt || {};
   const manager = snap.camp_manager || {};
   const ids = campIds();
-  const activeSensors = ids.reduce((sum, id) =>
-    sum + Object.values(camp(id).system?.sensors || {}).filter(x => x.status === 'ONLINE').length, 0);
-  const activeIrrigators = ids.filter(id =>
-    String(camp(id).system?.actuators?.irrigator?.status).toUpperCase() === 'ONLINE').length;
+  const services = ids.flatMap(id => Object.values(camp(id).services || {}));
+  const connectedServices = services.filter(x => String(x.status || '').toUpperCase() === 'ONLINE').length;
 
   return `<div class="stack">
-    <div class="diag-top">
-      ${metric('Connessione MQTT', mqtt.connected ? 'Connessa' : 'Disconnessa')}
+    <section class="system-summary">
+      ${metric('Pannello ↔ broker', mqtt.connected ? 'Connesso' : 'Disconnesso')}
       ${metric('Gestore centrale', manager.connected ? 'Attivo' : 'Non disponibile')}
-      ${metric('Sensori attivi', `${activeSensors}/${ids.length * 3}`)}
-      ${metric('Irrigatori attivi', `${activeIrrigators}/${ids.length}`)}
-    </div>
+      ${metric('Servizi connessi', `${connectedServices}/${services.length || ids.length * 6}`)}
+      ${metric('Campi monitorati', ids.length)}
+    </section>
+
+    ${systemTopologyHTML()}
 
     <article class="card">
-      <p class="kicker">Comunicazione MQTT</p>
-      <h2>Connessione della dashboard</h2>
-      <div class="rows">
-        ${row('Server MQTT', `${mqtt.host || '—'}:${mqtt.port || '—'}`)}
-        ${row('Identificativo connessione', mqtt.client_id || '—')}
+      <p class="kicker">Informazioni di sistema</p>
+      <h2>Comunicazione e sicurezza</h2>
+      <div class="system-info-grid">
+        ${row('Trasporto', mqtt.transport || 'MQTT su TLS')}
+        ${row('Broker', `${mqtt.host || '—'}:${mqtt.port || '—'}`)}
+        ${row('Versione TLS minima', mqtt.tls_minimum_version || '—')}
+        ${row('Qualità del servizio MQTT', mqtt.qos == null ? '—' : `${mqtt.qos} · massima`) }
+        ${row('Intervallo mantenimento connessione', mqtt.keepalive_seconds == null ? '—' : `${mqtt.keepalive_seconds} s`)}
+        ${row('Campi configurati', ids.length)}
         ${row('Messaggi ricevuti', mqtt.message_count ?? 0)}
-        ${row('Ultimo argomento', mqtt.last_topic || '—')}
-        ${row('Ultimo errore tecnico',
-          mqtt.last_error ? 'Errore registrato — consulta i log del contenitore' : 'Nessuno')}
+        ${row('Ultimo traffico MQTT', lastSeenText(mqtt.last_message_age_seconds))}
+        ${row('Stato errori connessione', mqtt.has_error ? 'Errore presente · consultare i log del contenitore' : 'Nessun errore')}
+        ${row('Ultimo segnale Gestore centrale', lastSeenText(manager.last_seen_seconds_ago))}
       </div>
     </article>
-
-    <div class="diag-fields">${ids.map(diagnosticCard).join('')}</div>
   </div>`;
 }
 
-function mountDiagnostics() {
-  setHeader('Sistema', 'Diagnostica');
-  page.innerHTML = '<div id="diagnosticsLive"></div>';
-  updateDiagnostics();
+function mountSystemStatus() {
+  setHeader('Sistema', 'Stato Sistema');
+  page.innerHTML = '<div id="systemStatusLive"></div>';
+  updateSystemStatus();
 }
-function updateDiagnostics() {
-  setHTML('diagnosticsLive', diagnosticsHTML());
+function updateSystemStatus() {
+  setHTML('systemStatusLive', systemStatusHTML());
 }
 
 /* ---------- AGGIORNAMENTO INCREMENTALE ---------- */
@@ -968,8 +993,8 @@ function mountCurrentView() {
   renderSidebar();
 
   if (current.page === 'field') mountField(current.id);
-  else if (current.page === 'activity') mountActivity();
-  else if (current.page === 'diagnostics') mountDiagnostics();
+  else if (current.page === 'notifications') mountNotifications();
+  else if (current.page === 'system') mountSystemStatus();
   else mountHome();
 }
 
@@ -986,18 +1011,47 @@ function updateCurrentView() {
   renderSidebar();
 
   if (current.page === 'field') updateField(current.id);
-  else if (current.page === 'activity') updateActivity();
-  else if (current.page === 'diagnostics') updateDiagnostics();
+  else if (current.page === 'notifications') updateNotifications();
+  else if (current.page === 'system') updateSystemStatus();
   else updateHome();
+}
+
+function viewEndpoint(current) {
+  if (current.page === 'field') return `/api/camps/${encodeURIComponent(current.id)}`;
+  if (current.page === 'notifications') return '/api/notifications';
+  if (current.page === 'system') return '/api/system-status';
+  return '/api/overview';
+}
+
+async function ensureCrops() {
+  if (store.crops.length) return;
+  const response = await getJSON('/api/crops');
+  store.crops = response.crops || [];
+}
+
+async function loadCurrentRoute() {
+  const current = route();
+  if (current.page === 'field') await ensureCrops();
+  const snapshot = await getJSON(viewEndpoint(current));
+  if (routeKey(current) !== routeKey(route())) return;
+  store.snapshot = snapshot;
+  store.revision = snapshot.revision;
+  mountCurrentView();
 }
 
 async function refreshState() {
   try {
-    const snapshot = await getJSON('/api/state');
-    if (snapshot.revision === store.revision) return;
+    const current = route();
+    const key = routeKey(current);
+    const snapshot = await getJSON(viewEndpoint(current));
+    if (key !== routeKey(route())) return;
+    if (key === store.viewKey && snapshot.revision === store.revision) return;
+
     store.snapshot = snapshot;
     store.revision = snapshot.revision;
-    updateCurrentView();
+
+    if (key !== store.viewKey) mountCurrentView();
+    else updateCurrentView();
   } catch (error) {
     console.error(error);
   }
@@ -1099,22 +1153,15 @@ function bindEvents() {
     backdrop.classList.remove('open');
   });
 
-  window.addEventListener('hashchange', mountCurrentView);
+  window.addEventListener('hashchange', () => { loadCurrentRoute().catch(console.error); });
 }
 
 async function start() {
   bindEvents();
   try {
-    const [snapshot, crops, dashboardConfig] = await Promise.all([
-      getJSON('/api/state'),
-      getJSON('/api/crops'),
-      getJSON('/api/config'),
-    ]);
-    store.snapshot = snapshot;
-    store.crops = crops.crops || [];
+    const dashboardConfig = await getJSON('/api/config');
     store.pollIntervalMs = Math.max(250, Number(dashboardConfig.polling_interval_seconds || 2) * 1000);
-    store.revision = snapshot.revision;
-    mountCurrentView();
+    await loadCurrentRoute();
     poll();
   } catch (error) {
     page.innerHTML = `<div class="card">

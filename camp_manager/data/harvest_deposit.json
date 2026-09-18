@@ -10,5 +10,13 @@
   {
     "seed": "Eggplant",
     "harvested_on": "27/05/2026"
+  },
+  {
+    "seed": "Cabbage",
+    "harvested_on": "15/03/2026"
+  },
+  {
+    "seed": "Bell_pepper",
+    "harvested_on": "01/06/2026"
   }
 ]

@@ -87,7 +87,17 @@ def handle_message(state: FarmState, topic: str, payload: Any) -> None:
         camp["last_seen"] = utc_now()
         data = normalize_dict(payload)
 
-        if "/system/status" in topic:
+        if "/heartbeat/" in topic:
+            service = topic.rsplit("/", 1)[-1]
+            heartbeats = camp["system"].get("heartbeats", {})
+            if service in heartbeats:
+                heartbeats[service].update({
+                    "status": str(data.get("status", "online")).upper(),
+                    "observed_at": data.get("ts"),
+                    "received_at": utc_now(),
+                })
+
+        elif "/system/status" in topic:
             camp["system"].update({
                 "mqtt_connected": data.get("mqtt_connected"),
                 "overall_health": data.get("overall_health", "UNKNOWN"),

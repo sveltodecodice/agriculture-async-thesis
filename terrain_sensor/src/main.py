@@ -12,6 +12,8 @@ from common.parameters import (
     FIELD_INIT_OXY,
     FIELD_INIT_TYPE,
     FIELD_NAME,
+    HEARTBEAT_INTERVAL_SECONDS,
+    HEARTBEAT_TOPIC,
     SOIL_LAYOUT_SEED,
     MQTT_KEEPALIVE,
     MQTT_QOS,
@@ -41,6 +43,19 @@ INITIAL_SOIL_TYPE = select_initial_soil(
     FIELD_INIT_TYPE,
     SOIL_LAYOUT_SEED,
 )
+
+
+
+async def heartbeat_loop(client: aiomqtt.Client) -> None:
+    """Publish service presence for the system-status view."""
+    while True:
+        await publish_json(
+            client,
+            HEARTBEAT_TOPIC,
+            {"service": "terrain_sensor", "field": FIELD_NAME, "status": "online"},
+            retain=True,
+        )
+        await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
 
 
 async def publish_terrain(client: aiomqtt.Client, camp_id: str, state: Dict[str, Any]) -> None:
@@ -225,7 +240,22 @@ async def worker(
             MQTT_HOST,
             MQTT_PORT,
         )
-        await listen_mqtt_telemetry(client, camp_states, dedup)
+        listener_task = asyncio.create_task(
+            listen_mqtt_telemetry(client, camp_states, dedup)
+        )
+        heartbeat_task = asyncio.create_task(heartbeat_loop(client))
+
+        done, pending = await asyncio.wait(
+            [listener_task, heartbeat_task],
+            return_when=asyncio.FIRST_EXCEPTION,
+        )
+        for task in pending:
+            task.cancel()
+        if pending:
+            await asyncio.gather(*pending, return_exceptions=True)
+        for task in done:
+            if task.exception():
+                raise task.exception()
 
 
 async def main() -> None:

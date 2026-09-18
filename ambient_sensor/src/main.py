@@ -9,6 +9,8 @@ import aiomqtt
 from common.parameters import (
     CMD_ENV_TOPIC,
     FIELD_NAME,
+    HEARTBEAT_INTERVAL_SECONDS,
+    HEARTBEAT_TOPIC,
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
@@ -23,13 +25,26 @@ from common.parameters import (
 from core.manager import SensorManager
 from interfaces.mqtt_client import publish_data
 from utils.logger_utils import LoggingUtils
-from utils.mqtt_utils import build_tls_context
+from utils.mqtt_utils import build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
 
 _START_DATE = datetime.strptime(SIMULATION_START_DATE, "%d/%m/%Y")
 START_DAY, START_MONTH, START_YEAR = _START_DATE.day, _START_DATE.month, _START_DATE.year
+
+
+
+async def heartbeat_loop(client: aiomqtt.Client) -> None:
+    """Publish service presence for the system-status view."""
+    while True:
+        await publish_json(
+            client,
+            HEARTBEAT_TOPIC,
+            {"service": "ambient_sensor", "field": FIELD_NAME, "status": "online"},
+            retain=True,
+        )
+        await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
 
 
 async def publish_loop(
@@ -141,9 +156,10 @@ async def worker(managers: Dict[str, SensorManager]) -> None:
 
         publish_task = asyncio.create_task(publish_loop(client, managers))
         listener_task = asyncio.create_task(listen_mqtt_commands(client, managers))
+        heartbeat_task = asyncio.create_task(heartbeat_loop(client))
 
         done, pending = await asyncio.wait(
-            [publish_task, listener_task], return_when=asyncio.FIRST_EXCEPTION
+            [publish_task, listener_task, heartbeat_task], return_when=asyncio.FIRST_EXCEPTION
         )
 
         for task in pending:

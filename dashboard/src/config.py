@@ -18,6 +18,7 @@ if MQTT_QOS != 2:
     raise ValueError("MQTT_QOS must be 2 to preserve maximum delivery guarantee")
 CAMPS = tuple(env_list("CAMP_IDS", "farm.fields", ["field_a", "field_b", "field_c"]))
 MANAGER_HEARTBEAT_MAX_AGE_SECONDS = env_value("MANAGER_HEARTBEAT_MAX_AGE_SECONDS", "health.manager_heartbeat_max_age_seconds", 15, float)
+SERVICE_HEARTBEAT_MAX_AGE_SECONDS = env_value("SERVICE_HEARTBEAT_MAX_AGE_SECONDS", "health.offline_after_seconds", 30, float)
 DASHBOARD_POLL_INTERVAL_SECONDS = env_value("DASHBOARD_POLL_INTERVAL_SECONDS", "dashboard.polling_interval_seconds", 2, float)
 
 TOPICS = (
@@ -26,6 +27,7 @@ TOPICS = (
     "camp/+/plantation/status",
     "camp/+/system/status",
     "camp/+/irrigator/status",
+    "camp/+/heartbeat/+",
     "camp/manager/status",
     "camp/notifications",
     "camp/activity_logs",

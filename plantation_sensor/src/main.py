@@ -9,6 +9,8 @@ import aiomqtt
 from common.parameters import (
     ENV_TELEMETRY_TOPIC,
     FIELD_NAME,
+    HEARTBEAT_INTERVAL_SECONDS,
+    HEARTBEAT_TOPIC,
     MQTT_KEEPALIVE,
     MQTT_QOS,
     MQTT_HOST,
@@ -33,6 +35,19 @@ from utils.mqtt_utils import Deduper, build_tls_context, publish_json
 
 LoggingUtils.configure(console_level=logging.INFO)
 logger = LoggingUtils.get_logger(__name__)
+
+
+
+async def heartbeat_loop(client: aiomqtt.Client) -> None:
+    """Publish service presence for the system-status view."""
+    while True:
+        await publish_json(
+            client,
+            HEARTBEAT_TOPIC,
+            {"service": "plantation_sensor", "field": FIELD_NAME, "status": "online"},
+            retain=True,
+        )
+        await asyncio.sleep(HEARTBEAT_INTERVAL_SECONDS)
 
 
 def create_camp_context(camp_id: str = FIELD_NAME) -> Dict[str, Any]:
@@ -208,9 +223,10 @@ async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> No
         listener_task = asyncio.create_task(
             listen_mqtt_telemetry(client, camp_contexts, dedup)
         )
+        heartbeat_task = asyncio.create_task(heartbeat_loop(client))
 
         done, pending = await asyncio.wait(
-            [monitor_task, listener_task], return_when=asyncio.FIRST_EXCEPTION
+            [monitor_task, listener_task, heartbeat_task], return_when=asyncio.FIRST_EXCEPTION
         )
 
         for task in pending:

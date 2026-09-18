@@ -4,28 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173c2d">
-  <title>Smart Farm · Centro di controllo</title>
+  <title>Smart Farm</title>
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="layout">
     <aside class="sidebar" id="sidebar">
-      <div class="brand"><span class="brand-mark">SF</span><div><strong>Smart Farm</strong><small>Centro di controllo</small></div></div>
-      <nav class="main-nav">
+<nav class="main-nav">
         <button data-route="home">⌂ <span>Panoramica</span></button>
-        <button data-route="activity">≡ <span>Attività</span></button>
-        <button data-route="diagnostics">● <span>Diagnostica</span></button>
+        <button data-route="system">● <span>Stato Sistema</span></button>
+        <button data-route="notifications">≡ <span>Notifiche Sistema</span></button>
       </nav>
-      <div class="nav-title">Campi</div>
-      <div id="fieldNav" class="field-nav"></div>
     </aside>
     <button class="backdrop" id="backdrop" aria-label="Chiudi menu"></button>
 
     <main class="main">
       <header class="topbar">
         <button id="menuButton" class="menu-button">☰ Menu</button>
-        <div><small id="pageKicker">Smart Farm</small><h1 id="pageTitle">Panoramica azienda</h1></div>
-        <div id="topbarTools" class="topbar-tools"></div>
+        <div><small id="pageKicker">Azienda agricola</small><h1 id="pageTitle">Panoramica azienda</h1></div>
       </header>
       <section id="page"></section>
     </main>
