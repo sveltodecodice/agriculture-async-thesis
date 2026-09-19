@@ -113,15 +113,6 @@ def clear_field(plantation_state: Dict[str, Any]) -> None:
     plantation_state["total_days"] = 0
 
 
-def reset(plantation_state: Dict[str, Any]) -> None:
-    """Resets the plantation state to an empty field.
-
-    Args:
-        plantation_state (Dict[str, Any]): State dictionary of the plantation.
-    """
-    clear_field(plantation_state)
-
-
 def advance_days(plantation_state: Dict[str, Any], days_passed: int = 1) -> None:
     """Advances time for the active crop state.
 

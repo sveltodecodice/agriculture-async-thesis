@@ -23,8 +23,8 @@ from common.parameters import (
     MQTT_PORT,
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
-    TERRAIN_CMD_TOPIC,
-    TERRAIN_EVENT_TOPIC,
+    IRRIGATED_EVENT_TOPIC,
+    REOXYGENATED_EVENT_TOPIC,
 )
 from core.irrigation import apply_irrigation
 from core.soil_type import select_initial_soil
@@ -74,17 +74,17 @@ async def listen_mqtt_telemetry(
     camp_states: Dict[str, Dict[str, Any]],
     dedup: Deduper,
 ) -> None:
-    """Observe ambient changes, actuator events and administrative commands."""
+    """Observe ambient changes and completed Irrigator events."""
     await client.subscribe(ENV_TELEMETRY_TOPIC, qos=MQTT_QOS)
-    await client.subscribe(TERRAIN_EVENT_TOPIC, qos=MQTT_QOS)
-    await client.subscribe(TERRAIN_CMD_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(IRRIGATED_EVENT_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(REOXYGENATED_EVENT_TOPIC, qos=MQTT_QOS)
 
     logger.info(
         "Terrain Sensor ready | field=%s | soil=%s | ambient=%s | events=%s",
         FIELD_NAME,
         INITIAL_SOIL_TYPE,
         ENV_TELEMETRY_TOPIC,
-        TERRAIN_EVENT_TOPIC,
+        f"{IRRIGATED_EVENT_TOPIC}, {REOXYGENATED_EVENT_TOPIC}",
     )
 
     async for msg in client.messages:
@@ -174,37 +174,6 @@ async def listen_mqtt_telemetry(
 
                 await publish_terrain(client, camp_id, state)
 
-            elif "terrain/cmd/" in topic:
-                # Administrative sensor commands only. Irrigation and
-                # reoxygenation are intentionally NOT handled here.
-                cmd = topic.split("terrain/cmd/")[-1].lower()
-
-                if cmd in ("set_soil_type", "set_type"):
-                    state["soil_type"] = raw.strip()
-                    logger.info(
-                        "[%s] Soil type set to %s",
-                        camp_id.upper(),
-                        state["soil_type"],
-                    )
-
-                elif cmd in ("reset", "restart"):
-                    camp_states[camp_id] = create_terrain_state(
-                        initial_moisture=FIELD_INIT_MOISTURE,
-                        initial_oxygen=FIELD_INIT_OXYGENATION,
-                        soil_type=INITIAL_SOIL_TYPE,
-                    )
-                    state = camp_states[camp_id]
-                    dedup.reset()
-                    logger.info("[%s] Terrain observation state reset.", camp_id.upper())
-                else:
-                    logger.warning(
-                        "[%s] Unsupported Terrain Sensor command ignored: %s",
-                        camp_id.upper(),
-                        cmd,
-                    )
-                    continue
-
-                await publish_terrain(client, camp_id, state)
 
         except Exception as error:
             logger.error(

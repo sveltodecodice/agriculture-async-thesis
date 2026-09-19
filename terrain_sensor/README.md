@@ -35,13 +35,12 @@ Il tipo di suolo iniziale può essere esplicito oppure `random`. Nel caso casual
 | Direzione | Topic | Utilizzo |
 |---|---|---|
 | Sottoscrive | `camp/{field}/environment/telemetry` | Condizioni ambientali |
-| Sottoscrive | `camp/{field}/terrain/event/#` | Eventi completati dall'Irrigatore |
-| Sottoscrive | `camp/{field}/terrain/cmd/#` | Comandi amministrativi del terreno |
+| Sottoscrive | `camp/{field}/terrain/event/irrigated` | Irrigazione completata |
+| Sottoscrive | `camp/{field}/terrain/event/reoxygenated` | Riossigenazione completata |
 | Pubblica | `camp/{field}/terrain/telemetry` | Stato osservato del terreno |
 | Pubblica | `camp/{field}/heartbeat/terrain_sensor` | Presenza del servizio |
 
-Gli eventi di irrigazione e riossigenazione possono contenere un `request_id`. Il sensore riporta l'identificativo nella telemetria di conferma, permettendo al Gestore centrale di chiudere solo la richiesta corretta.
-
+Il Terrain Sensor non espone comandi amministrativi MQTT non utilizzati dal deployment. Il tipo di terreno viene determinato all'avvio dalla configurazione comune; irrigazione e riossigenazione modificano lo stato soltanto attraverso gli eventi prodotti dall'Irrigator. Gli eventi possono contenere un `request_id`, riportato nella telemetria successiva per permettere al Gestore centrale di chiudere la richiesta corretta.
 
 ## Configurazione
 

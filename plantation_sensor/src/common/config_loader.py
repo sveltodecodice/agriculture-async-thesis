@@ -46,13 +46,6 @@ def env_value(name: str, path: str, default=None, cast=None):
     return cast(value)
 
 
-def env_list(name: str, path: str, default=None) -> list:
-    raw = os.getenv(name)
-    value = raw if raw not in (None, "") else config_value(path, default or [])
-    if isinstance(value, list):
-        return list(value)
-    return [item.strip() for item in str(value or "").split(",") if item.strip()]
-
 
 def env_json(name: str, path: str, default=None):
     raw = os.getenv(name)
@@ -60,6 +53,3 @@ def env_json(name: str, path: str, default=None):
         return json.loads(raw)
     return config_value(path, default)
 
-
-def field_value(field_name: str, key: str, env_name: str, default=None, cast=None):
-    return env_value(env_name, f"fields.{field_name}.{key}", default, cast)

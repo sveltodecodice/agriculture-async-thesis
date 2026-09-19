@@ -37,7 +37,11 @@ Per irrigazione e riossigenazione conserva un `request_id` e uno stato `pending`
 - `camp/+/terrain/telemetry`
 - `camp/+/plantation/status`
 - `camp/+/irrigator/status`
-- `camp/+/camp_manager/cmd/#`
+- `camp/+/camp_manager/cmd/plant`
+- `camp/+/camp_manager/cmd/irrigate`
+- `camp/+/camp_manager/cmd/reoxygenate`
+- `camp/+/camp_manager/cmd/clear`
+- `camp/+/camp_manager/cmd/restart`
 
 ### Pubblicazioni
 
@@ -50,9 +54,8 @@ Per irrigazione e riossigenazione conserva un `request_id` e uno stato `pending`
 - `camp/manager/status`
 - `camp/notifications`
 - `camp/activity_logs`
-- `camp/top_seeds`
 
-Il Gestore centrale non pubblica `camp/harvest_deposit`: la persistenza del raccolto appartiene esclusivamente all'Harvester.
+La persistenza dello storico dei raccolti appartiene esclusivamente all'Harvester, mentre il Gestore centrale mantiene soltanto il report giornaliero delle decisioni. Le sottoscrizioni ai comandi sono limitate alle cinque azioni effettivamente prodotte dalla Dashboard.
 
 
 ## Configurazione

@@ -221,30 +221,32 @@ Le informazioni sono separate per contesto. La Panoramica riceve dati agronomici
 
 ## Topic MQTT principali
 
-I topic sono organizzati per campo e per responsabilità.
+Il contratto MQTT è limitato ai flussi utilizzati dal percorso runtime corrente. I topic non consumati, gli endpoint amministrativi privi di publisher e le costanti non utilizzate sono stati rimossi per mantenere coerenti codice, documentazione ed elaborato.
 
-| Categoria | Topic principale |
-|---|---|
-| Ambiente | `camp/{field}/environment/telemetry` |
-| Terreno | `camp/{field}/terrain/telemetry` |
-| Piantagione | `camp/{field}/plantation/status` |
-| Semina | `camp/{field}/seeder/cmd/plant` |
-| Evento semina | `camp/{field}/plantation/event/seeded` |
-| Irrigazione | `camp/{field}/irrigator/cmd/irrigate` |
-| Riossigenazione | `camp/{field}/irrigator/cmd/reoxygenate` |
-| Evento irrigazione | `camp/{field}/terrain/event/irrigated` |
-| Evento riossigenazione | `camp/{field}/terrain/event/reoxygenated` |
-| Raccolta | `camp/{field}/harvester/cmd/harvest` |
-| Evento raccolta | `camp/{field}/plantation/event/harvested` |
-| Stato Irrigatore | `camp/{field}/irrigator/status` |
-| Stato del campo | `camp/{field}/system/status` |
-| Stato Gestore centrale | `camp/manager/status` |
-| Notifiche | `camp/notifications` |
-| Log attività | `camp/activity_logs` |
-| Suggerimenti colture | `camp/top_seeds` |
-| Deposito raccolti | `camp/harvest_deposit` |
+| Categoria | Topic principale | Direzione |
+|---|---|---|
+| Ambiente | `camp/{field}/environment/telemetry` | Ambient Sensor → consumer |
+| Avanzamento simulazione | `camp/{field}/environment/cmd/skip` | Dashboard → Ambient Sensor |
+| Terreno | `camp/{field}/terrain/telemetry` | Terrain Sensor → consumer |
+| Evento irrigazione | `camp/{field}/terrain/event/irrigated` | Irrigator → Terrain Sensor |
+| Evento riossigenazione | `camp/{field}/terrain/event/reoxygenated` | Irrigator → Terrain Sensor |
+| Piantagione | `camp/{field}/plantation/status` | Plantation Sensor → consumer |
+| Evento semina | `camp/{field}/plantation/event/seeded` | Seeder → Plantation Sensor |
+| Evento raccolta | `camp/{field}/plantation/event/harvested` | Harvester → Plantation Sensor |
+| Evento clear | `camp/{field}/plantation/event/cleared` | Gestore centrale → Plantation Sensor |
+| Semina | `camp/{field}/seeder/cmd/plant` | Gestore centrale → Seeder |
+| Raccolta | `camp/{field}/harvester/cmd/harvest` | Gestore centrale → Harvester |
+| Irrigazione | `camp/{field}/irrigator/cmd/irrigate` | Gestore centrale → Irrigator |
+| Riossigenazione | `camp/{field}/irrigator/cmd/reoxygenate` | Gestore centrale → Irrigator |
+| Stato Irrigator | `camp/{field}/irrigator/status` | Irrigator → Gestore centrale, Dashboard; retained |
+| Comandi Gestore | `camp/{field}/camp_manager/cmd/{plant|irrigate|reoxygenate|clear|restart}` | Dashboard → Gestore centrale |
+| Stato campo | `camp/{field}/system/status` | Gestore centrale → Dashboard |
+| Heartbeat servizi | `camp/{field}/heartbeat/{ambient_sensor|terrain_sensor|plantation_sensor|seeder|harvester}` | Servizio → Dashboard; retained |
+| Stato Gestore | `camp/manager/status` | Gestore centrale → Dashboard; retained |
+| Notifiche | `camp/notifications` | Gestore centrale → Dashboard |
+| Log attività | `camp/activity_logs` | Gestore centrale → Dashboard |
 
-I sensori e gli attuatori che non possiedono già uno status periodico pubblicano anche un heartbeat dedicato sotto `camp/{field}/heartbeat/...`.
+La cronologia dei raccolti è persistita esclusivamente nel file `harvester/data/harvest_deposit.json`; non viene duplicata su un topic MQTT globale. Lo stato completo della coltura è pubblicato soltanto tramite `plantation/status`, evitando topic scalari ridondanti.
 
 ## Configurazione
 
@@ -336,7 +338,7 @@ La Dashboard espone API separate per le diverse viste, evitando di trasferire in
 ├── tests/
 ├── docker-compose.yml
 ├── mqtt_tls_healthcheck.py
-└── .env
+└── .env                 # file locale opzionale, non versionato
 ```
 
 Ogni servizio Python contiene normalmente:
@@ -353,6 +355,8 @@ service/
 ├── requirements.txt
 └── README.md
 ```
+
+Nel repository riconciliato è stato aggiunto il nome canonico `Dockerfile` anche a Seeder, Irrigator e Harvester per consentire il build standard di Docker Compose. I file legacy denominati `dockerfile` in minuscolo sono stati mantenuti temporaneamente perché la loro rimozione richiede autorizzazione esplicita.
 
 La Dashboard mantiene una struttura leggermente diversa perché include anche `static/` e `templates/` per l'interfaccia web.
 

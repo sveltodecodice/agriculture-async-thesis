@@ -1,4 +1,7 @@
 import unittest
+import sys
+
+sys.path.append("src")
 
 from core.soil_type import select_initial_soil
 

@@ -27,5 +27,4 @@ OXYGENATION_THRESHOLD = env_value("OXYGENATION_THRESHOLD", "automation.oxygenati
 
 NOTIFICATIONS_TOPIC = "camp/notifications"
 ACTIVITY_LOGS_TOPIC = "camp/activity_logs"
-TOP_SEEDS_TOPIC = "camp/top_seeds"
 CAMP_MANAGER_STATUS_TOPIC = "camp/manager/status"

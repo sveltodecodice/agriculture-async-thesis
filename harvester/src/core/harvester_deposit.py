@@ -34,18 +34,6 @@ def _read_history_unlocked() -> List[Dict[str, Any]]:
         return []
 
 
-def get_harvest_history() -> List[Dict[str, Any]]:
-    """Returns the shared harvest history using a read lock."""
-    _ensure_storage_directory()
-
-    with open(LOCK_PATH, "a+", encoding="utf-8") as lock_handle:
-        fcntl.flock(lock_handle, fcntl.LOCK_SH)
-        try:
-            return _read_history_unlocked()
-        finally:
-            fcntl.flock(lock_handle, fcntl.LOCK_UN)
-
-
 def save_harvest(
     seed_name: str, harvest_date: Optional[str] = None
 ) -> List[Dict[str, Any]]:

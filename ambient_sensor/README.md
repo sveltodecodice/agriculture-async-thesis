@@ -24,18 +24,17 @@ camp/{field}/environment/telemetry
 Terrain Sensor + Plantation Sensor + Gestore centrale + Dashboard
 ```
 
-A ogni ciclo il servizio pubblica lo stato corrente e poi calcola il passo ambientale successivo. Il comando `skip` fa avanzare il calendario simulato di uno o più giorni e pubblica i nuovi valori. Il comando `reset` riporta il calendario alla data iniziale configurata.
+A ogni ciclo il servizio pubblica lo stato corrente e poi calcola il passo ambientale successivo. Il comando `skip` fa avanzare il calendario simulato di uno o più giorni e pubblica i nuovi valori.
 
 ## Topic MQTT principali
 
 | Direzione | Topic | Utilizzo |
 |---|---|---|
 | Pubblica | `camp/{field}/environment/telemetry` | Telemetria ambientale corrente |
-| Sottoscrive | `camp/{field}/environment/cmd/#` | Comandi `skip` e `reset` |
+| Sottoscrive | `camp/{field}/environment/cmd/skip` | Avanzamento del calendario simulato |
 | Pubblica | `camp/{field}/heartbeat/ambient_sensor` | Presenza del servizio per Stato Sistema |
 
-L'heartbeat contiene anche un timestamp della sorgente. Questo permette alla Dashboard di riconoscere immediatamente un heartbeat retained ormai vecchio dopo un riavvio.
-
+L'unico comando MQTT applicativo ricevuto dall'Ambient Sensor è `skip`, utilizzato dalla Dashboard per avanzare il calendario di uno o più giorni. L'endpoint amministrativo `reset`, privo di publisher nel deployment, è stato rimosso dal contratto runtime.
 
 ## Configurazione
 

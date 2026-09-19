@@ -537,14 +537,6 @@ async def handle_dashboard_command(
         state["growth_stage"] = "EMPTY"
         state["health"] = "FIELD IS EMPTY"
 
-    elif cmd in ("skip", "skipdays", "skip_days"):
-        days = 1
-        if isinstance(parsed_json, dict):
-            days = int(parsed_json.get("days", 1))
-        elif clean_raw_data.isdigit():
-            days = int(clean_raw_data)
-        if not state["occupied"]:
-            state["empty_days"] += days
 
     elif cmd == "reoxygenate":
         if not state.get("reoxygenation_pending"):
@@ -552,7 +544,7 @@ async def handle_dashboard_command(
             state["reoxygenation_pending"] = True
             state["reoxygenation_request_id"] = request_id
 
-    elif cmd in ("reset", "restart"):
+    elif cmd == "restart":
         state.clear()
         state.update(copy.deepcopy(DEFAULT_STATE))
 
@@ -575,7 +567,8 @@ async def listen_telemetry(
     await mqtt.subscribe("camp/+/plantation/status", qos=MQTT_QOS)
     await mqtt.subscribe("camp/+/terrain/telemetry", qos=MQTT_QOS)
     await mqtt.subscribe("camp/+/irrigator/status", qos=MQTT_QOS)
-    await mqtt.subscribe("camp/+/camp_manager/cmd/#", qos=MQTT_QOS)
+    for command in ("plant", "irrigate", "reoxygenate", "clear", "restart"):
+        await mqtt.subscribe(f"camp/+/camp_manager/cmd/{command}", qos=MQTT_QOS)
 
     async for message in mqtt.messages:
         topic = str(message.topic)

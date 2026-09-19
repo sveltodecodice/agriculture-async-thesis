@@ -25,7 +25,7 @@ Harvester ─ plantation/event/harvested ┘
             Gestore centrale + Dashboard
 ```
 
-Gli eventi `cleared` e `reset` permettono di svuotare o reimpostare lo stato. Il catalogo delle colture deriva dalla configurazione comune `farm.yaml`, evitando cataloghi divergenti tra servizi.
+L'evento `cleared` permette di svuotare lo stato della coltura. Il catalogo delle colture deriva dalla configurazione comune `farm.yaml`, evitando cataloghi divergenti tra servizi.
 
 ## Topic MQTT principali
 
@@ -33,16 +33,13 @@ Gli eventi `cleared` e `reset` permettono di svuotare o reimpostare lo stato. Il
 |---|---|---|
 | Sottoscrive | `camp/{field}/terrain/telemetry` | Umidità del terreno |
 | Sottoscrive | `camp/{field}/environment/telemetry` | Temperatura, stagione e data |
-| Sottoscrive | `camp/{field}/plantation/event/#` | Semina, raccolta, clear e reset |
+| Sottoscrive | `camp/{field}/plantation/event/seeded` | Semina completata |
+| Sottoscrive | `camp/{field}/plantation/event/harvested` | Raccolta completata |
+| Sottoscrive | `camp/{field}/plantation/event/cleared` | Svuotamento richiesto dal Gestore centrale |
 | Pubblica | `camp/{field}/plantation/status` | Stato completo della coltura |
-| Pubblica | `camp/{field}/plantation/plant_name` | Nome coltura |
-| Pubblica | `camp/{field}/plantation/time_left` | Giorni rimanenti |
-| Pubblica | `camp/{field}/plantation/growth_stage` | Stato macchina della crescita |
-| Pubblica | `camp/{field}/plantation/health` | Stato macchina di salute |
 | Pubblica | `camp/{field}/heartbeat/plantation_sensor` | Presenza servizio |
 
-Gli stati macchina restano intenzionalmente in inglese, ad esempio `GERMINATION`, `VEGETATIVE` e `READY_FOR_HARVEST`. La Dashboard li traduce in italiano nella presentazione.
-
+Lo stato della coltura viene pubblicato in un unico payload strutturato su `plantation/status`. I precedenti topic scalari `plant_name`, `time_left`, `growth_stage` e `health`, che non avevano subscriber interni, sono stati rimossi. È stato rimosso anche l'evento amministrativo `reset`, privo di publisher nel deployment corrente. Gli stati di crescita restano intenzionalmente in inglese, ad esempio `GERMINATION`, `VEGETATIVE` e `READY_FOR_HARVEST`; la Dashboard li localizza in fase di presentazione.
 
 ## Configurazione
 
@@ -59,7 +56,7 @@ Le proprietà più importanti sono il catalogo `crops`, `simulation.plantation_p
 
 ## Struttura del modulo
 
-La logica agronomica è concentrata in `src/core/plant_conditions.py`: creazione stato, semina osservata, avanzamento dei giorni, fase di crescita, salute e reset. `src/main.py` integra questi calcoli con MQTT.
+La logica agronomica è concentrata in `src/core/plant_conditions.py`: creazione stato, semina osservata, avanzamento dei giorni, fase di crescita, salute e svuotamento del campo. `src/main.py` integra questi calcoli con MQTT.
 
 ## Dipendenze
 

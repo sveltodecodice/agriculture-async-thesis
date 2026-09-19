@@ -16,7 +16,9 @@ FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 TERRAIN_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/terrain/telemetry"
 ENV_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/environment/telemetry"
-PLANTATION_EVENT_TOPIC = f"camp/{FIELD_NAME}/plantation/event/#"
+PLANTATION_SEEDED_EVENT_TOPIC = f"camp/{FIELD_NAME}/plantation/event/seeded"
+PLANTATION_HARVESTED_EVENT_TOPIC = f"camp/{FIELD_NAME}/plantation/event/harvested"
+PLANTATION_CLEARED_EVENT_TOPIC = f"camp/{FIELD_NAME}/plantation/event/cleared"
 PLANTATION_PUBLISH_INTERVAL_SECONDS = env_value("PLANTATION_PUBLISH_INTERVAL_SECONDS", "simulation.plantation_publish_interval_seconds", 3, float)
 
 HEARTBEAT_INTERVAL_SECONDS = env_value(

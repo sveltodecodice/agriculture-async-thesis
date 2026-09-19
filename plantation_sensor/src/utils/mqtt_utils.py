@@ -3,7 +3,7 @@
 import ssl
 import json
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from common.parameters import MQTT_CA_CERT, MQTT_QOS, MQTT_TLS_MIN_VERSION
 
 
@@ -52,18 +52,6 @@ class Deduper:
 
         self._last_seen[topic] = numeric_ts
         return False
-
-    def reset(self, topic: Optional[str] = None) -> None:
-        """Resets tracked timestamps for a specific topic or all topics.
-
-        Args:
-            topic (Optional[str]): Target MQTT topic to clear. Clears all if None.
-        """
-        if topic is None:
-            self._last_seen.clear()
-        else:
-            self._last_seen.pop(topic, None)
-
 
 async def publish_json(
     client: Any, topic: str, payload: Dict[str, Any], **kwargs: Any

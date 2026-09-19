@@ -20,7 +20,9 @@ from common.parameters import (
     MQTT_USER,
     MQTT_RECONNECT_SECONDS,
     PLANTATION_PUBLISH_INTERVAL_SECONDS,
-    PLANTATION_EVENT_TOPIC,
+    PLANTATION_SEEDED_EVENT_TOPIC,
+    PLANTATION_HARVESTED_EVENT_TOPIC,
+    PLANTATION_CLEARED_EVENT_TOPIC,
     TERRAIN_TELEMETRY_TOPIC,
 )
 from core.plant_conditions import (
@@ -28,7 +30,6 @@ from core.plant_conditions import (
     clear_field,
     create_default_plantation_state,
     get_status,
-    reset,
     seed_planted,
 )
 from utils.logger_utils import LoggingUtils
@@ -91,27 +92,6 @@ async def monitor_loop(
             status_topic = f"camp/{camp_id}/plantation/status"
             await publish_json(mqtt, status_topic, status)
 
-            status_detail = status["status_detail"]
-            await mqtt.publish(
-                f"camp/{camp_id}/plantation/plant_name",
-                str(status_detail["plant_name"]),
-                qos=MQTT_QOS,
-            )
-            await mqtt.publish(
-                f"camp/{camp_id}/plantation/time_left",
-                str(status_detail["time_left"]),
-                qos=MQTT_QOS,
-            )
-            await mqtt.publish(
-                f"camp/{camp_id}/plantation/growth_stage",
-                str(status_detail["growth_stage"]),
-                qos=MQTT_QOS,
-            )
-            await mqtt.publish(
-                f"camp/{camp_id}/plantation/health",
-                str(status_detail["health"]),
-                qos=MQTT_QOS,
-            )
 
 
 async def listen_mqtt_telemetry(
@@ -128,7 +108,9 @@ async def listen_mqtt_telemetry(
     """
     await mqtt.subscribe(TERRAIN_TELEMETRY_TOPIC, qos=MQTT_QOS)
     await mqtt.subscribe(ENV_TELEMETRY_TOPIC, qos=MQTT_QOS)
-    await mqtt.subscribe(PLANTATION_EVENT_TOPIC, qos=MQTT_QOS)
+    await mqtt.subscribe(PLANTATION_SEEDED_EVENT_TOPIC, qos=MQTT_QOS)
+    await mqtt.subscribe(PLANTATION_HARVESTED_EVENT_TOPIC, qos=MQTT_QOS)
+    await mqtt.subscribe(PLANTATION_CLEARED_EVENT_TOPIC, qos=MQTT_QOS)
 
     async for message in mqtt.messages:
         topic = str(message.topic)
@@ -191,9 +173,6 @@ async def listen_mqtt_telemetry(
                 clear_field(context["plantation"])
                 logger.info("[%s] Observed field cleared event.", camp_id.upper())
 
-            elif event == "reset":
-                reset(context["plantation"])
-                logger.info("[%s] Observed plantation reset event.", camp_id.upper())
 
 
 async def worker(camp_contexts: Dict[str, Dict[str, Any]], dedup: Deduper) -> None:

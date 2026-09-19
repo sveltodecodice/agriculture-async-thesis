@@ -11,7 +11,6 @@ from common.parameters import (
     HEARTBEAT_INTERVAL_SECONDS,
     HEARTBEAT_TOPIC,
     HARVEST_CMD_TOPIC,
-    HARVEST_DEPOSIT_TOPIC,
     HARVEST_EVENT_TOPIC,
     MQTT_KEEPALIVE,
     MQTT_QOS,
@@ -63,13 +62,9 @@ async def listen_mqtt_commands(client: aiomqtt.Client) -> None:
             harvest_request = json.loads(raw_payload)
             harvest_data = start_harvesting(harvest_request)
 
-            history = save_harvest(
+            save_harvest(
                 harvest_data["seed"],
                 harvest_data.get("date"),
-            )
-
-            await publish_json(
-                client, HARVEST_DEPOSIT_TOPIC, {"history": history}, qos=MQTT_QOS
             )
 
             logger.info(

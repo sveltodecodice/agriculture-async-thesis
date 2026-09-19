@@ -15,7 +15,7 @@ if MQTT_QOS != 2:
 FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 ENV_TELEMETRY_TOPIC = "camp/{camp_id}/environment/telemetry"
-ENV_CMD_TOPIC = f"camp/{FIELD_NAME}/environment/cmd/#"
+ENV_SKIP_CMD_TOPIC = f"camp/{FIELD_NAME}/environment/cmd/skip"
 ENV_PUBLISH_INTERVAL_SECONDS = env_value("ENV_PUBLISH_INTERVAL_SECONDS", "simulation.environment_publish_interval_seconds", 10, float)
 SIMULATION_START_DATE = env_value("SIMULATION_START_DATE", "simulation.start_date", "01/01/2026", str)
 

@@ -8,7 +8,7 @@ from typing import Dict
 
 import aiomqtt
 from common.parameters import (
-    ENV_CMD_TOPIC,
+    ENV_SKIP_CMD_TOPIC,
     FIELD_NAME,
     HEARTBEAT_INTERVAL_SECONDS,
     HEARTBEAT_TOPIC,
@@ -70,13 +70,13 @@ async def publish_loop(
 async def listen_mqtt_commands(
     client: aiomqtt.Client, managers: Dict[str, SensorManager]
 ) -> None:
-    """Listens for incoming admin commands to skip days or reset date states.
+    """Listens for incoming commands that advance the simulated calendar.
 
     Args:
         client (aiomqtt.Client): Connected MQTT client.
         managers (Dict[str, SensorManager]): Map of camp IDs to SensorManagers.
     """
-    await client.subscribe(ENV_CMD_TOPIC, qos=MQTT_QOS)
+    await client.subscribe(ENV_SKIP_CMD_TOPIC, qos=MQTT_QOS)
 
     async for message in client.messages:
         topic = str(message.topic)
@@ -120,15 +120,6 @@ async def listen_mqtt_commands(
                 current_state["year"],
             )
 
-        elif topic.endswith("/reset"):
-            manager.reset(day=START_DAY, month=START_MONTH, year=START_YEAR)
-            logger.info(
-                "[%s] Environment state reset to %s.",
-                camp_id.upper(),
-                SIMULATION_START_DATE,
-            )
-            telemetry_topic = ENV_TELEMETRY_TOPIC.format(camp_id=camp_id)
-            await publish_data(client, telemetry_topic, manager.get_state())
 
 
 async def worker(managers: Dict[str, SensorManager]) -> None:

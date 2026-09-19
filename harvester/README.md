@@ -17,7 +17,6 @@ Gestore centrale
            ↓ camp/{field}/harvester/cmd/harvest
 Harvester
    ├─ salva harvest_deposit.json
-   ├─ pubblica camp/harvest_deposit
    └─ pubblica plantation/event/harvested
                     ↓
              Plantation Sensor
@@ -32,10 +31,10 @@ Le tre repliche Harvester condividono la directory `./harvester/data`. Per evita
 | Direzione | Topic | Utilizzo |
 |---|---|---|
 | Sottoscrive | `camp/{field}/harvester/cmd/harvest` | Richiesta di raccolta |
-| Pubblica | `camp/harvest_deposit` | Cronologia globale raccolti |
 | Pubblica | `camp/{field}/plantation/event/harvested` | Raccolta completata |
 | Pubblica | `camp/{field}/heartbeat/harvester` | Presenza del servizio |
 
+La cronologia globale dei raccolti viene mantenuta esclusivamente nel file condiviso `harvest_deposit.json`. La precedente pubblicazione ridondante su `camp/harvest_deposit`, priva di subscriber interni, è stata rimossa; il file persistente rimane la sorgente di verità per lo storico dei raccolti.
 
 ## Configurazione
 

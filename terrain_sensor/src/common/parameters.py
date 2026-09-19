@@ -22,8 +22,8 @@ FIELD_INIT_OXYGENATION = field_value(FIELD_NAME, "terrain.initial_oxygenation", 
 FIELD_INIT_MOISTURE = field_value(FIELD_NAME, "terrain.initial_moisture", "FIELD_INIT_MOIST", 28.0, float)
 
 ENV_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/environment/telemetry"
-TERRAIN_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/#"
-TERRAIN_CMD_TOPIC = f"camp/{FIELD_NAME}/terrain/cmd/#"
+IRRIGATED_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/irrigated"
+REOXYGENATED_EVENT_TOPIC = f"camp/{FIELD_NAME}/terrain/event/reoxygenated"
 TERRAIN_TELEMETRY_TOPIC = f"camp/{FIELD_NAME}/terrain/telemetry"
 
 HEARTBEAT_INTERVAL_SECONDS = env_value(

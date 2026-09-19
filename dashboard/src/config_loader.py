@@ -60,6 +60,3 @@ def env_json(name: str, path: str, default=None):
         return json.loads(raw)
     return config_value(path, default)
 
-
-def field_value(field_name: str, key: str, env_name: str, default=None, cast=None):
-    return env_value(env_name, f"fields.{field_name}.{key}", default, cast)

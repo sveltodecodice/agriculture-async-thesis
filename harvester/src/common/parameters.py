@@ -15,7 +15,6 @@ if MQTT_QOS != 2:
 FIELD_NAME = env_value("FIELD_NAME", "runtime.default_field", "test", str)
 
 HARVEST_CMD_TOPIC = f"camp/{FIELD_NAME}/harvester/cmd/harvest"
-HARVEST_DEPOSIT_TOPIC = "camp/harvest_deposit"
 HARVEST_EVENT_TOPIC = f"camp/{FIELD_NAME}/plantation/event/harvested"
 
 HEARTBEAT_INTERVAL_SECONDS = env_value(
